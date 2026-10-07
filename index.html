@@ -86,7 +86,7 @@ body {
     height: 100vh;
     background: #ffffff;
     box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-    z-index: 1002;
+    z-index: 1005; /* Kept higher than backdrop */
     transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 24px 20px;
     display: flex;
@@ -822,9 +822,9 @@ body {
 
             <nav class="drawer-links">
                 <!-- App View Navigation Links -->
-                <button onclick="switchView('homeView'); toggleNavDrawer();">Home</button>
-                <button onclick="switchView('benefitsView'); toggleNavDrawer();">Your Benefits</button>
-                <button onclick="switchView('impactView'); toggleNavDrawer();">Our Impact</button>
+                <button type="button" onclick="switchView('homeView')">Home</button>
+                <button type="button" onclick="switchView('benefitsView')">Your Benefits</button>
+                <button type="button" onclick="switchView('impactView')">Our Impact</button>
 
                 <hr class="nav-divider">
 
@@ -836,7 +836,7 @@ body {
 
                 <!-- Member Portal & Registration Buttons -->
                 <a href="https://member.thinkingskill.in" target="_blank" class="nav-btn-link login-btn">Member Login</a>
-                <button onclick="switchView('registerView'); toggleNavDrawer();" class="nav-btn-link join-btn">Join Think Lab</button>
+                <button type="button" onclick="switchView('registerView')" class="nav-btn-link join-btn">Join Think Lab</button>
             </nav>
         </div>
     </header>
@@ -1128,7 +1128,7 @@ function onVideoEnded() {
     if (thumb) thumb.style.display = 'block';
     if (playBtn) playBtn.style.display = 'flex';
     if (video) {
-        video.currentTime = 0; // Rewind video back to start
+        video.currentTime = 0;
     }
 }
 
@@ -1141,6 +1141,15 @@ function toggleNavDrawer() {
     if (drawer && backdrop) {
         drawer.classList.toggle('open');
         backdrop.classList.toggle('active');
+    }
+}
+
+function closeNavDrawer() {
+    const drawer = document.getElementById('navDrawer');
+    const backdrop = document.getElementById('navBackdrop');
+    if (drawer && backdrop) {
+        drawer.classList.remove('open');
+        backdrop.classList.remove('active');
     }
 }
 
@@ -1161,7 +1170,8 @@ function switchView(targetViewId) {
         }
     });
 
-    ['aboutDropdown'].forEach(closeSection);
+    closeSection('aboutDropdown');
+    closeNavDrawer();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

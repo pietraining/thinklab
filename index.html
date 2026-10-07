@@ -73,6 +73,7 @@ body {
     background-color: #1d2940;
     border-radius: 4px;
     transition: all 0.3s ease;
+    pointer-events: none;
 }
 
 /* =========================
@@ -201,9 +202,7 @@ body {
    DROPDOWN SECTIONS
 ========================= */
 .about-dropdown {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    display: none; /* Crucial fix: Prevent hidden element from capturing clicks */
     background: transparent;
     border: 1px solid transparent;
     border-radius: 14px;
@@ -213,6 +212,7 @@ body {
 }
 
 .about-dropdown.show {
+    display: block !important;
     max-height: 80vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -804,12 +804,12 @@ body {
     <!-- Sticky Top Header -->
     <header class="header">
         <!-- Brand Logo on Left -->
-        <a class="brand" onclick="switchView('homeView')">
+        <a class="brand" id="brandLogoBtn">
             <img src="logo.webp" alt="Think Lab Logo" class="brand-logo">
         </a>
 
         <!-- 3-Line Hamburger Button on Right -->
-        <button type="button" class="hamburger-btn" onclick="openNavDrawer()" aria-label="Toggle navigation menu">
+        <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
@@ -819,14 +819,14 @@ body {
         <div class="nav-drawer" id="navDrawer">
             <div class="drawer-header">
                 <span>Menu</span>
-                <button type="button" class="close-drawer-btn" onclick="closeNavDrawer()">✕</button>
+                <button type="button" class="close-drawer-btn" id="closeDrawerBtn">✕</button>
             </div>
 
             <nav class="drawer-links">
                 <!-- App View Navigation Links -->
-                <button type="button" onclick="switchView('homeView')">Home</button>
-                <button type="button" onclick="switchView('benefitsView')">Your Benefits</button>
-                <button type="button" onclick="switchView('impactView')">Our Impact</button>
+                <button type="button" id="navHome">Home</button>
+                <button type="button" id="navBenefits">Your Benefits</button>
+                <button type="button" id="navImpact">Our Impact</button>
 
                 <hr class="nav-divider">
 
@@ -838,19 +838,19 @@ body {
 
                 <!-- Member Portal & Registration Buttons -->
                 <a href="https://member.thinkingskill.in" target="_blank" class="nav-btn-link login-btn">Member Login</a>
-                <button type="button" onclick="switchView('registerView')" class="nav-btn-link join-btn">Join Think Lab</button>
+                <button type="button" id="navRegister" class="nav-btn-link join-btn">Join Think Lab</button>
             </nav>
         </div>
     </header>
 
     <!-- Backdrop overlay to dismiss menu when clicking outside -->
-    <div class="nav-backdrop" id="navBackdrop" onclick="closeNavDrawer()"></div>
+    <div class="nav-backdrop" id="navBackdrop"></div>
 
     <!-- Collapsible About Section -->
     <div class="about-dropdown" id="aboutDropdown">
         <h3>
             <span>About Think Lab</span>
-            <button type="button" class="close-dropdown-btn" onclick="closeSection('aboutDropdown')">Close</button>
+            <button type="button" class="close-dropdown-btn" id="closeAboutBtn">Close</button>
         </h3>
         <p>
             Think Lab helps parents set up a screen-balanced, engaging thinking environment at home. 
@@ -860,8 +860,8 @@ body {
 
         <div class="join-links-container">
             <div class="join-link-row-1">
-                <button type="button" class="sub-nav-btn" onclick="switchView('benefitsView')">Your Benefits</button>
-                <button type="button" class="sub-nav-btn" onclick="switchView('impactView')">Our Impact</button>
+                <button type="button" class="sub-nav-btn" id="aboutBenefitsBtn">Your Benefits</button>
+                <button type="button" class="sub-nav-btn" id="aboutImpactBtn">Our Impact</button>
             </div>
 
             <p style="margin: 12px 0 4px; font-size: 14px; color: #555; line-height: 1.5;">
@@ -869,7 +869,7 @@ body {
             </p>
 
             <div>
-                <button type="button" class="primary-action-btn" onclick="switchView('registerView')">Join Think Lab</button>
+                <button type="button" class="primary-action-btn" id="aboutJoinBtn">Join Think Lab</button>
             </div>
         </div>
     </div>
@@ -883,8 +883,8 @@ body {
             <h1 class="hero-title">The Thinking Journey</h1>
             <p class="hero-subtitle">Think Lab helps to playfully practice Thinking with 'Elevating Stories &amp; Puzzles' and takes your thinking journey to a success at school, work &amp; life.</p>
             
-            <div class="video-container" id="videoContainer" onclick="playLocalVideo()">
-                <video id="heroVideo" controls preload="auto" onended="onVideoEnded()">
+            <div class="video-container" id="videoContainer">
+                <video id="heroVideo" controls preload="auto">
                     <source src="thinking-journey.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -902,7 +902,7 @@ body {
         <section class="cta-banner">
             <h2>Build Values & Thinking Habit!</h2>
             <p>Join to access stories, monthly contests, and interactive family meets.</p>
-            <button type="button" class="primary-btn" onclick="switchView('registerView')">Join Think Lab</button>
+            <button type="button" class="primary-btn" id="ctaJoinBtn">Join Think Lab</button>
         </section>
     </div>
 
@@ -911,7 +911,7 @@ body {
          VIEW 2: OUR IMPACT VIEW
          ===================================================== -->
     <div id="impactView" class="app-view">
-        <button type="button" class="back-to-home-btn" onclick="switchView('homeView')">← Back to Home</button>
+        <button type="button" class="back-to-home-btn" id="backHomeFromImpact">← Back to Home</button>
 
         <section class="ts-hero">
             <div class="ts-card1">
@@ -968,7 +968,7 @@ body {
          VIEW 3: YOUR BENEFITS VIEW
          ===================================================== -->
     <div id="benefitsView" class="app-view">
-        <button type="button" class="back-to-home-btn" onclick="switchView('homeView')">← Back to Home</button>
+        <button type="button" class="back-to-home-btn" id="backHomeFromBenefits">← Back to Home</button>
 
         <div class="page-title">Member Benefits</div>
         <div class="subtitle">See What's in Store?</div>
@@ -1029,7 +1029,7 @@ body {
          VIEW 4: MEMBER REGISTRATION VIEW
          ===================================================== -->
     <div id="registerView" class="app-view">
-        <button type="button" class="back-to-home-btn" onclick="switchView('homeView')">← Back to Home</button>
+        <button type="button" class="back-to-home-btn" id="backHomeFromRegister">← Back to Home</button>
 
         <div class="page-title">Member Registration</div>
         <div class="subtitle">Join Think Lab and begin your thinking journey with stories, puzzles and family thinking activities.</div>
@@ -1052,7 +1052,7 @@ body {
 
             <div class="coupon-area">
                 <input type="text" id="couponInput" placeholder="Enter coupon code" autocomplete="off">
-                <button type="button" onclick="applyCoupon()">APPLY</button>
+                <button type="button" id="applyCouponBtn">APPLY</button>
             </div>
 
             <div id="couponMessage" class="coupon-message"></div>
@@ -1107,196 +1107,231 @@ body {
 </form>
 
 <script>
-/* =====================================================
-   HAMBURGER MENU DRAWER CONTROLLER
-===================================================== */
-function openNavDrawer() {
-    var drawer = document.getElementById('navDrawer');
-    var backdrop = document.getElementById('navBackdrop');
-    if (drawer) drawer.classList.add('open');
-    if (backdrop) backdrop.classList.add('active');
-}
+document.addEventListener('DOMContentLoaded', function() {
 
-function closeNavDrawer() {
-    var drawer = document.getElementById('navDrawer');
-    var backdrop = document.getElementById('navBackdrop');
-    if (drawer) drawer.classList.remove('open');
-    if (backdrop) backdrop.classList.remove('active');
-}
+    /* =====================================================
+       DOM ELEMENT REFERENCES
+    ===================================================== */
+    const navDrawer = document.getElementById('navDrawer');
+    const navBackdrop = document.getElementById('navBackdrop');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+    const aboutDropdown = document.getElementById('aboutDropdown');
 
-/* =====================================================
-   LOCAL VIDEO PLAY & ENDED LOGIC
-===================================================== */
-function playLocalVideo() {
-    const video = document.getElementById('heroVideo');
-    const thumb = document.getElementById('videoThumb');
-    const playBtn = document.getElementById('playBtn');
-
-    if (thumb) thumb.style.display = 'none';
-    if (playBtn) playBtn.style.display = 'none';
-    if (video) {
-        video.play();
+    /* =====================================================
+       DRAWER CONTROLLER
+    ===================================================== */
+    function openNavDrawer() {
+        if (navDrawer) navDrawer.classList.add('open');
+        if (navBackdrop) navBackdrop.classList.add('active');
     }
-}
 
-function onVideoEnded() {
-    const video = document.getElementById('heroVideo');
-    const thumb = document.getElementById('videoThumb');
-    const playBtn = document.getElementById('playBtn');
-
-    if (thumb) thumb.style.display = 'block';
-    if (playBtn) playBtn.style.display = 'flex';
-    if (video) {
-        video.currentTime = 0;
+    function closeNavDrawer() {
+        if (navDrawer) navDrawer.classList.remove('open');
+        if (navBackdrop) navBackdrop.classList.remove('active');
     }
-}
 
-/* =====================================================
-   VIEW SWITCHER LOGIC
-===================================================== */
-function switchView(targetViewId) {
-    const views = ['homeView', 'impactView', 'benefitsView', 'registerView'];
-    
-    views.forEach(function(id) {
-        const el = document.getElementById(id);
-        if (el) {
-            if (id === targetViewId) {
-                el.classList.add('active-view');
-            } else {
-                el.classList.remove('active-view');
+    if (hamburgerBtn) hamburgerBtn.addEventListener('click', openNavDrawer);
+    if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeNavDrawer);
+    if (navBackdrop) navBackdrop.addEventListener('click', closeNavDrawer);
+
+    /* =====================================================
+       VIEW SWITCHER LOGIC
+    ===================================================== */
+    function switchView(targetViewId) {
+        const views = ['homeView', 'impactView', 'benefitsView', 'registerView'];
+        
+        views.forEach(function(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                if (id === targetViewId) {
+                    el.classList.add('active-view');
+                } else {
+                    el.classList.remove('active-view');
+                }
             }
-        }
-    });
+        });
 
-    closeSection('aboutDropdown');
-    closeNavDrawer();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-/* =====================================================
-   HEADER DROPDOWN TOGGLES
-===================================================== */
-function closeSection(sectionId) {
-    const el = document.getElementById(sectionId);
-    if (el) el.classList.remove('show');
-}
-
-/* =====================================================
-   REGISTRATION PRICING & FORM LOGIC
-===================================================== */
-const currencyConfig = {
-    INR: { symbol: "₹", full: 730, discounted: 365 },
-    SGD: { symbol: "S$", full: 10, discounted: 5 }
-};
-
-function normalizeCouponCode(value) {
-    return String(value || "").toUpperCase().replace(/\s+/g, "").replace(/\((INR|SGD)\)$/, "");
-}
-
-function buildCouponCode() {
-    const selectedCurrency = document.getElementById("currencySelect").value;
-    return `THINK365 (${selectedCurrency})`;
-}
-
-function getCurrentAmountText() {
-    const selectedCurrency = document.getElementById("currencySelect").value;
-    const config = currencyConfig[selectedCurrency];
-    const couponField = document.getElementById("coupon");
-    const couponApplied = normalizeCouponCode(couponField.value) === "THINK365";
-    const amount = couponApplied ? config.discounted : config.full;
-    return `${config.symbol}${amount} (${selectedCurrency})`;
-}
-
-function setAmountField() {
-    const paymentRef = document.getElementById("paymentRef");
-    if (paymentRef) paymentRef.value = getCurrentAmountText();
-}
-
-function renderPrice() {
-    const selectedCurrency = document.getElementById("currencySelect").value;
-    const config = currencyConfig[selectedCurrency];
-    const couponField = document.getElementById("coupon");
-    const couponApplied = normalizeCouponCode(couponField.value) === "THINK365";
-    const priceDisplay = document.getElementById("priceDisplay");
-    const savingDisplay = document.getElementById("savingDisplay");
-
-    if (!priceDisplay) return;
-
-    if (couponApplied) {
-        priceDisplay.innerHTML = `<span class="old-price">${config.symbol}${config.full} (${selectedCurrency})</span> ${config.symbol}${config.discounted} (${selectedCurrency})`;
-        savingDisplay.innerHTML = `You save ${config.symbol}${config.full - config.discounted} (${selectedCurrency})`;
-    } else {
-        priceDisplay.innerHTML = `${config.symbol}${config.full} (${selectedCurrency})`;
-        savingDisplay.innerHTML = "";
+        if (aboutDropdown) aboutDropdown.classList.remove('show');
+        closeNavDrawer();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    setAmountField();
-}
 
-function applyCoupon() {
-    const couponInput = document.getElementById("couponInput");
-    const couponField = document.getElementById("coupon");
-    const couponMessage = document.getElementById("couponMessage");
-    const coupon = couponInput.value.trim();
-    const normalizedCoupon = normalizeCouponCode(coupon);
+    // Attach View Navigation Event Listeners
+    const bindClick = (id, viewName) => {
+        const btn = document.getElementById(id);
+        if (btn) btn.addEventListener('click', () => switchView(viewName));
+    };
 
-    if (normalizedCoupon === "THINK365") {
-        couponField.value = buildCouponCode();
-        couponInput.value = "";
-        couponMessage.innerHTML = "✓ Coupon applied successfully";
-        couponMessage.style.color = "#218838";
-        renderPrice();
-    } else {
-        couponField.value = "";
-        if (coupon === "") {
-            couponMessage.innerHTML = "";
-        } else {
-            couponMessage.innerHTML = "Invalid coupon code";
-            couponMessage.style.color = "#c62828";
-        }
-        renderPrice();
+    bindClick('brandLogoBtn', 'homeView');
+    bindClick('navHome', 'homeView');
+    bindClick('navBenefits', 'benefitsView');
+    bindClick('navImpact', 'impactView');
+    bindClick('navRegister', 'registerView');
+    bindClick('ctaJoinBtn', 'registerView');
+
+    bindClick('aboutBenefitsBtn', 'benefitsView');
+    bindClick('aboutImpactBtn', 'impactView');
+    bindClick('aboutJoinBtn', 'registerView');
+
+    bindClick('backHomeFromImpact', 'homeView');
+    bindClick('backHomeFromBenefits', 'homeView');
+    bindClick('backHomeFromRegister', 'homeView');
+
+    const closeAboutBtn = document.getElementById('closeAboutBtn');
+    if (closeAboutBtn && aboutDropdown) {
+        closeAboutBtn.addEventListener('click', () => aboutDropdown.classList.remove('show'));
     }
-}
 
-const currencySelect = document.getElementById("currencySelect");
-if (currencySelect) {
-    currencySelect.addEventListener("change", function() {
+    /* =====================================================
+       LOCAL VIDEO CONTROLLER
+    ===================================================== */
+    const videoContainer = document.getElementById('videoContainer');
+    const heroVideo = document.getElementById('heroVideo');
+    const videoThumb = document.getElementById('videoThumb');
+    const playBtn = document.getElementById('playBtn');
+
+    if (videoContainer && heroVideo) {
+        videoContainer.addEventListener('click', function() {
+            if (videoThumb) videoThumb.style.display = 'none';
+            if (playBtn) playBtn.style.display = 'none';
+            heroVideo.play();
+        });
+
+        heroVideo.addEventListener('ended', function() {
+            if (videoThumb) videoThumb.style.display = 'block';
+            if (playBtn) playBtn.style.display = 'flex';
+            heroVideo.currentTime = 0;
+        });
+    }
+
+    /* =====================================================
+       REGISTRATION PRICING & FORM LOGIC
+    ===================================================== */
+    const currencyConfig = {
+        INR: { symbol: "₹", full: 730, discounted: 365 },
+        SGD: { symbol: "S$", full: 10, discounted: 5 }
+    };
+
+    function normalizeCouponCode(value) {
+        return String(value || "").toUpperCase().replace(/\s+/g, "").replace(/\((INR|SGD)\)$/, "");
+    }
+
+    function buildCouponCode() {
+        const currencySelect = document.getElementById("currencySelect");
+        const selectedCurrency = currencySelect ? currencySelect.value : "INR";
+        return `THINK365 (${selectedCurrency})`;
+    }
+
+    function getCurrentAmountText() {
+        const currencySelect = document.getElementById("currencySelect");
+        const selectedCurrency = currencySelect ? currencySelect.value : "INR";
+        const config = currencyConfig[selectedCurrency];
         const couponField = document.getElementById("coupon");
-        if (normalizeCouponCode(couponField.value) === "THINK365") {
-            couponField.value = buildCouponCode();
+        const couponApplied = normalizeCouponCode(couponField ? couponField.value : "") === "THINK365";
+        const amount = couponApplied ? config.discounted : config.full;
+        return `${config.symbol}${amount} (${selectedCurrency})`;
+    }
+
+    function setAmountField() {
+        const paymentRef = document.getElementById("paymentRef");
+        if (paymentRef) paymentRef.value = getCurrentAmountText();
+    }
+
+    function renderPrice() {
+        const currencySelect = document.getElementById("currencySelect");
+        const selectedCurrency = currencySelect ? currencySelect.value : "INR";
+        const config = currencyConfig[selectedCurrency];
+        const couponField = document.getElementById("coupon");
+        const couponApplied = normalizeCouponCode(couponField ? couponField.value : "") === "THINK365";
+        const priceDisplay = document.getElementById("priceDisplay");
+        const savingDisplay = document.getElementById("savingDisplay");
+
+        if (!priceDisplay) return;
+
+        if (couponApplied) {
+            priceDisplay.innerHTML = `<span class="old-price">${config.symbol}${config.full} (${selectedCurrency})</span> ${config.symbol}${config.discounted} (${selectedCurrency})`;
+            if (savingDisplay) savingDisplay.innerHTML = `You save ${config.symbol}${config.full - config.discounted} (${selectedCurrency})`;
+        } else {
+            priceDisplay.innerHTML = `${config.symbol}${config.full} (${selectedCurrency})`;
+            if (savingDisplay) savingDisplay.innerHTML = "";
         }
-        renderPrice();
-    });
-}
+        setAmountField();
+    }
 
-const membershipForm = document.getElementById("membershipForm");
-if (membershipForm) {
-    membershipForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const name = document.getElementById("name").value.trim();
-        const gmail = document.getElementById("gmail").value.trim();
-        const coupon = document.getElementById("coupon").value.trim();
-        const paymentRef = document.getElementById("paymentRef").value.trim();
+    function applyCoupon() {
+        const couponInput = document.getElementById("couponInput");
+        const couponField = document.getElementById("coupon");
+        const couponMessage = document.getElementById("couponMessage");
+        const coupon = couponInput ? couponInput.value.trim() : "";
+        const normalizedCoupon = normalizeCouponCode(coupon);
 
-        if (!name) { alert("Please enter your name."); return; }
-        if (!gmail.toLowerCase().endsWith("@gmail.com")) { alert("Please enter a valid Gmail ID."); return; }
-        if (coupon !== "" && normalizeCouponCode(coupon) !== "THINK365") { alert("The coupon code entered is invalid."); return; }
-        if (!paymentRef) { alert("Please enter the amount."); return; }
+        if (normalizedCoupon === "THINK365") {
+            if (couponField) couponField.value = buildCouponCode();
+            if (couponInput) couponInput.value = "";
+            if (couponMessage) {
+                couponMessage.innerHTML = "✓ Coupon applied successfully";
+                couponMessage.style.color = "#218838";
+            }
+            renderPrice();
+        } else {
+            if (couponField) couponField.value = "";
+            if (couponMessage) {
+                if (coupon === "") {
+                    couponMessage.innerHTML = "";
+                } else {
+                    couponMessage.innerHTML = "Invalid coupon code";
+                    couponMessage.style.color = "#c62828";
+                }
+            }
+            renderPrice();
+        }
+    }
 
-        document.getElementById("gfName").value = name;
-        document.getElementById("gfGmail").value = gmail;
-        document.getElementById("gfCoupon").value = coupon;
-        document.getElementById("gfPayment").value = paymentRef;
+    const applyCouponBtn = document.getElementById("applyCouponBtn");
+    if (applyCouponBtn) applyCouponBtn.addEventListener("click", applyCoupon);
 
-        document.getElementById("googleForm").submit();
+    const currencySelect = document.getElementById("currencySelect");
+    if (currencySelect) {
+        currencySelect.addEventListener("change", function() {
+            const couponField = document.getElementById("coupon");
+            if (normalizeCouponCode(couponField ? couponField.value : "") === "THINK365") {
+                if (couponField) couponField.value = buildCouponCode();
+            }
+            renderPrice();
+        });
+    }
 
-        setTimeout(function() {
-            document.getElementById("membershipForm").style.display = "none";
-            document.getElementById("successMessage").style.display = "block";
-        }, 1200);
-    });
-}
+    const membershipForm = document.getElementById("membershipForm");
+    if (membershipForm) {
+        membershipForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value.trim();
+            const gmail = document.getElementById("gmail").value.trim();
+            const coupon = document.getElementById("coupon").value.trim();
+            const paymentRef = document.getElementById("paymentRef").value.trim();
 
-renderPrice();
+            if (!name) { alert("Please enter your name."); return; }
+            if (!gmail.toLowerCase().endsWith("@gmail.com")) { alert("Please enter a valid Gmail ID."); return; }
+            if (coupon !== "" && normalizeCouponCode(coupon) !== "THINK365") { alert("The coupon code entered is invalid."); return; }
+            if (!paymentRef) { alert("Please enter the amount."); return; }
+
+            document.getElementById("gfName").value = name;
+            document.getElementById("gfGmail").value = gmail;
+            document.getElementById("gfCoupon").value = coupon;
+            document.getElementById("gfPayment").value = paymentRef;
+
+            document.getElementById("googleForm").submit();
+
+            setTimeout(function() {
+                document.getElementById("membershipForm").style.display = "none";
+                document.getElementById("successMessage").style.display = "block";
+            }, 1200);
+        });
+    }
+
+    renderPrice();
+});
 </script>
 
 </body>

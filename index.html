@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Think Lab – Welcome Families</title>
+
+<style>
+/* =========================
+   BASE & LAYOUT
+========================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: url('bg.webp') no-repeat center center fixed;
+    background-size: cover;
+    color: #1d2940;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 18px 40px;
+}
+
+/* =========================
+   STICKY HEADER & LOGO
+========================= */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    margin-bottom: 22px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e1e4e8;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.brand-logo {
+    height: 44px;
+    width: auto;
+    display: block;
+    cursor: pointer;
+}
+
+/* 3-Line Hamburger Button */
+.hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 32px;
+    height: 26px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.hamburger-btn .bar {
+    width: 100%;
+    height: 3px;
+    background-color: #1d2940;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* =========================
+   SLIDE-OUT NAVIGATION DRAWER
+========================= */
+.nav-drawer {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 280px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    z-index: 1002;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-drawer.open {
+    right: 0;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1d2940;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.close-drawer-btn {
+    background: #f0f2f5;
+    border: none;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #1d2940;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-drawer-btn:hover {
+    background: #e2e8f0;
+}
+
+.drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.drawer-links a, 
+.drawer-links button {
+    text-align: left;
+    text-decoration: none;
+    color: #1d2940;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.drawer-links a:hover, 
+.drawer-links button:hover {
+    background: #f0f2f5;
+}
+
+.nav-divider {
+    border: 0;
+    border-top: 1px solid #e1e4e8;
+    margin: 8px 0;
+}
+
+.nav-btn-link {
+    text-align: center !important;
+    margin-top: 4px;
+}
+
+.login-btn {
+    background: #f0f2f5 !important;
+    border: 1px solid #d0d5dd !important;
+}
+
+.join-btn {
+    background: #1d2940 !important;
+    color: #ffffff !important;
+}
+
+.join-btn:hover {
+    background: #2d3d5b !important;
+}
+
+/* Backdrop Overlay */
+.nav-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1001;
+}
+
+.nav-backdrop.active {
+    display: block;
+}
+
+/* =========================
+   DROPDOWN SECTIONS
+========================= */
+.about-dropdown {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    margin-bottom: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 0 24px;
+}
+
+.about-dropdown.show {
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 24px;
+    border: 1px solid #e1e4e8;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.96);
+}
+
+.about-dropdown h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #1d2940;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about-dropdown p {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.close-dropdown-btn {
+    background: #f0f2f5;
+    border: 1px solid #d0d5dd;
+    color: #1d2940;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.close-dropdown-btn:hover {
+    background: #e2e8f0;
+}
+
+.join-links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.join-link-row-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.sub-nav-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #1d2940;
+    background: #f0f2f5;
+    border: 1px solid #d0d5dd;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+}
+
+.sub-nav-btn:hover {
+    background: #e2e8f0;
+}
+
+.primary-action-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background: #1d2940;
+    color: #ffffff;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+}
+
+.primary-action-btn:hover {
+    background: #2d3d5b;
+}
+
+/* =========================
+   BACK TO HOME BUTTON
+========================= */
+.back-to-home-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 16px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1d2940;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.back-to-home-btn:hover {
+    background: #ffffff;
+    border-color: #1d2940;
+}
+
+/* =========================
+   HERO / THUMBNAIL VIDEO SECTION
+========================= */
+.hero-section {
+    text-align: center;
+    margin: 20px 0 30px;
+}
+
+.hero-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #1d2940;
+}
+
+.hero-subtitle {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    background: #000;
+    cursor: pointer;
+}
+
+.video-thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.video-container:hover .video-thumbnail {
+    transform: scale(1.02);
+}
+
+.play-button-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(29, 41, 64, 0.85);
+    border-radius: 50%;
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: background 0.2s ease, transform 0.2s ease;
+    z-index: 3;
+}
+
+.video-container:hover .play-button-overlay {
+    background: rgba(29, 41, 64, 0.95);
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+.play-button-overlay svg {
+    margin-left: 3px;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    z-index: 1;
+}
+
+/* =========================
+   CTA SECTION
+========================= */
+.cta-banner {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e1e4e8;
+    border-radius: 14px;
+    padding: 30px 20px;
+    text-align: center;
+    margin: 30px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.cta-banner h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+}
+
+.cta-banner p {
+    margin: 0 0 20px;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.primary-btn {
+    display: inline-block;
+    background: #1d2940;
+    color: #ffffff;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.primary-btn:hover {
+    background: #2d3d5b;
+}
+
+/* =========================
+   APP VIEWS CONTROLLER
+========================= */
+.app-view {
+    display: none;
+}
+
+.app-view.active-view {
+    display: block;
+}
+
+/* Impact Styles */
+.ts-hero {
+    background: transparent;
+    padding: 20px 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.ts-counters {
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+.ts-counter {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 18px 15px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(26, 58, 107, 0.12);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+.ts-counter-number {
+    color: #ff7200;
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+.ts-counter-title, .ts-counter-program {
+    color: #1a3a6b;
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+.ts-counter-subtitle {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.3;
+    font-style: italic;
+}
+.ts-hero-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.ts-hero-img {
+    flex: 1;
+    text-align: center;
+}
+.ts-hero-img img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+    margin-bottom: 15px;
+}
+.ts-hero-content {
+    flex: 1.2;
+}
+.ts-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px 22px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    margin-bottom: 18px;
+}
+.ts-card h3 {
+    margin: 0 0 8px 0;
+    color: #1a3a6b;
+    font-size: 20px;
+}
+.ts-card p {
+    margin: 0;
+    color: #333;
+    line-height: 1.5;
+    font-size: 15px;
+}
+.ts-card1 {
+    background: #4997d0;
+    padding: 20px 22px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    margin-bottom: 18px;
+}
+.ts-card1 h3 {
+    margin: 0 0 8px 0;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+/* Benefits Styles */
+.benefits-title {
+    text-align: center;
+    font-size: 23px;
+    font-weight: 700;
+    margin: 25px 0 18px;
+}
+.benefits {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 30px;
+}
+.benefit-card {
+    background: rgba(255,255,255,0.95);
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.benefit-card h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+}
+.benefit-card p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #555;
+}
+.benefit-card.full {
+    grid-column: 1 / -1;
+}
+.intro-image {
+    width: 100%;
+    margin: 15px auto 25px;
+    text-align: center;
+}
+.intro-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+.brochure-link, .book-link {
+    color: #1d2940;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid #1d2940;
+    padding-bottom: 2px;
+    display: inline-block;
+    margin-top: 8px;
+}
+.featured-video {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    margin-top: 15px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.featured-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Registration Styles */
+.registration-card {
+    background: rgba(255,255,255,0.96);
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 28px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    max-width: 650px;
+    margin: 0 auto;
+}
+.page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    margin: 20px 0 8px;
+}
+.subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+.section-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 25px;
+}
+.price-box {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.currency-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.currency-picker select {
+    padding: 8px 12px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 14px;
+    background: white;
+}
+.regular-price {
+    font-size: 30px;
+    font-weight: 800;
+}
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 21px;
+    margin-right: 8px;
+}
+.saving {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #218838;
+    font-weight: 600;
+}
+.coupon-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0 25px;
+}
+.coupon-area input {
+    flex: 1;
+    padding: 11px 12px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 15px;
+}
+.coupon-area button {
+    padding: 11px 17px;
+    border: none;
+    border-radius: 7px;
+    background: #1d2940;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+.coupon-message {
+    text-align: center;
+    font-size: 14px;
+    min-height: 20px;
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+.form-group {
+    margin-bottom: 18px;
+}
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 15px;
+    outline: none;
+}
+.form-group input:disabled {
+    background: #f1f3f5;
+    color: #555;
+    cursor: not-allowed;
+}
+.submit-button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #1d2940;
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+}
+.success-message {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #eef8f0;
+    border: 1px solid #b9dfc0;
+    color: #246b32;
+    line-height: 1.5;
+}
+.note {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-top: 18px;
+    line-height: 1.5;
+}
+
+@media (max-width: 650px) {
+    .header { padding: 8px 14px; }
+    .brand-logo { height: 36px; }
+    .hero-title { font-size: 24px; }
+    .join-link-row-1 { grid-template-columns: 1fr; }
+    .benefits, .ts-counters { grid-template-columns: 1fr; }
+    .ts-hero-inner { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sticky Top Header -->
+    <header class="header">
+        <!-- Brand Logo on Left -->
+        <a class="brand" onclick="switchView('homeView')">
+            <img src="logo.webp" alt="Think Lab Logo" class="brand-logo">
+        </a>
+
+        <!-- 3-Line Hamburger Button on Right -->
+        <button class="hamburger-btn" onclick="toggleNavDrawer()" aria-label="Toggle navigation menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Slide-Out Navigation Drawer -->
+        <div class="nav-drawer" id="navDrawer">
+            <div class="drawer-header">
+                <span>Menu</span>
+                <button type="button" class="close-drawer-btn" onclick="toggleNavDrawer()">✕</button>
+            </div>
+
+            <nav class="drawer-links">
+                <!-- App View Navigation Links -->
+                <button onclick="switchView('homeView'); toggleNavDrawer();">Home</button>
+                <button onclick="switchView('benefitsView'); toggleNavDrawer();">Your Benefits</button>
+                <button onclick="switchView('impactView'); toggleNavDrawer();">Our Impact</button>
+
+                <hr class="nav-divider">
+
+                <!-- External HTML Page Links -->
+                <a href="book.html">Books</a>
+                <a href="contact.html">Contact Us</a>
+
+                <hr class="nav-divider">
+
+                <!-- Member Portal & Registration Buttons -->
+                <a href="https://member.thinkingskill.in" target="_blank" class="nav-btn-link login-btn">Member Login</a>
+                <button onclick="switchView('registerView'); toggleNavDrawer();" class="nav-btn-link join-btn">Join Think Lab</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Backdrop overlay to dismiss menu when clicking outside -->
+    <div class="nav-backdrop" id="navBackdrop" onclick="toggleNavDrawer()"></div>
+
+    <!-- Collapsible About Section -->
+    <div class="about-dropdown" id="aboutDropdown">
+        <h3>
+            <span>About Think Lab</span>
+            <button type="button" class="close-dropdown-btn" onclick="closeSection('aboutDropdown')">Close</button>
+        </h3>
+        <p>
+            Think Lab helps parents set up a screen-balanced, engaging thinking environment at home. 
+            We foster cognitive skills, operacy, and proactive thinking through stories, puzzles, 
+            and collaborative family activities.
+        </p>
+
+        <div class="join-links-container">
+            <div class="join-link-row-1">
+                <button type="button" class="sub-nav-btn" onclick="switchView('benefitsView')">Your Benefits</button>
+                <button type="button" class="sub-nav-btn" onclick="switchView('impactView')">Our Impact</button>
+            </div>
+
+            <p style="margin: 12px 0 4px; font-size: 14px; color: #555; line-height: 1.5;">
+                Thank you for exploring our member benefits and impact! If you are ready to take the next step with us, we would love to have your family onboard.
+            </p>
+
+            <div>
+                <button type="button" class="primary-action-btn" onclick="switchView('registerView')">Join Think Lab</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         VIEW 1: HOME VIEW (Default)
+         ===================================================== -->
+    <div id="homeView" class="app-view active-view">
+        <section class="hero-section">
+            <h1 class="hero-title">The Thinking Journey</h1>
+            <p class="hero-subtitle">Watch how families explore, think, share, and celebrate together.</p>
+            
+            <div class="video-container" id="videoContainer" onclick="playYouTubeVideo()">
+                <iframe 
+                    id="youtubeIframe"
+                    src="https://www.youtube.com/embed/cTOcvoW-VXw?autoplay=1&mute=1" 
+                    title="Think Lab Journey" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+
+                <img src="https://lh3.googleusercontent.com/d/1lmJ7Houo6Fg-XroiBw_CuZQHY-rbyrlV" 
+                     alt="Think Lab Journey Preview" 
+                     class="video-thumbnail" 
+                     id="videoThumb">
+                
+                <div class="play-button-overlay" id="playBtn">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-banner">
+            <h2>Build Values & Thinking Habit!</h2>
+            <p>Join to access stories, monthly contests, and interactive family meets.</p>
+            <button type="button" class="primary-btn" onclick="switchView('registerView')">Join Think Lab</button>
+        </section>
+    </div>
+
+
+    <!-- =====================================================
+         VIEW 2: OUR IMPACT VIEW
+         ===================================================== -->
+    <div id="impactView" class="app-view">
+        <button type="button" class="back-to-home-btn" onclick="switchView('homeView')">← Back to Home</button>
+
+        <section class="ts-hero">
+            <div class="ts-card1">
+                <h3>OUR IMPACT</h3>
+            </div>
+
+            <div class="ts-counters">
+                <div class="ts-counter">
+                    <div class="ts-counter-program">THINKING<br>WORKSHOP</div>
+                    <div class="ts-counter-subtitle">Practice Thinking</div>
+                    <div class="ts-counter-subtitle"><br>Since Mar 2026</div>
+                    <div class="ts-counter-number">462+</div>
+                    <div class="ts-counter-subtitle">Learners Trained</div>
+                </div>
+
+                <div class="ts-counter">
+                    <div class="ts-counter-program">THINKING<br>CONTEST</div>
+                    <div class="ts-counter-subtitle">Read • Record • Reflect</div>
+                    <div class="ts-counter-subtitle"><br>Since Sep 2026</div>
+                    <div class="ts-counter-number">11+</div>
+                    <div class="ts-counter-subtitle">Learners Participated</div>
+                </div>
+            </div>
+
+            <div class="ts-hero-inner">
+                <div class="ts-hero-img">
+                    <!-- Local WebP image replacing Google Drive URL -->
+                    <img src="thinklab.webp" alt="Think Lab Practice Thinking with Stories & Puzzles">
+                </div>
+
+                <div class="ts-hero-content">
+                    <div class="ts-card">
+                        <h3>💡 VISION</h3>
+                        <p>Creating joyful family time to play, learn, think and grow through stories & puzzles.</p>
+                    </div>
+
+                    <div class="ts-card">
+                        <h3>📖 RESOURCES</h3>
+                        <p>
+                            <a href="https://elevate.pietraining.com" target="_blank">Elevating Stories &amp; Puzzles</a> (Based on the Tamil Original <a href="https://kathai.pietraining.com" target="_blank">கற்பிக்கும் கதைகள், புதிர்கள்</a>) - This book is designed to build thinking skills featuring 12 beautifully illustrated stories that teach core virtues and 30 thoughtfully curated puzzles to boost mental agility.
+                        </p>
+                    </div>
+
+                    <div class="ts-card">
+                        <h3>👥 CONTRIBUTORS</h3>
+                        <p>A Ramani, T V Kanakaram, B M Devika, Sripreeta Kannivadi, Prof L R Govardhanan</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- =====================================================
+         VIEW 3: YOUR BENEFITS VIEW
+         ===================================================== -->
+    <div id="benefitsView" class="app-view">
+        <button type="button" class="back-to-home-btn" onclick="switchView('homeView')">← Back to Home</button>
+
+        <div class="page-title">Member Benefits</div>
+        <div class="subtitle">See What's in Store?</div>
+
+        <div class="benefits">
+            <div class="benefit-card">
+                <h3>📚 Growing Story Library</h3>
+                <p>Access stories in Tamil, English & Sourashtra - with more stories and languages added regularly.</p>
+                <a href="https://www.thinkingskill.in/home/sample-stories" target="_blank" class="brochure-link">📖 Sample Story & Puzzle</a>
+                
+                <div class="featured-video">
+                    <iframe src="https://www.youtube.com/embed/oLVPBP8EfYg" title="Think Lab Featured Story" loading="lazy" allowfullscreen></iframe>
+                </div>
+
+                <div class="intro-image" style="margin-top:15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1kvUItXim0Fei6mvb4b4cm3PD9lBWfwXK" alt="Sample Puzzle">
+                </div>
+            </div>
+
+            <div class="benefit-card">
+                <h3>🏠 Build Your Think Lab at Home</h3>
+                <p>Learn simple ways to set up Think Lab at home and create meaningful family time with stories, puzzles and thinking activities.</p>
+            </div>
+
+            <div class="benefit-card">
+                <h3>🧠 Thinking Workshop</h3>
+                <p>Get announcements and enjoy special member discounts for Thinking Workshops. 462+ learners trained across schools & apartments since Mar 2026.</p>
+                <a href="https://drive.google.com/file/d/1keDKc5Zw-urv8vplJTzS89iaEYomvkbU/view?usp=sharing" target="_blank" class="brochure-link">📄 Download Brochure</a> | 
+                <a href="https://thinklab.pietraining.com" target="_blank" class="brochure-link">🔍 Know more.</a>
+            </div>
+
+            <div class="benefit-card">
+                <h3>💡 Thinking Contest</h3>
+                <p>Get announcements and enjoy special member discounts for Thinking Contests. 11+ learners participated since Sep 2026.</p>
+                <a href="https://drive.google.com/file/d/1v-Bv5bQNAmsN2ISr2OurJ-usdwkggvQ0/view?usp=sharing" target="_blank" class="brochure-link">📄 Download Brochure</a>
+            </div>
+
+            <div class="benefit-card">
+                <h3>🎬 Video Stories</h3>
+                <p>Watch new story videos as they become available. Members can also volunteer to create voices and story videos.</p>
+                <a href="https://www.youtube.com/@think-lab-channel" target="_blank" class="brochure-link">▶️ YouTube Channel</a>
+            </div>
+
+            <div class="benefit-card">
+                <h3>📖 Books on Thinking</h3>
+                <p>Members can explore <a href="https://www.thinkingskill.in/home/books-on-thinking" class="book-link" target="_blank"><em>Books on Thinking</em></a> and enjoy special discounts on the book "Elevating Stories & Puzzles".</p>
+            </div>
+
+            <div class="benefit-card full">
+                <h3>🚀 More Experiences to Come</h3>
+                <p>Discover new stories, activities and thinking experiences as Think Lab grows.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         VIEW 4: MEMBER REGISTRATION VIEW
+         ===================================================== -->
+    <div id="registerView" class="app-view">
+        <button type="button" class="back-to-home-btn" onclick="switchView('homeView')">← Back to Home</button>
+
+        <div class="page-title">Member Registration</div>
+        <div class="subtitle">Join Think Lab and begin your thinking journey with stories, puzzles and family thinking activities.</div>
+
+        <div class="registration-card">
+            <div class="section-title">Annual Membership</div>
+
+            <div class="price-box">
+                <div class="currency-picker">
+                    <label for="currencySelect">Currency</label>
+                    <select id="currencySelect">
+                        <option value="INR">INR</option>
+                        <option value="SGD">SGD</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="regular-price">₹730</div>
+                <div id="savingDisplay" class="saving"></div>
+            </div>
+
+            <div class="coupon-area">
+                <input type="text" id="couponInput" placeholder="Enter coupon code" autocomplete="off">
+                <button type="button" onclick="applyCoupon()">APPLY</button>
+            </div>
+
+            <div id="couponMessage" class="coupon-message"></div>
+
+            <form id="membershipForm" novalidate>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gmail">Gmail ID</label>
+                    <input type="email" id="gmail" placeholder="example@gmail.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="coupon">Coupon Code</label>
+                    <input type="text" id="coupon" placeholder="Coupon code will appear here if applied" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentRef">Amount</label>
+                    <input type="text" id="paymentRef" placeholder="Amount will be filled automatically" disabled>
+                </div>
+
+                <button type="submit" class="submit-button">Submit Membership Registration</button>
+            </form>
+
+            <div id="successMessage" class="success-message">
+                <strong>Thank you for joining Think Lab!</strong>
+                <br><br>
+                Your membership registration has been received. Please watch your Gmail for payment details and further communication.
+                <br><br>
+                If no communication mail, please write to us at hello@thinkingskill.in
+                <br><br>
+                We will activate your Think Lab member access after we receive your payment.
+            </div>
+
+            <div class="note">Your Gmail ID will be used for membership identification and communication.</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Hidden Google Form Backend Submissions -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+<form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSc3Ri48q4azrfl8A1wnrDH3y1YlJGnkCZSmqgSVf2LqGIMNfw/formResponse" method="POST" target="hidden_iframe" style="display:none;">
+    <input type="text" name="entry.1400679707" id="gfName">
+    <input type="text" name="entry.1183514379" id="gfGmail">
+    <input type="text" name="entry.1578402284" id="gfCoupon">
+    <input type="text" name="entry.1317112118" id="gfPayment">
+</form>
+
+<script>
+/* =====================================================
+   HAMBURGER MENU DRAWER TOGGLE
+===================================================== */
+function toggleNavDrawer() {
+    const drawer = document.getElementById('navDrawer');
+    const backdrop = document.getElementById('navBackdrop');
+    if (drawer && backdrop) {
+        drawer.classList.toggle('open');
+        backdrop.classList.toggle('active');
+    }
+}
+
+/* =====================================================
+   VIEW SWITCHER LOGIC
+===================================================== */
+function switchView(targetViewId) {
+    const views = ['homeView', 'impactView', 'benefitsView', 'registerView'];
+    
+    views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            if (id === targetViewId) {
+                el.classList.add('active-view');
+            } else {
+                el.classList.remove('active-view');
+            }
+        }
+    });
+
+    ['aboutDropdown'].forEach(closeSection);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* =====================================================
+   HEADER DROPDOWN TOGGLES
+===================================================== */
+function playYouTubeVideo() {
+    const thumb = document.getElementById('videoThumb');
+    const playBtn = document.getElementById('playBtn');
+    if (thumb) thumb.style.display = 'none';
+    if (playBtn) playBtn.style.display = 'none';
+}
+
+function closeSection(sectionId) {
+    const el = document.getElementById(sectionId);
+    if (el) el.classList.remove('show');
+}
+
+/* =====================================================
+   REGISTRATION PRICING & FORM LOGIC
+===================================================== */
+const currencyConfig = {
+    INR: { symbol: "₹", full: 730, discounted: 365 },
+    SGD: { symbol: "S$", full: 10, discounted: 5 }
+};
+
+function normalizeCouponCode(value) {
+    return String(value || "").toUpperCase().replace(/\s+/g, "").replace(/\((INR|SGD)\)$/, "");
+}
+
+function buildCouponCode() {
+    const selectedCurrency = document.getElementById("currencySelect").value;
+    return `THINK365 (${selectedCurrency})`;
+}
+
+function getCurrentAmountText() {
+    const selectedCurrency = document.getElementById("currencySelect").value;
+    const config = currencyConfig[selectedCurrency];
+    const couponField = document.getElementById("coupon");
+    const couponApplied = normalizeCouponCode(couponField.value) === "THINK365";
+    const amount = couponApplied ? config.discounted : config.full;
+    return `${config.symbol}${amount} (${selectedCurrency})`;
+}
+
+function setAmountField() {
+    const paymentRef = document.getElementById("paymentRef");
+    if (paymentRef) paymentRef.value = getCurrentAmountText();
+}
+
+function renderPrice() {
+    const selectedCurrency = document.getElementById("currencySelect").value;
+    const config = currencyConfig[selectedCurrency];
+    const couponField = document.getElementById("coupon");
+    const couponApplied = normalizeCouponCode(couponField.value) === "THINK365";
+    const priceDisplay = document.getElementById("priceDisplay");
+    const savingDisplay = document.getElementById("savingDisplay");
+
+    if (!priceDisplay) return;
+
+    if (couponApplied) {
+        priceDisplay.innerHTML = `<span class="old-price">${config.symbol}${config.full} (${selectedCurrency})</span> ${config.symbol}${config.discounted} (${selectedCurrency})`;
+        savingDisplay.innerHTML = `You save ${config.symbol}${config.full - config.discounted} (${selectedCurrency})`;
+    } else {
+        priceDisplay.innerHTML = `${config.symbol}${config.full} (${selectedCurrency})`;
+        savingDisplay.innerHTML = "";
+    }
+    setAmountField();
+}
+
+function applyCoupon() {
+    const couponInput = document.getElementById("couponInput");
+    const couponField = document.getElementById("coupon");
+    const couponMessage = document.getElementById("couponMessage");
+    const coupon = couponInput.value.trim();
+    const normalizedCoupon = normalizeCouponCode(coupon);
+
+    if (normalizedCoupon === "THINK365") {
+        couponField.value = buildCouponCode();
+        couponInput.value = "";
+        couponMessage.innerHTML = "✓ Coupon applied successfully";
+        couponMessage.style.color = "#218838";
+        renderPrice();
+    } else {
+        couponField.value = "";
+        if (coupon === "") {
+            couponMessage.innerHTML = "";
+        } else {
+            couponMessage.innerHTML = "Invalid coupon code";
+            couponMessage.style.color = "#c62828";
+        }
+        renderPrice();
+    }
+}
+
+const currencySelect = document.getElementById("currencySelect");
+if (currencySelect) {
+    currencySelect.addEventListener("change", function() {
+        const couponField = document.getElementById("coupon");
+        if (normalizeCouponCode(couponField.value) === "THINK365") {
+            couponField.value = buildCouponCode();
+        }
+        renderPrice();
+    });
+}
+
+const membershipForm = document.getElementById("membershipForm");
+if (membershipForm) {
+    membershipForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const name = document.getElementById("name").value.trim();
+        const gmail = document.getElementById("gmail").value.trim();
+        const coupon = document.getElementById("coupon").value.trim();
+        const paymentRef = document.getElementById("paymentRef").value.trim();
+
+        if (!name) { alert("Please enter your name."); return; }
+        if (!gmail.toLowerCase().endsWith("@gmail.com")) { alert("Please enter a valid Gmail ID."); return; }
+        if (coupon !== "" && normalizeCouponCode(coupon) !== "THINK365") { alert("The coupon code entered is invalid."); return; }
+        if (!paymentRef) { alert("Please enter the amount."); return; }
+
+        document.getElementById("gfName").value = name;
+        document.getElementById("gfGmail").value = gmail;
+        document.getElementById("gfCoupon").value = coupon;
+        document.getElementById("gfPayment").value = paymentRef;
+
+        document.getElementById("googleForm").submit();
+
+        setTimeout(function() {
+            document.getElementById("membershipForm").style.display = "none";
+            document.getElementById("successMessage").style.display = "block";
+        }, 1200);
+    });
+}
+
+renderPrice();
+</script>
+
+</body>
+</html>

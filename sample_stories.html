@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Elevate Thinking</title>
+
+<style>
+
+/* =====================================================
+   BASIC
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    /* Remove scrollbar */
+    overflow: hidden;
+}
+
+body {
+    font-family:
+        Arial,
+        "Noto Sans Tamil",
+        sans-serif;
+
+    background: transparent;
+
+    color: #222;
+
+    /* Remove scrollbar */
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.container {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding: 10px;
+
+    min-height: 700px;
+
+    /* Prevent internal scrollbar */
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   SELECTOR
+===================================================== */
+
+.selector {
+    margin-bottom: 14px;
+}
+
+.selector label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.selector select {
+
+    width: 100%;
+
+    min-height: 44px;
+
+    padding: 10px 14px;
+
+    font-size: 16px;
+
+    font-family:
+        Arial,
+        "Noto Sans Tamil",
+        sans-serif;
+
+    color: #222;
+
+    background: white;
+
+    border: 1px solid #d0d5dd;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+
+.selector select:focus {
+    border-color: #6d28d9;
+}
+
+
+.selector select:disabled {
+    background: #f3f4f6;
+
+    color: #999;
+
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+#message {
+
+    text-align: center;
+
+    padding: 15px 8px;
+
+    font-size: 15px;
+
+    color: #667085;
+}
+
+#welcomeImage {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+#welcomeImage img {
+    width: 100%;
+    max-width: 700px;
+    max-height: 450px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px;
+}
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+#content {
+
+    display: none;
+
+    margin-top: 18px;
+
+    padding: 20px;
+
+    background:
+        rgba(255,255,255,0.97);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.10);
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   ACTIVITY HEADING
+===================================================== */
+
+.activity-heading {
+
+    margin-top: 8px;
+
+    margin-bottom: 18px;
+
+    padding: 11px 14px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #5b21b6;
+
+    background: #f5f3ff;
+
+    border-radius: 10px;
+
+    border-left: 4px solid #7c3aed;
+}
+
+
+/* =====================================================
+   STORY IMAGE
+===================================================== */
+
+.story-image {
+
+    width: 100%;
+
+    max-width: 700px;
+
+    max-height: 450px;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin: 0 auto 20px;
+
+    border-radius: 12px;
+}
+
+
+/* =====================================================
+   STORY TITLE
+===================================================== */
+
+.story-title {
+
+    font-size: 26px;
+
+    line-height: 1.4;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    margin: 10px 0 22px;
+}
+
+
+/* =====================================================
+   SECTION
+===================================================== */
+
+.section {
+
+    margin-top: 20px;
+}
+
+
+.section-title {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #5b21b6;
+
+    margin-bottom: 7px;
+}
+
+
+.section-text {
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
+    white-space: pre-line;
+
+    overflow-wrap: break-word;
+}
+
+
+.section-text-remarks {
+
+    text-align: center;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
+    white-space: pre-line;
+
+    overflow-wrap: break-word;
+}
+
+
+/* =====================================================
+   VALUE
+===================================================== */
+
+.value-box {
+
+    margin-top: 22px;
+
+    padding: 15px;
+
+    background: #f5f3ff;
+
+    border-left: 4px solid #7c3aed;
+
+    border-radius: 10px;
+}
+
+
+/* =====================================================
+   PIE CHALLENGE
+===================================================== */
+
+.challenge-box {
+
+    margin-top: 22px;
+
+    padding: 16px;
+
+    background: #fff7ed;
+
+    border-left: 4px solid #f97316;
+
+    border-radius: 10px;
+}
+
+
+.challenge-title {
+
+    font-size: 19px;
+
+    font-weight: 700;
+
+    color: #c2410c;
+
+    margin-bottom: 8px;
+}
+
+
+/* =====================================================
+   ACTIVITY SEPARATOR
+===================================================== */
+
+.activity-separator {
+
+    height: 1px;
+
+    margin: 38px 0 10px;
+
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            #d8b4fe,
+            transparent
+        );
+}
+
+
+/* =====================================================
+   YOUTUBE
+===================================================== */
+
+.video-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+    padding-bottom: 56.25%;
+
+    height: 0;
+
+    overflow: hidden;
+
+    border-radius: 14px;
+
+    background: #000;
+
+    margin-bottom: 22px;
+}
+
+
+.video-wrapper iframe {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .container {
+
+        padding: 8px;
+
+        min-height: 650px;
+    }
+
+
+    .selector select {
+
+        font-size: 15px;
+    }
+
+
+    #content {
+
+        padding: 15px;
+    }
+
+
+    .story-title {
+
+        font-size: 21px;
+    }
+
+
+    .activity-heading {
+
+        font-size: 18px;
+
+        margin-top: 6px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .section-text {
+
+        font-size: 15px;
+
+        line-height: 1.7;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =================================================
+         1. LANGUAGE
+    ================================================== -->
+
+    <div class="selector">
+
+        <label for="language">
+            Language
+        </label>
+
+        <select id="language">
+
+            <option value="">
+                Select Language
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- =================================================
+         2. STORY
+    ================================================== -->
+
+    <div class="selector">
+
+        <label for="story">
+            Story
+        </label>
+
+        <select
+            id="story"
+            disabled
+        >
+
+            <option value="">
+                Select Story / Voice
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- =================================================
+         3. SCRIPT
+    ================================================== -->
+
+    <div class="selector">
+
+        <label for="script">
+            Script / Voice
+        </label>
+
+        <select
+            id="script"
+            disabled
+        >
+
+            <option value="">
+                Select Script / Voice
+            </option>
+
+        </select>
+
+    </div>
+
+
+<!-- =================================================
+     LOADING / WELCOME IMAGE
+================================================== -->
+
+
+    <!-- =================================================
+         MESSAGE
+    ================================================== -->
+
+    <div id="message">
+
+        Loading stories...
+
+    </div>
+
+<div id="welcomeImage">
+      <img
+        src="https://lh3.googleusercontent.com/d/1yMNlUe-RYQeO9UfgDq17LHlnOlVPk0jD"
+        alt="Family reading together">
+</div>
+
+    <!-- =================================================
+         CONTENT
+    ================================================== -->
+
+    <div id="content">
+
+
+        <!-- =============================================
+             WATCH & WONDER
+             Only displayed when valid YouTube ID exists
+        ============================================== -->
+
+        <div
+            id="watchSection"
+            style="display:none;"
+        >
+
+            <div
+                class="activity-heading"
+                id="watchActivityTitle"
+            >
+                Watch & Wonder
+            </div>
+
+
+            <div
+                id="videoWrapper"
+                class="video-wrapper"
+                style="display:none;"
+            >
+            </div>
+
+
+            <div
+                id="watchTitle"
+                class="story-title"
+            ></div>
+
+
+            <div class="section">
+
+                <div
+                    id="remarksText"
+                    class="section-text-remarks"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =============================================
+             SEPARATOR
+             Only displayed when YouTube video exists
+        ============================================== -->
+
+        <div
+            id="activitySeparator"
+            class="activity-separator"
+            style="display:none;"
+        ></div>
+
+        <!-- =============================================
+             READ & REFLECT
+        ============================================== -->
+
+        <div
+            id="readSection"
+            style="display:none;"
+        >
+
+            <div
+                class="activity-heading"
+                id="readActivityTitle"
+            >
+                Read & Reflect
+            </div>
+
+
+            <img
+                id="storyImage"
+                class="story-image"
+                src=""
+                alt="Story image"
+            >
+
+
+            <div
+                id="readTitle"
+                class="story-title"
+            ></div>
+
+
+            <div class="section">
+
+                <div
+                    id="storyText"
+                    class="section-text"
+                ></div>
+
+            </div>
+
+
+            <div class="value-box">
+
+                <div
+                    id="valueText"
+                    class="section-text"
+                ></div>
+
+            </div>
+
+
+            <div class="challenge-box">
+
+                <div
+                    id="challengeText"
+                    class="section-text"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   GOOGLE SHEET CSV
+===================================================== */
+
+const CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vSun3NoHJpKXxxe3KcsnfPY96onT0MhDCnW2LDONTMNnesP5kK06IwHv_ecfwW9Vg/pub?gid=2139485608&single=true&output=csv";
+
+const IMAGE_BASE_URL =
+    "https://lh3.googleusercontent.com/d/";
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let rows = [];
+
+let columns = {};
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const language =
+    document.getElementById("language");
+
+const story =
+    document.getElementById("story");
+
+const script =
+    document.getElementById("script");
+
+const message =
+    document.getElementById("message");
+
+const content =
+    document.getElementById("content");
+
+const readSection =
+    document.getElementById("readSection");
+
+const watchSection =
+    document.getElementById("watchSection");
+
+const videoWrapper =
+    document.getElementById("videoWrapper");
+
+const activitySeparator =
+    document.getElementById("activitySeparator");
+
+
+/* =====================================================
+   NORMALIZE HEADER
+===================================================== */
+
+function normalize(text) {
+
+    return String(text || "")
+        .replace(/^\uFEFF/, "")
+        .trim()
+        .toLowerCase()
+        .replace(/[\s_\-\/]+/g, "");
+
+}
+
+
+/* =====================================================
+   CSV PARSER
+===================================================== */
+
+function parseCSV(text) {
+
+    const result = [];
+
+    let row = [];
+
+    let value = "";
+
+    let insideQuotes = false;
+
+
+    for (
+        let i = 0;
+        i < text.length;
+        i++
+    ) {
+
+        const char =
+            text[i];
+
+        const next =
+            text[i + 1];
+
+
+        /* Quoted quotation */
+
+        if (
+            char === '"' &&
+            insideQuotes &&
+            next === '"'
+        ) {
+
+            value += '"';
+
+            i++;
+
+        }
+
+
+        /* Opening / closing quote */
+
+        else if (
+            char === '"'
+        ) {
+
+            insideQuotes =
+                !insideQuotes;
+
+        }
+
+
+        /* New column */
+
+        else if (
+            char === "," &&
+            !insideQuotes
+        ) {
+
+            row.push(value);
+
+            value = "";
+
+        }
+
+
+        /* New row */
+
+        else if (
+            (char === "\n" ||
+             char === "\r") &&
+            !insideQuotes
+        ) {
+
+            if (
+                char === "\r" &&
+                next === "\n"
+            ) {
+
+                i++;
+
+            }
+
+
+            row.push(value);
+
+            result.push(row);
+
+            row = [];
+
+            value = "";
+
+        }
+
+
+        else {
+
+            value += char;
+
+        }
+
+    }
+
+
+    /* Last row */
+
+    if (
+        value !== "" ||
+        row.length > 0
+    ) {
+
+        row.push(value);
+
+        result.push(row);
+
+    }
+
+
+    return result;
+
+}
+
+
+/* =====================================================
+   BUILD COLUMN INDEX
+===================================================== */
+
+function buildColumnIndex(headers) {
+
+    const index = {};
+
+
+    headers.forEach(
+        (header, position) => {
+
+            index[
+                normalize(header)
+            ] = position;
+
+        }
+    );
+
+
+    return index;
+
+}
+
+
+/* =====================================================
+   GET CELL
+===================================================== */
+
+function getCell(
+    row,
+    columnName
+) {
+
+    const position =
+        columns[
+            normalize(columnName)
+        ];
+
+
+    if (
+        position === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(
+        row[position] || ""
+    ).trim();
+
+}
+
+
+/* =====================================================
+   LOAD DATA
+===================================================== */
+
+async function loadData() {
+
+    const start =
+        performance.now();
+
+
+    try {
+
+        message.textContent =
+            "Loading stories...";
+
+
+        /*
+           Load Google Sheet ONCE.
+        */
+
+        const response =
+            await fetch(CSV_URL);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load Google Sheet."
+            );
+
+        }
+
+
+        const csv =
+            await response.text();
+
+
+        const parsed =
+            parseCSV(csv);
+
+
+        if (
+            parsed.length < 2
+        ) {
+
+            throw new Error(
+                "No story data found."
+            );
+
+        }
+
+
+        /* ---------------------------------------------
+           Header row
+        --------------------------------------------- */
+
+        const headers =
+            parsed[0];
+
+
+        /* ---------------------------------------------
+           Create column index ONCE
+        --------------------------------------------- */
+
+        columns =
+            buildColumnIndex(headers);
+
+
+        /* ---------------------------------------------
+           Story rows
+        --------------------------------------------- */
+
+        rows =
+            parsed
+                .slice(1)
+                .filter(
+                    row =>
+                        row.some(
+                            cell =>
+                                String(cell).trim() !== ""
+                        )
+                );
+
+
+        console.log(
+            "Rows loaded:",
+            rows.length
+        );
+
+
+        console.log(
+            "Columns:",
+            columns
+        );
+
+
+        console.log(
+            "Load time:",
+            Math.round(
+                performance.now() - start
+            ) + " ms"
+        );
+
+
+        /* ---------------------------------------------
+           Check expected columns
+        --------------------------------------------- */
+
+        const required =
+        [
+            "Language",
+            "Title",
+            "Script",
+            "Image ID",
+            "Story",
+            "Value",
+            "PIE Challenge",
+            "YouTube ID",
+            "Remarks"
+        ];
+
+
+        required.forEach(
+            name => {
+
+                if (
+                    columns[
+                        normalize(name)
+                    ] === undefined
+                ) {
+
+                    console.warn(
+                        "Missing column:",
+                        name
+                    );
+
+                }
+
+            }
+        );
+
+
+        populateLanguages();
+
+
+        message.textContent =
+            "Select a language to begin.";
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Google Sheet error:",
+            error
+        );
+
+
+        message.textContent =
+            "Unable to load stories.";
+
+    }
+
+}
+
+
+/* =====================================================
+   POPULATE LANGUAGE
+===================================================== */
+
+function populateLanguages() {
+
+    language.innerHTML =
+        '<option value="">Select Language</option>';
+
+
+    const languages =
+        new Set();
+
+
+    rows.forEach(
+        row => {
+
+            const lang =
+                getCell(
+                    row,
+                    "Language"
+                );
+
+
+            if (lang) {
+
+                languages.add(lang);
+
+            }
+
+        }
+    );
+
+
+    languages.forEach(
+        lang => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                lang;
+
+
+            option.textContent =
+                lang;
+
+
+            language.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE ACTIVITY LANGUAGE
+===================================================== */
+
+function updateActivityLanguage() {
+
+    const isTamil =
+        language.value === "Tamil" ||
+        language.value === "தமிழ்";
+
+
+    const readTitle =
+        document.getElementById(
+            "readActivityTitle"
+        );
+
+
+    const watchTitle =
+        document.getElementById(
+            "watchActivityTitle"
+        );
+
+
+    if (isTamil) {
+
+        readTitle.textContent =
+            "படித்து சிந்திக்கவும்";
+
+        watchTitle.textContent =
+            "பார்த்து வியக்கவும்";
+
+    }
+
+    else {
+
+        readTitle.textContent =
+            "Read & Reflect";
+
+        watchTitle.textContent =
+            "Watch & Wonder";
+
+    }
+
+}
+
+
+/* =====================================================
+   LANGUAGE CHANGE
+===================================================== */
+
+language.addEventListener(
+    "change",
+    function() {
+
+        const selectedLanguage =
+            this.value;
+
+
+        /* Reset Story */
+
+        story.innerHTML =
+            '<option value="">Select Story</option>';
+
+
+        story.disabled =
+            true;
+
+
+        /* Reset Script */
+
+        script.innerHTML =
+            '<option value="">Select Script / Voice</option>';
+
+
+        script.disabled =
+            true;
+
+
+        /* Hide content */
+
+        hideContent();
+
+document.getElementById("welcomeImage").style.display = "block";
+
+        if (!selectedLanguage) {
+
+            message.style.display =
+                "block";
+
+
+            message.textContent =
+                "Select a language to begin.";
+
+
+            return;
+
+        }
+
+
+        /* ---------------------------------------------
+           Find stories in selected language
+        --------------------------------------------- */
+
+        const titles =
+            new Set();
+
+
+        rows.forEach(
+            row => {
+
+                const rowLanguage =
+                    getCell(
+                        row,
+                        "Language"
+                    );
+
+
+                const title =
+                    getCell(
+                        row,
+                        "Title"
+                    );
+
+
+                if (
+                    rowLanguage ===
+                    selectedLanguage
+                    &&
+                    title
+                ) {
+
+                    titles.add(title);
+
+                }
+
+            }
+        );
+
+
+        updateActivityLanguage();
+
+
+        /* ---------------------------------------------
+           Add stories
+        --------------------------------------------- */
+
+        titles.forEach(
+            title => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    title;
+
+
+                option.textContent =
+                    title;
+
+
+                story.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        story.disabled =
+            titles.size === 0;
+
+
+        message.style.display =
+            "block";
+
+
+        message.textContent =
+            titles.size
+                ? "Select a story."
+                : "No stories found for this language.";
+
+    }
+);
+
+
+/* =====================================================
+   STORY CHANGE
+===================================================== */
+
+story.addEventListener(
+    "change",
+    function() {
+
+        const selectedStory =
+            this.value;
+
+
+        /* Reset Script */
+
+        script.innerHTML =
+            '<option value="">Select Script / Voice</option>';
+
+
+        script.disabled =
+            true;
+
+
+        hideContent();
+
+document.getElementById("welcomeImage").style.display = "block";
+
+        if (!selectedStory) {
+
+            message.style.display =
+                "block";
+
+
+            message.textContent =
+                "Select a story.";
+
+
+            return;
+
+        }
+
+
+        /* ---------------------------------------------
+           Find scripts for selected story
+        --------------------------------------------- */
+
+        const scripts =
+            new Set();
+
+
+        rows.forEach(
+            row => {
+
+                const rowLanguage =
+                    getCell(
+                        row,
+                        "Language"
+                    );
+
+
+                const rowTitle =
+                    getCell(
+                        row,
+                        "Title"
+                    );
+
+
+                const rowScript =
+                    getCell(
+                        row,
+                        "Script"
+                    );
+
+
+                if (
+                    rowLanguage ===
+                    language.value
+                    &&
+                    rowTitle ===
+                    selectedStory
+                    &&
+                    rowScript
+                ) {
+
+                    scripts.add(rowScript);
+
+                }
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           Add scripts
+        --------------------------------------------- */
+
+        scripts.forEach(
+            scriptName => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    scriptName;
+
+
+                option.textContent =
+                    scriptName;
+
+
+                script.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        script.disabled =
+            scripts.size === 0;
+
+
+        message.style.display =
+            "block";
+
+
+        if (scripts.size > 0) {
+
+            message.textContent =
+                "Select a script.";
+
+        }
+
+        else {
+
+            message.textContent =
+                "No scripts found for this story.";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SCRIPT CHANGE
+===================================================== */
+
+script.addEventListener(
+    "change",
+    function() {
+
+        const selectedScript =
+            this.value;
+
+
+        hideContent();
+
+        /* Hide welcome image after selection */
+        document.getElementById("welcomeImage").style.display = "none";
+
+        if (!selectedScript) {
+
+            message.style.display =
+                "block";
+
+
+            message.textContent =
+                "Select a script.";
+
+
+            return;
+
+        }
+
+
+        /* ---------------------------------------------
+           Find exact Language + Story + Script row
+        --------------------------------------------- */
+
+        const row =
+            findSelectedRow();
+
+
+        if (!row) {
+
+            message.style.display =
+                "block";
+
+
+            message.textContent =
+                "Story information not found.";
+
+
+            return;
+
+        }
+
+
+        /* ---------------------------------------------
+           Display content
+        --------------------------------------------- */
+
+        message.style.display =
+            "none";
+
+
+        updateActivityLanguage();
+
+
+        /*
+           Initially show content container.
+           Individual activities will decide
+           whether they actually have content.
+        */
+
+        content.style.display =
+            "block";
+
+
+        /* ---------------------------------------------
+           Activity 1
+           Only displayed when Image ID exists
+        --------------------------------------------- */
+
+        showRead(row);
+
+
+        /* ---------------------------------------------
+           Activity 2
+           Only displayed when valid YouTube ID exists
+        --------------------------------------------- */
+
+        showWatch(row);
+
+
+        /*
+           If both activities are hidden,
+           hide the content container as well.
+        */
+
+        if (
+            readSection.style.display === "none"
+            &&
+            watchSection.style.display === "none"
+        ) {
+
+            content.style.display =
+                "none";
+
+
+            message.style.display =
+                "block";
+
+
+            message.textContent =
+                "No content available for this script.";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FIND SELECTED ROW
+===================================================== */
+
+function findSelectedRow() {
+
+    const selectedLanguage =
+        language.value;
+
+
+    const selectedTitle =
+        story.value;
+
+
+    const selectedScript =
+        script.value;
+
+
+    return rows.find(
+        row =>
+
+            getCell(
+                row,
+                "Language"
+            )
+            ===
+            selectedLanguage
+
+            &&
+
+            getCell(
+                row,
+                "Title"
+            )
+            ===
+            selectedTitle
+
+            &&
+
+            getCell(
+                row,
+                "Script"
+            )
+            ===
+            selectedScript
+    );
+
+}
+
+
+/* =====================================================
+   READ & REFLECT
+   Only shown when Image URL exists
+===================================================== */
+
+function showRead(row) {
+
+    const imageID =
+        getCell(
+            row,
+            "Image ID"
+        );
+
+
+    /*
+       No Image ID
+       → Hide entire Read & Reflect activity
+    */
+
+    if (!imageID) {
+
+        readSection.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    /*
+       Image exists
+       → Show Read & Reflect
+    */
+
+    readSection.style.display =
+        "block";
+
+
+    const image =
+        document.getElementById(
+            "storyImage"
+        );
+
+
+    image.src =
+          IMAGE_BASE_URL + imageID;
+
+    image.style.display =
+        "block";
+
+
+    /* Title */
+
+    document.getElementById(
+        "readTitle"
+    ).textContent =
+        getCell(
+            row,
+            "Title"
+        );
+
+
+    /* Story */
+
+    document.getElementById(
+        "storyText"
+    ).textContent =
+        getCell(
+            row,
+            "Story"
+        );
+
+
+    /* Value */
+
+    document.getElementById(
+        "valueText"
+    ).textContent =
+        getCell(
+            row,
+            "Value"
+        );
+
+
+    /* PIE Challenge */
+
+    document.getElementById(
+        "challengeText"
+    ).textContent =
+        getCell(
+            row,
+            "PIE Challenge"
+        );
+
+}
+
+
+/* =====================================================
+   WATCH & WONDER
+   Only shown when valid YouTube ID exists
+===================================================== */
+
+function showWatch(row) {
+
+    /* ---------------------------------------------
+       Get YouTube ID FIRST
+    --------------------------------------------- */
+
+    const youtubeID =
+        getCell(
+            row,
+            "YouTube ID"
+        )
+        .trim()
+        .replace(/\s/g, "");
+
+
+    /* ---------------------------------------------
+       No valid YouTube ID
+       → Hide entire second activity
+    --------------------------------------------- */
+
+    if (
+        !youtubeID ||
+        !isValidYouTubeID(
+            youtubeID
+        )
+    ) {
+
+        watchSection.style.display =
+            "none";
+
+
+        activitySeparator.style.display =
+            "none";
+
+
+        videoWrapper.innerHTML =
+            "";
+
+
+        videoWrapper.style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    /* ---------------------------------------------
+       Valid YouTube ID
+       → Show second activity
+    --------------------------------------------- */
+
+    watchSection.style.display =
+        "block";
+
+
+    activitySeparator.style.display =
+        "block";
+
+
+    /* Title */
+
+    document.getElementById(
+        "watchTitle"
+    ).textContent =
+        getCell(
+            row,
+            "Title"
+        );
+
+
+    /* Remarks */
+
+    document.getElementById(
+        "remarksText"
+    ).textContent =
+        getCell(
+            row,
+            "Remarks"
+        );
+
+
+    /* Remove old video */
+
+    videoWrapper.innerHTML =
+        "";
+
+
+    videoWrapper.style.display =
+        "none";
+
+
+    /* ---------------------------------------------
+       Create YouTube URL
+    --------------------------------------------- */
+
+    const embedURL =
+        "https://www.youtube.com/embed/"
+        +
+        youtubeID
+        +
+        "?rel=0&playsinline=1";
+
+
+    console.log(
+        "Selected YouTube ID:",
+        youtubeID
+    );
+
+
+    console.log(
+        "YouTube URL:",
+        embedURL
+    );
+
+
+    /* ---------------------------------------------
+       Create iframe
+    --------------------------------------------- */
+
+    const iframe =
+        document.createElement(
+            "iframe"
+        );
+
+
+    iframe.src =
+        embedURL;
+
+
+    iframe.title =
+        "Story Video";
+
+
+    iframe.setAttribute(
+        "allow",
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    );
+
+
+    iframe.setAttribute(
+        "allowfullscreen",
+        ""
+    );
+
+
+    iframe.setAttribute(
+        "referrerpolicy",
+        "strict-origin-when-cross-origin"
+    );
+
+
+    /* ---------------------------------------------
+       Add iframe
+    --------------------------------------------- */
+
+    videoWrapper.appendChild(
+        iframe
+    );
+
+
+    videoWrapper.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   YOUTUBE ID VALIDATION
+===================================================== */
+
+function isValidYouTubeID(id) {
+
+    return /^[A-Za-z0-9_-]{11}$/.test(
+        id
+    );
+
+}
+
+
+/* =====================================================
+   HIDE CONTENT
+===================================================== */
+
+function hideContent() {
+
+    content.style.display =
+        "none";
+
+
+    readSection.style.display =
+        "none";
+
+
+    watchSection.style.display =
+        "none";
+
+
+    activitySeparator.style.display =
+        "none";
+
+
+    videoWrapper.innerHTML =
+        "";
+
+
+    videoWrapper.style.display =
+        "none";
+
+
+    /*
+       Clear previous image
+    */
+
+    const image =
+        document.getElementById(
+            "storyImage"
+        );
+
+
+    image.removeAttribute(
+        "src"
+    );
+
+
+    image.style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadData();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1331,6 +1331,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (membershipForm) {
         membershipForm.addEventListener("submit", function(event) {
             event.preventDefault();
+
             const name = document.getElementById("name").value.trim();
             const gmail = document.getElementById("gmail").value.trim();
             const coupon = document.getElementById("coupon").value.trim();
@@ -1341,17 +1342,23 @@ document.addEventListener('DOMContentLoaded', function() {
             if (coupon !== "" && normalizeCouponCode(coupon) !== "THINK365") { alert("The coupon code entered is invalid."); return; }
             if (!paymentRef) { alert("Please enter the amount."); return; }
 
+            // Populate the hidden Google Form inputs
             document.getElementById("gfName").value = name;
             document.getElementById("gfGmail").value = gmail;
             document.getElementById("gfCoupon").value = coupon;
             document.getElementById("gfPayment").value = paymentRef;
 
-            document.getElementById("googleForm").submit();
+            // Submit the hidden Google Form into the hidden iframe
+            const googleForm = document.getElementById("googleForm");
+            if (googleForm) {
+                googleForm.submit();
+            }
 
+            // Display success message after a brief delay
             setTimeout(function() {
-                document.getElementById("membershipForm").style.display = "none";
+                membershipForm.style.display = "none";
                 document.getElementById("successMessage").style.display = "block";
-            }, 1200);
+            }, 800);
         });
     }
 

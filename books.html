@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Think Lab - Books on Thinking</title>
 
 <style>
@@ -15,14 +14,192 @@
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: transparent;
-    color: #263238;
+    background: url('bg.webp') no-repeat center center fixed;
+    background-size: cover;
+    color: #1d2940;
   }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 18px 40px;
+  }
+
+  /* =========================
+     STICKY HEADER & LOGO
+  ========================= */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    margin-bottom: 22px;
+    background: transparent;
+    border-bottom: 1px solid rgba(225, 228, 232, 0.4);
+  }
+
+  .brand-logo {
+    height: 48px;
+    width: auto;
+    display: block;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  /* 3-Line Hamburger Button */
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 32px;
+    height: 26px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+  }
+
+  .hamburger-btn .bar {
+    width: 100%;
+    height: 3px;
+    background-color: #1d2940;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  /* =========================
+     SLIDE-OUT NAVIGATION DRAWER
+  ========================= */
+  .nav-drawer {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 280px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-drawer.open {
+    right: 0 !important;
+  }
+
+  .drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1d2940;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e1e4e8;
+  }
+
+  .close-drawer-btn {
+    background: #f0f2f5;
+    border: none;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #1d2940;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-drawer-btn:hover {
+    background: #e2e8f0;
+  }
+
+  .drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .drawer-links a {
+    text-align: left;
+    text-decoration: none;
+    color: #1d2940;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    display: block;
+  }
+
+  .drawer-links a:hover {
+    background: #f0f2f5;
+  }
+
+  .nav-divider {
+    border: 0;
+    border-top: 1px solid #e1e4e8;
+    margin: 8px 0;
+  }
+
+  .nav-btn-link {
+    text-align: center !important;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .login-btn {
+    background: #f0f2f5 !important;
+    border: 1px solid #d0d5dd !important;
+  }
+
+  .join-btn {
+    background: #1d2940 !important;
+    color: #ffffff !important;
+  }
+
+  .join-btn:hover {
+    background: #2d3d5b !important;
+  }
+
+  /* Backdrop Overlay */
+  .nav-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1500;
+  }
+
+  .nav-backdrop.active {
+    display: block !important;
+  }
+
+  /* ---------- BOOKS PAGE CONTENT ---------- */
 
   .books-page {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 25px 18px 35px;
+    padding: 10px 0 35px;
   }
 
   /* ---------- HEADER ---------- */
@@ -37,12 +214,13 @@
     font-size: 30px;
     font-weight: 700;
     letter-spacing: 0.3px;
+    color: #1d2940;
   }
 
   .page-header .subtitle {
     margin-top: 8px;
     font-size: 15px;
-    color: #667085;
+    color: #555;
   }
 
   /* ---------- FILTERS ---------- */
@@ -62,7 +240,7 @@
     border: 1px solid #d5dbe3;
     border-radius: 8px;
     background: white;
-    color: #263238;
+    color: #1d2940;
     font-size: 14px;
     cursor: pointer;
   }
@@ -119,7 +297,7 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.95);
   }
 
   .book-name {
@@ -127,11 +305,12 @@
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 6px;
+    color: #1d2940;
   }
 
   .author {
     font-size: 13px;
-    color: #667085;
+    color: #555;
     margin-bottom: 10px;
   }
 
@@ -160,7 +339,7 @@
     text-align: center;
     text-decoration: none;
     border-radius: 7px;
-    background: #1a73e8;
+    background: #1d2940;
     color: white;
     font-size: 13px;
     font-weight: 600;
@@ -168,7 +347,7 @@
   }
 
   .buy-button:hover {
-    background: #1557b0;
+    background: #2d3d5b;
   }
 
   /* ---------- PAGINATION ---------- */
@@ -197,9 +376,9 @@
   }
 
   .page-button.active {
-    background: #1a73e8;
+    background: #1d2940;
     color: white;
-    border-color: #1a73e8;
+    border-color: #1d2940;
   }
 
   .page-button:disabled {
@@ -212,13 +391,14 @@
   .status {
     text-align: center;
     padding: 30px 10px;
-    color: #667085;
+    color: #555;
     font-size: 14px;
+    grid-column: 1 / -1;
   }
 
   .book-count {
     text-align: center;
-    color: #667085;
+    color: #555;
     font-size: 13px;
     margin-top: 5px;
     margin-bottom: 20px;
@@ -237,6 +417,9 @@
   }
 
   @media (max-width: 700px) {
+    .header { padding: 8px 14px; }
+    .brand-logo { height: 36px; }
+
     .books-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
@@ -278,721 +461,505 @@
 
 <body>
 
-<div class="books-page">
+<div class="container">
 
-  <div class="page-header">
-    <h1>Think Lab</h1>
-    <div class="subtitle">
-      Books on Thinking
+  <!-- Sticky Top Header -->
+  <header class="header">
+    <!-- Brand Logo on Left -->
+    <a href="index.html" class="brand">
+      <img src="logo.webp" alt="Think Lab Logo" class="brand-logo">
+    </a>
+
+    <!-- 3-Line Hamburger Button on Right -->
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <!-- Slide-Out Navigation Drawer -->
+    <div class="nav-drawer" id="navDrawer">
+      <div class="drawer-header">
+        <span>Menu</span>
+        <button type="button" class="close-drawer-btn" id="closeDrawerBtn">✕</button>
+      </div>
+
+      <nav class="drawer-links">
+        <!-- Main Home & Views Navigation -->
+        <a href="index.html">Home</a>
+        <a href="index.html">Your Benefits</a>
+        <a href="index.html">Our Impact</a>
+
+        <hr class="nav-divider">
+
+        <!-- External Pages & Actions -->
+        <a href="sample_stories.html">Sample Stories</a>
+        <a href="books.html" style="background:#f0f2f5;">Books on Thinking</a>
+        <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">Contact Us</a>
+
+        <hr class="nav-divider">
+
+        <!-- Member Portal & Registration Buttons -->
+        <a href="https://member.thinkingskill.in" target="_blank" class="nav-btn-link login-btn">Member Login</a>
+        <a href="index.html" class="nav-btn-link join-btn">Join Think Lab</a>
+      </nav>
     </div>
+  </header>
+
+  <!-- Backdrop overlay to dismiss menu when clicking outside -->
+  <div class="nav-backdrop" id="navBackdrop"></div>
+
+  <!-- Main Books Content -->
+  <div class="books-page">
+
+    <div class="page-header">
+      <h1>Books on Thinking</h1>
+      <div class="subtitle">
+        Curated stories and puzzle books to nurture cognitive skills and values.
+      </div>
+    </div>
+
+    <div class="filters">
+
+      <select id="categoryFilter">
+        <option value="all">All Categories</option>
+      </select>
+
+      <select id="languageFilter">
+        <option value="all">All Languages</option>
+      </select>
+
+    </div>
+
+    <div id="bookCount" class="book-count"></div>
+
+    <div id="booksGrid" class="books-grid">
+      <div class="status">Loading books...</div>
+    </div>
+
+    <div id="pagination" class="pagination"></div>
+
   </div>
-
-  <div class="filters">
-
-    <select id="categoryFilter">
-      <option value="all">All Categories</option>
-    </select>
-
-    <select id="languageFilter">
-      <option value="all">All Languages</option>
-    </select>
-
-  </div>
-
-  <div id="bookCount" class="book-count"></div>
-
-  <div id="booksGrid" class="books-grid">
-    <div class="status">Loading books...</div>
-  </div>
-
-  <div id="pagination" class="pagination"></div>
 
 </div>
 
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 
-/* =========================================================
-   THINK LAB BOOKS
-   Google Sheets Published CSV
-   ========================================================= */
+  /* =========================================================
+     DRAWER CONTROLLER
+     ========================================================= */
+  const navDrawer = document.getElementById('navDrawer');
+  const navBackdrop = document.getElementById('navBackdrop');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const closeDrawerBtn = document.getElementById('closeDrawerBtn');
 
-const CSV_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vSRrWjgpCdgZdXvw8wCH27chZROO882LQqipfpa01vXuIuEEe8AbaSunCUvA5xLgoY1rHR9Jtw2nvdw/pub?gid=0&single=true&output=csv";
+  function openNavDrawer() {
+    if (navDrawer) navDrawer.classList.add('open');
+    if (navBackdrop) navBackdrop.classList.add('active');
+  }
 
+  function closeNavDrawer() {
+    if (navDrawer) navDrawer.classList.remove('open');
+    if (navBackdrop) navBackdrop.classList.remove('active');
+  }
 
-/* Number of books shown on each page */
-const BOOKS_PER_PAGE = 2;
+  if (hamburgerBtn) hamburgerBtn.addEventListener('click', openNavDrawer);
+  if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeNavDrawer);
+  if (navBackdrop) navBackdrop.addEventListener('click', closeNavDrawer);
 
+  /* =========================================================
+     THINK LAB BOOKS
+     Google Sheets Published CSV
+     ========================================================= */
 
-/* Data */
-let allBooks = [];
-let filteredBooks = [];
-let currentPage = 1;
+  const CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRrWjgpCdgZdXvw8wCH27chZROO882LQqipfpa01vXuIuEEe8AbaSunCUvA5xLgoY1rHR9Jtw2nvdw/pub?gid=0&single=true&output=csv";
 
+  /* Number of books shown on each page */
+  const BOOKS_PER_PAGE = 8;
 
-/* =========================================================
-   CSV PARSER
-   Handles commas inside quoted fields
-   ========================================================= */
+  /* Data */
+  let allBooks = [];
+  let filteredBooks = [];
+  let currentPage = 1;
 
-function parseCSV(text) {
+  /* =========================================================
+     CSV PARSER
+     Handles commas inside quoted fields
+     ========================================================= */
 
-  const rows = [];
-  let row = [];
-  let value = "";
-  let insideQuotes = false;
+  function parseCSV(text) {
+    const rows = [];
+    let row = [];
+    let value = "";
+    let insideQuotes = false;
 
-  for (let i = 0; i < text.length; i++) {
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      const next = text[i + 1];
 
-    const char = text[i];
-    const next = text[i + 1];
-
-    if (char === '"' && insideQuotes && next === '"') {
-      value += '"';
-      i++;
-    }
-
-    else if (char === '"') {
-      insideQuotes = !insideQuotes;
-    }
-
-    else if (char === ',' && !insideQuotes) {
-      row.push(value.trim());
-      value = "";
-    }
-
-    else if ((char === '\n' || char === '\r') && !insideQuotes) {
-
-      if (char === '\r' && next === '\n') {
+      if (char === '"' && insideQuotes && next === '"') {
+        value += '"';
         i++;
+      } else if (char === '"') {
+        insideQuotes = !insideQuotes;
+      } else if (char === ',' && !insideQuotes) {
+        row.push(value.trim());
+        value = "";
+      } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+        if (char === '\r' && next === '\n') {
+          i++;
+        }
+        row.push(value.trim());
+        value = "";
+
+        if (row.some(cell => cell !== "")) {
+          rows.push(row);
+        }
+        row = [];
+      } else {
+        value += char;
       }
+    }
 
+    if (value !== "" || row.length > 0) {
       row.push(value.trim());
-      value = "";
-
       if (row.some(cell => cell !== "")) {
         rows.push(row);
       }
-
-      row = [];
     }
 
-    else {
-      value += char;
-    }
+    return rows;
   }
 
-  if (value !== "" || row.length > 0) {
-    row.push(value.trim());
-
-    if (row.some(cell => cell !== "")) {
-      rows.push(row);
-    }
-  }
-
-  return rows;
-}
-
-
-/* =========================================================
-   CONVERT CSV TO BOOK OBJECTS
-   ========================================================= */
-
-function convertToBooks(csvText) {
-
-  const rows = parseCSV(csvText);
-
-  if (rows.length < 2) {
-    return [];
-  }
-
-  const headers = rows[0].map(h =>
-    h.trim().toLowerCase()
-  );
-
-  const getIndex = name =>
-    headers.indexOf(name.toLowerCase());
-
-  const bookNameIndex = getIndex("book name");
-  const authorIndex   = getIndex("author");
-  const imageIndex    = getIndex("image id");
-  const buyIndex      = getIndex("buy link");
-  const categoryIndex = getIndex("category");
-  const languageIndex = getIndex("language");
-  const displayIndex  = getIndex("display");
-  const orderIndex    = getIndex("order");
-
-  const books = [];
-
-  for (let i = 1; i < rows.length; i++) {
-
-    const row = rows[i];
-
-    const getValue = index =>
-      index >= 0 && row[index]
-        ? row[index].trim()
-        : "";
-
-    const book = {
-
-      name: getValue(bookNameIndex),
-
-      author: getValue(authorIndex),
-
-      imageId: getValue(imageIndex),
-
-      buyLink: getValue(buyIndex),
-
-      category: getValue(categoryIndex),
-
-      language: getValue(languageIndex),
-
-      display: getValue(displayIndex),
-
-      order: parseInt(getValue(orderIndex)) || 999999
-    };
-
-
-    /*
-      Show only:
-
-      Display = Yes
-      AND
-      Image ID exists
-    */
-
-    if (
-      book.name &&
-      book.imageId &&
-      book.display.toLowerCase() === "yes"
-    ) {
-      books.push(book);
-    }
-  }
-
-
-  /* Sort using Order column */
-
-  books.sort((a, b) => a.order - b.order);
-
-  return books;
-}
-
-
-/* =========================================================
-   GOOGLE DRIVE IMAGE URL
-   ========================================================= */
-
-function getImageURL(imageId) {
-
-  return "https://drive.google.com/thumbnail?id=" +
-         encodeURIComponent(imageId) +
-         "&sz=w800";
-}
-
-
-/* =========================================================
-   CREATE FILTER OPTIONS
-   ========================================================= */
-
-function createFilters() {
-
-  const categoryFilter =
-    document.getElementById("categoryFilter");
-
-  const languageFilter =
-    document.getElementById("languageFilter");
-
-
-  const categories = [...new Set(
-    allBooks
-      .map(book => book.category)
-      .filter(Boolean)
-  )].sort();
-
-
-  const languages = [...new Set(
-    allBooks
-      .map(book => book.language)
-      .filter(Boolean)
-  )].sort();
-
-
-  categories.forEach(category => {
-
-    const option =
-      document.createElement("option");
-
-    option.value = category;
-    option.textContent = category;
-
-    categoryFilter.appendChild(option);
-  });
-
-
-  languages.forEach(language => {
-
-    const option =
-      document.createElement("option");
-
-    option.value = language;
-    option.textContent = language;
-
-    languageFilter.appendChild(option);
-  });
-}
-
-
-/* =========================================================
-   APPLY FILTERS
-   ========================================================= */
-
-function applyFilters() {
-
-  const category =
-    document.getElementById("categoryFilter").value;
-
-  const language =
-    document.getElementById("languageFilter").value;
-
-
-  filteredBooks = allBooks.filter(book => {
-
-    const categoryMatch =
-      category === "all" ||
-      book.category === category;
-
-    const languageMatch =
-      language === "all" ||
-      book.language === language;
-
-    return categoryMatch && languageMatch;
-  });
-
-
-  currentPage = 1;
-
-  renderBooks();
-}
-
-
-/* =========================================================
-   CREATE BOOK CARD
-   ========================================================= */
-
-function createBookCard(book) {
-
-  const card =
-    document.createElement("div");
-
-  card.className = "book-card";
-
-
-  /* Cover */
-
-  const cover =
-    document.createElement("div");
-
-  cover.className = "cover-container";
-
-
-  const img =
-    document.createElement("img");
-
-  img.src = getImageURL(book.imageId);
-
-  img.alt = book.name;
-
-  img.loading = "lazy";
-
-
-  /*
-    If Drive image cannot be loaded,
-    remove the complete card.
-  */
-
-  img.onerror = function() {
-    card.remove();
-  };
-
-
-  cover.appendChild(img);
-
-
-  /* Details */
-
-  const details =
-    document.createElement("div");
-
-  details.className = "book-details";
-
-
-  const name =
-    document.createElement("div");
-
-  name.className = "book-name";
-
-  name.textContent = book.name;
-
-
-  details.appendChild(name);
-
-
-  /* Author */
-
-  if (book.author) {
-
-    const author =
-      document.createElement("div");
-
-    author.className = "author";
-
-    author.textContent =
-      "by " + book.author;
-
-    details.appendChild(author);
-  }
-
-
-  /* Tags */
-
-  const meta =
-    document.createElement("div");
-
-  meta.className = "book-meta";
-
-
-  if (book.category) {
-
-    const category =
-      document.createElement("span");
-
-    category.className = "tag";
-
-    category.textContent =
-      book.category;
-
-    meta.appendChild(category);
-  }
-
-
-  if (book.language) {
-
-    const language =
-      document.createElement("span");
-
-    language.className = "tag";
-
-    language.textContent =
-      book.language;
-
-    meta.appendChild(language);
-  }
-
-
-  if (meta.children.length > 0) {
-    details.appendChild(meta);
-  }
-
-
-  /* Buy button */
-
-  if (book.buyLink) {
-
-    const buy =
-      document.createElement("a");
-
-    buy.className = "buy-button";
-
-    buy.href = book.buyLink;
-
-    buy.target = "_blank";
-
-    buy.rel = "noopener noreferrer";
-
-    buy.textContent = "BUY BOOK";
-
-    details.appendChild(buy);
-  }
-
-
-  card.appendChild(cover);
-
-  card.appendChild(details);
-
-  return card;
-}
-
-
-/* =========================================================
-   DISPLAY BOOKS
-   ========================================================= */
-
-function renderBooks() {
-
-  const grid =
-    document.getElementById("booksGrid");
-
-  const pagination =
-    document.getElementById("pagination");
-
-  const count =
-    document.getElementById("bookCount");
-
-
-  grid.innerHTML = "";
-
-  pagination.innerHTML = "";
-
-
-  if (filteredBooks.length === 0) {
-
-    grid.innerHTML =
-      '<div class="status">No books found.</div>';
-
-    count.textContent = "";
-
-    return;
-  }
-
-
-  count.textContent =
-    filteredBooks.length +
-    (filteredBooks.length === 1
-      ? " book"
-      : " books");
-
-
-  /* Calculate page */
-
-  const totalPages =
-    Math.ceil(
-      filteredBooks.length /
-      BOOKS_PER_PAGE
-    );
-
-
-  if (currentPage > totalPages) {
-    currentPage = totalPages;
-  }
-
-
-  const start =
-    (currentPage - 1) *
-    BOOKS_PER_PAGE;
-
-  const end =
-    start + BOOKS_PER_PAGE;
-
-
-  const pageBooks =
-    filteredBooks.slice(start, end);
-
-
-  pageBooks.forEach(book => {
-
-    grid.appendChild(
-      createBookCard(book)
-    );
-
-  });
-
-
-  createPagination(totalPages);
-}
-
-
-/* =========================================================
-   PAGINATION
-   ========================================================= */
-
-function createPagination(totalPages) {
-
-  const pagination =
-    document.getElementById("pagination");
-
-
-  if (totalPages <= 1) {
-    return;
-  }
-
-
-  /* Previous */
-
-  const previous =
-    document.createElement("button");
-
-  previous.className = "page-button";
-
-  previous.textContent = "‹";
-
-  previous.disabled =
-    currentPage === 1;
-
-  previous.onclick = function() {
-
-    if (currentPage > 1) {
-
-      currentPage--;
-
-      renderBooks();
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
-  };
-
-  pagination.appendChild(previous);
-
-
-  /* Page numbers */
-
-  for (let i = 1; i <= totalPages; i++) {
-
-    const button =
-      document.createElement("button");
-
-    button.className = "page-button";
-
-    button.textContent = i;
-
-
-    if (i === currentPage) {
-      button.classList.add("active");
+  /* =========================================================
+     CONVERT CSV TO BOOK OBJECTS
+     ========================================================= */
+
+  function convertToBooks(csvText) {
+    const rows = parseCSV(csvText);
+
+    if (rows.length < 2) {
+      return [];
     }
 
+    const headers = rows[0].map(h => h.trim().toLowerCase());
+    const getIndex = name => headers.indexOf(name.toLowerCase());
 
-    button.onclick = function() {
+    const bookNameIndex = getIndex("book name");
+    const authorIndex   = getIndex("author");
+    const imageIndex    = getIndex("image id");
+    const buyIndex      = getIndex("buy link");
+    const categoryIndex = getIndex("category");
+    const languageIndex = getIndex("language");
+    const displayIndex  = getIndex("display");
+    const orderIndex    = getIndex("order");
 
-      currentPage = i;
+    const books = [];
 
-      renderBooks();
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const getValue = index => (index >= 0 && row[index]) ? row[index].trim() : "";
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    };
+      const book = {
+        name: getValue(bookNameIndex),
+        author: getValue(authorIndex),
+        imageId: getValue(imageIndex),
+        buyLink: getValue(buyIndex),
+        category: getValue(categoryIndex),
+        language: getValue(languageIndex),
+        display: getValue(displayIndex),
+        order: parseInt(getValue(orderIndex)) || 999999
+      };
 
+      if (
+        book.name &&
+        book.imageId &&
+        book.display.toLowerCase() === "yes"
+      ) {
+        books.push(book);
+      }
+    }
 
-    pagination.appendChild(button);
+    books.sort((a, b) => a.order - b.order);
+    return books;
   }
 
+  /* =========================================================
+     GOOGLE DRIVE IMAGE URL
+     ========================================================= */
 
-  /* Next */
+  function getImageURL(imageId) {
+    return "https://drive.google.com/thumbnail?id=" +
+           encodeURIComponent(imageId) +
+           "&sz=w800";
+  }
 
-  const next =
-    document.createElement("button");
+  /* =========================================================
+     CREATE FILTER OPTIONS
+     ========================================================= */
 
-  next.className = "page-button";
+  function createFilters() {
+    const categoryFilter = document.getElementById("categoryFilter");
+    const languageFilter = document.getElementById("languageFilter");
 
-  next.textContent = "›";
+    const categories = [...new Set(
+      allBooks.map(book => book.category).filter(Boolean)
+    )].sort();
 
-  next.disabled =
-    currentPage === totalPages;
+    const languages = [...new Set(
+      allBooks.map(book => book.language).filter(Boolean)
+    )].sort();
 
-  next.onclick = function() {
+    categories.forEach(category => {
+      const option = document.createElement("option");
+      option.value = category;
+      option.textContent = category;
+      categoryFilter.appendChild(option);
+    });
 
-    if (currentPage < totalPages) {
+    languages.forEach(language => {
+      const option = document.createElement("option");
+      option.value = language;
+      option.textContent = language;
+      languageFilter.appendChild(option);
+    });
+  }
 
-      currentPage++;
+  /* =========================================================
+     APPLY FILTERS
+     ========================================================= */
 
-      renderBooks();
+  function applyFilters() {
+    const category = document.getElementById("categoryFilter").value;
+    const language = document.getElementById("languageFilter").value;
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
-  };
+    filteredBooks = allBooks.filter(book => {
+      const categoryMatch = category === "all" || book.category === category;
+      const languageMatch = language === "all" || book.language === language;
+      return categoryMatch && languageMatch;
+    });
 
-  pagination.appendChild(next);
-}
-
-
-/* =========================================================
-   LOAD DATA
-   ========================================================= */
-
-async function loadBooks() {
-
-  const grid =
-    document.getElementById("booksGrid");
-
-  try {
-
-    const response =
-      await fetch(CSV_URL, {
-        cache: "no-store"
-      });
-
-
-    if (!response.ok) {
-      throw new Error(
-        "Unable to load spreadsheet"
-      );
-    }
-
-
-    const csvText =
-      await response.text();
-
-
-    allBooks =
-      convertToBooks(csvText);
-
-
-    filteredBooks =
-      [...allBooks];
-
-
-    createFilters();
-
+    currentPage = 1;
     renderBooks();
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    grid.innerHTML =
-      '<div class="status">' +
-      'Unable to load the books at the moment.' +
-      '<br>Please try again later.' +
-      '</div>';
   }
-}
 
+  /* =========================================================
+     CREATE BOOK CARD
+     ========================================================= */
 
-/* =========================================================
-   FILTER EVENTS
-   ========================================================= */
+  function createBookCard(book) {
+    const card = document.createElement("div");
+    card.className = "book-card";
 
-document
-  .getElementById("categoryFilter")
-  .addEventListener(
-    "change",
-    applyFilters
-  );
+    const cover = document.createElement("div");
+    cover.className = "cover-container";
 
+    const img = document.createElement("img");
+    img.src = getImageURL(book.imageId);
+    img.alt = book.name;
+    img.loading = "lazy";
 
-document
-  .getElementById("languageFilter")
-  .addEventListener(
-    "change",
-    applyFilters
-  );
+    img.onerror = function() {
+      card.remove();
+    };
 
+    cover.appendChild(img);
 
-/* =========================================================
-   START
-   ========================================================= */
+    const details = document.createElement("div");
+    details.className = "book-details";
 
-loadBooks();
+    const name = document.createElement("div");
+    name.className = "book-name";
+    name.textContent = book.name;
+    details.appendChild(name);
 
+    if (book.author) {
+      const author = document.createElement("div");
+      author.className = "author";
+      author.textContent = "by " + book.author;
+      details.appendChild(author);
+    }
+
+    const meta = document.createElement("div");
+    meta.className = "book-meta";
+
+    if (book.category) {
+      const category = document.createElement("span");
+      category.className = "tag";
+      category.textContent = book.category;
+      meta.appendChild(category);
+    }
+
+    if (book.language) {
+      const language = document.createElement("span");
+      language.className = "tag";
+      language.textContent = book.language;
+      meta.appendChild(language);
+    }
+
+    if (meta.children.length > 0) {
+      details.appendChild(meta);
+    }
+
+    if (book.buyLink) {
+      const buy = document.createElement("a");
+      buy.className = "buy-button";
+      buy.href = book.buyLink;
+      buy.target = "_blank";
+      buy.rel = "noopener noreferrer";
+      buy.textContent = "BUY BOOK";
+      details.appendChild(buy);
+    }
+
+    card.appendChild(cover);
+    card.appendChild(details);
+    return card;
+  }
+
+  /* =========================================================
+     DISPLAY BOOKS
+     ========================================================= */
+
+  function renderBooks() {
+    const grid = document.getElementById("booksGrid");
+    const pagination = document.getElementById("pagination");
+    const count = document.getElementById("bookCount");
+
+    grid.innerHTML = "";
+    pagination.innerHTML = "";
+
+    if (filteredBooks.length === 0) {
+      grid.innerHTML = '<div class="status">No books found.</div>';
+      count.textContent = "";
+      return;
+    }
+
+    count.textContent = filteredBooks.length + (filteredBooks.length === 1 ? " book" : " books");
+
+    const totalPages = Math.ceil(filteredBooks.length / BOOKS_PER_PAGE);
+
+    if (currentPage > totalPages) {
+      currentPage = totalPages;
+    }
+
+    const start = (currentPage - 1) * BOOKS_PER_PAGE;
+    const end = start + BOOKS_PER_PAGE;
+    const pageBooks = filteredBooks.slice(start, end);
+
+    pageBooks.forEach(book => {
+      grid.appendChild(createBookCard(book));
+    });
+
+    createPagination(totalPages);
+  }
+
+  /* =========================================================
+     PAGINATION
+     ========================================================= */
+
+  function createPagination(totalPages) {
+    const pagination = document.getElementById("pagination");
+
+    if (totalPages <= 1) {
+      return;
+    }
+
+    const previous = document.createElement("button");
+    previous.className = "page-button";
+    previous.textContent = "‹";
+    previous.disabled = currentPage === 1;
+    previous.onclick = function() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderBooks();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    };
+    pagination.appendChild(previous);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement("button");
+      button.className = "page-button";
+      button.textContent = i;
+
+      if (i === currentPage) {
+        button.classList.add("active");
+      }
+
+      button.onclick = function() {
+        currentPage = i;
+        renderBooks();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      pagination.appendChild(button);
+    }
+
+    const next = document.createElement("button");
+    next.className = "page-button";
+    next.textContent = "›";
+    next.disabled = currentPage === totalPages;
+    next.onclick = function() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderBooks();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    };
+    pagination.appendChild(next);
+  }
+
+  /* =========================================================
+     LOAD DATA
+     ========================================================= */
+
+  async function loadBooks() {
+    const grid = document.getElementById("booksGrid");
+
+    try {
+      const response = await fetch(CSV_URL, { cache: "no-store" });
+
+      if (!response.ok) {
+        throw new Error("Unable to load spreadsheet");
+      }
+
+      const csvText = await response.text();
+      allBooks = convertToBooks(csvText);
+      filteredBooks = [...allBooks];
+
+      createFilters();
+      renderBooks();
+
+    } catch (error) {
+      console.error(error);
+      grid.innerHTML =
+        '<div class="status">' +
+        'Unable to load the books at the moment.' +
+        '<br>Please try again later.' +
+        '</div>';
+    }
+  }
+
+  /* =========================================================
+     FILTER EVENTS
+     ========================================================= */
+
+  const categoryFilter = document.getElementById("categoryFilter");
+  const languageFilter = document.getElementById("languageFilter");
+
+  if (categoryFilter) categoryFilter.addEventListener("change", applyFilters);
+  if (languageFilter) languageFilter.addEventListener("change", applyFilters);
+
+  /* =========================================================
+     START
+     ========================================================= */
+
+  loadBooks();
+
+});
 </script>
 
 </body>

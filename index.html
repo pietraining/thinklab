@@ -358,6 +358,7 @@ body {
     border-radius: 14px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     background: #000;
+    cursor: pointer;
 }
 
 .video-container video {
@@ -368,6 +369,49 @@ body {
     height: 100%;
     border-radius: 14px;
     object-fit: cover;
+    z-index: 1;
+}
+
+.video-thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.video-container:hover .video-thumbnail {
+    transform: scale(1.02);
+}
+
+.play-button-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(29, 41, 64, 0.85);
+    border-radius: 50%;
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: background 0.2s ease, transform 0.2s ease;
+    z-index: 3;
+}
+
+.video-container:hover .play-button-overlay {
+    background: rgba(29, 41, 64, 0.95);
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+.play-button-overlay svg {
+    margin-left: 3px;
 }
 
 /* =========================
@@ -837,11 +881,19 @@ body {
             <h1 class="hero-title">The Thinking Journey</h1>
             <p class="hero-subtitle">Think Lab helps to playfully practice Thinking with 'Elevating Stories &amp; Puzzles' and takes your thinking journey to a success at school, work &amp; life.</p>
             
-            <div class="video-container">
-                <video controls preload="metadata">
+            <div class="video-container" id="videoContainer" onclick="playLocalVideo()">
+                <video id="heroVideo" controls preload="metadata">
                     <source src="thinking-journey.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+
+                <img src="thinklab.webp" alt="Think Lab Journey Preview" class="video-thumbnail" id="videoThumb">
+                
+                <div class="play-button-overlay" id="playBtn">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
             </div>
         </section>
 
@@ -1053,6 +1105,21 @@ body {
 </form>
 
 <script>
+/* =====================================================
+   LOCAL VIDEO PLAY LOGIC
+===================================================== */
+function playLocalVideo() {
+    const video = document.getElementById('heroVideo');
+    const thumb = document.getElementById('videoThumb');
+    const playBtn = document.getElementById('playBtn');
+
+    if (thumb) thumb.style.display = 'none';
+    if (playBtn) playBtn.style.display = 'none';
+    if (video) {
+        video.play();
+    }
+}
+
 /* =====================================================
    HAMBURGER MENU DRAWER TOGGLE
 ===================================================== */

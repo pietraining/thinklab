@@ -10,10 +10,6 @@
 
 <style>
 
-/* =====================================================
-   BASIC
-===================================================== */
-
 * {
     box-sizing: border-box;
 }
@@ -26,10 +22,6 @@ body {
     background-size: cover;
     color: #1d2940;
 }
-
-/* =====================================================
-   MAIN CONTAINER & STICKY HEADER
-===================================================== */
 
 .container {
     width: 100%;
@@ -62,7 +54,6 @@ body {
     background: transparent;
 }
 
-/* 3-Line Hamburger Button */
 .hamburger-btn {
     display: flex;
     flex-direction: column;
@@ -85,9 +76,7 @@ body {
     pointer-events: none;
 }
 
-/* =====================================================
-   SLIDE-OUT NAVIGATION DRAWER
-===================================================== */
+/* SLIDE-OUT NAVIGATION DRAWER */
 .nav-drawer {
     position: fixed;
     top: 0;
@@ -190,7 +179,6 @@ body {
     background: #2d3d5b !important;
 }
 
-/* Backdrop Overlay */
 .nav-backdrop {
     display: none;
     position: fixed;
@@ -206,9 +194,28 @@ body {
     display: block !important;
 }
 
-/* =====================================================
-   PAGE CONTENT & SELECTORS
-===================================================== */
+/* BACK TO HOME BUTTON */
+.back-to-home-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 16px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1d2940;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.back-to-home-btn:hover {
+    background: #ffffff;
+    border-color: #1d2940;
+}
+
+/* PAGE CONTENT & SELECTORS */
 
 .page-title {
     text-align: center;
@@ -262,10 +269,6 @@ body {
     cursor: not-allowed;
 }
 
-/* =====================================================
-   MESSAGE
-===================================================== */
-
 #message {
     text-align: center;
     padding: 15px 8px;
@@ -289,10 +292,6 @@ body {
     border-radius: 12px;
 }
 
-/* =====================================================
-   CONTENT
-===================================================== */
-
 #content {
     display: none;
     margin-top: 18px;
@@ -302,10 +301,6 @@ body {
     box-shadow: 0 5px 20px rgba(0,0,0,0.10);
     overflow: hidden;
 }
-
-/* =====================================================
-   ACTIVITY HEADING
-===================================================== */
 
 .activity-heading {
     margin-top: 8px;
@@ -320,10 +315,6 @@ body {
     border-left: 4px solid #1d2940;
 }
 
-/* =====================================================
-   STORY IMAGE
-===================================================== */
-
 .story-image {
     width: 100%;
     max-width: 700px;
@@ -334,10 +325,6 @@ body {
     border-radius: 12px;
 }
 
-/* =====================================================
-   STORY TITLE
-===================================================== */
-
 .story-title {
     font-size: 26px;
     line-height: 1.4;
@@ -346,10 +333,6 @@ body {
     margin: 10px 0 22px;
     color: #1d2940;
 }
-
-/* =====================================================
-   SECTION
-===================================================== */
 
 .section {
     margin-top: 20px;
@@ -377,10 +360,6 @@ body {
     overflow-wrap: break-word;
 }
 
-/* =====================================================
-   VALUE
-===================================================== */
-
 .value-box {
     margin-top: 22px;
     padding: 15px;
@@ -388,10 +367,6 @@ body {
     border-left: 4px solid #1d2940;
     border-radius: 10px;
 }
-
-/* =====================================================
-   PIE CHALLENGE
-===================================================== */
 
 .challenge-box {
     margin-top: 22px;
@@ -408,19 +383,11 @@ body {
     margin-bottom: 8px;
 }
 
-/* =====================================================
-   ACTIVITY SEPARATOR
-===================================================== */
-
 .activity-separator {
     height: 1px;
     margin: 38px 0 10px;
     background: linear-gradient(to right, transparent, #d0d5dd, transparent);
 }
-
-/* =====================================================
-   YOUTUBE
-===================================================== */
 
 .video-wrapper {
     position: relative;
@@ -441,10 +408,6 @@ body {
     height: 100%;
     border: 0;
 }
-
-/* =====================================================
-   MOBILE
-===================================================== */
 
 @media (max-width: 600px) {
     .header { padding: 8px 14px; }
@@ -489,19 +452,16 @@ body {
 
     <!-- Sticky Top Header -->
     <header class="header">
-        <!-- Brand Logo on Left -->
-        <a href="index.html" class="brand">
+        <a href="index.html#home" class="brand">
             <img src="logo.webp" alt="Think Lab Logo" class="brand-logo">
         </a>
 
-        <!-- 3-Line Hamburger Button on Right -->
         <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
         </button>
 
-        <!-- Slide-Out Navigation Drawer -->
         <div class="nav-drawer" id="navDrawer">
             <div class="drawer-header">
                 <span>Menu</span>
@@ -509,34 +469,32 @@ body {
             </div>
 
             <nav class="drawer-links">
-                <!-- Main Home & Views Navigation -->
-                <a href="index.html">Home</a>
-                <a href="index.html">Your Benefits</a>
-                <a href="index.html">Our Impact</a>
+                <a href="index.html#home">Home</a>
+                <a href="index.html#benefits">Your Benefits</a>
+                <a href="index.html#impact">Our Impact</a>
 
                 <hr class="nav-divider">
 
-                <!-- External Pages & Actions -->
                 <a href="sample_stories.html" style="background:#f0f2f5;">Sample Stories</a>
                 <a href="books.html">Books on Thinking</a>
                 <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">Contact Us</a>
 
                 <hr class="nav-divider">
 
-                <!-- Member Portal & Registration Buttons -->
                 <a href="https://member.thinkingskill.in" target="_blank" class="nav-btn-link login-btn">Member Login</a>
-                <a href="index.html" class="nav-btn-link join-btn">Join Think Lab</a>
+                <a href="index.html#register" class="nav-btn-link join-btn">Join Think Lab</a>
             </nav>
         </div>
     </header>
 
-    <!-- Backdrop overlay to dismiss menu when clicking outside -->
     <div class="nav-backdrop" id="navBackdrop"></div>
+
+    <!-- Back to Home Button -->
+    <a href="index.html#home" class="back-to-home-btn">← Back to Home</a>
 
     <div class="page-title">Sample Stories</div>
     <div class="subtitle">Explore interactive stories, audio scripts, and thinking challenges.</div>
 
-    <!-- 1. LANGUAGE -->
     <div class="selector">
         <label for="language">Language</label>
         <select id="language">
@@ -544,7 +502,6 @@ body {
         </select>
     </div>
 
-    <!-- 2. STORY -->
     <div class="selector">
         <label for="story">Story</label>
         <select id="story" disabled>
@@ -552,7 +509,6 @@ body {
         </select>
     </div>
 
-    <!-- 3. SCRIPT -->
     <div class="selector">
         <label for="script">Script / Voice</label>
         <select id="script" disabled>
@@ -560,17 +516,14 @@ body {
         </select>
     </div>
 
-    <!-- MESSAGE -->
     <div id="message">Loading stories...</div>
 
     <div id="welcomeImage">
         <img src="https://lh3.googleusercontent.com/d/1yMNlUe-RYQeO9UfgDq17LHlnOlVPk0jD" alt="Family reading together">
     </div>
 
-    <!-- CONTENT -->
     <div id="content">
 
-        <!-- WATCH & WONDER -->
         <div id="watchSection" style="display:none;">
             <div class="activity-heading" id="watchActivityTitle">Watch & Wonder</div>
             <div id="videoWrapper" class="video-wrapper" style="display:none;"></div>
@@ -582,7 +535,6 @@ body {
 
         <div id="activitySeparator" class="activity-separator" style="display:none;"></div>
 
-        <!-- READ & REFLECT -->
         <div id="readSection" style="display:none;">
             <div class="activity-heading" id="readActivityTitle">Read & Reflect</div>
             <img id="storyImage" class="story-image" src="" alt="Story image">
@@ -605,9 +557,6 @@ body {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    /* =========================================================
-       DRAWER CONTROLLER
-       ========================================================= */
     const navDrawer = document.getElementById('navDrawer');
     const navBackdrop = document.getElementById('navBackdrop');
     const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -627,9 +576,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeNavDrawer);
     if (navBackdrop) navBackdrop.addEventListener('click', closeNavDrawer);
 
-    /* =====================================================
-       GOOGLE SHEET CSV
-    ===================================================== */
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSun3NoHJpKXxxe3KcsnfPY96onT0MhDCnW2LDONTMNnesP5kK06IwHv_ecfwW9Vg/pub?gid=2139485608&single=true&output=csv";
     const IMAGE_BASE_URL = "https://lh3.googleusercontent.com/d/";
 
@@ -703,9 +649,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getCell(row, columnName) {
         const position = columns[normalize(columnName)];
-        if (position === undefined) {
-            return "";
-        }
+        if (position === undefined) return "";
         return String(row[position] || "").trim();
     }
 
@@ -714,20 +658,15 @@ document.addEventListener('DOMContentLoaded', function() {
             message.textContent = "Loading stories...";
             const response = await fetch(CSV_URL);
 
-            if (!response.ok) {
-                throw new Error("Unable to load Google Sheet.");
-            }
+            if (!response.ok) throw new Error("Unable to load Google Sheet.");
 
             const csv = await response.text();
             const parsed = parseCSV(csv);
 
-            if (parsed.length < 2) {
-                throw new Error("No story data found.");
-            }
+            if (parsed.length < 2) throw new Error("No story data found.");
 
             const headers = parsed[0];
             columns = buildColumnIndex(headers);
-
             rows = parsed.slice(1).filter(row => row.some(cell => String(cell).trim() !== ""));
 
             populateLanguages();
@@ -790,9 +729,7 @@ document.addEventListener('DOMContentLoaded', function() {
         rows.forEach(row => {
             const rowLanguage = getCell(row, "Language");
             const title = getCell(row, "Title");
-            if (rowLanguage === selectedLanguage && title) {
-                titles.add(title);
-            }
+            if (rowLanguage === selectedLanguage && title) titles.add(title);
         });
 
         updateActivityLanguage();
@@ -858,7 +795,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const row = findSelectedRow();
-
         if (!row) {
             message.style.display = "block";
             message.textContent = "Story information not found.";

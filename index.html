@@ -828,9 +828,9 @@ body {
 
                 <hr class="nav-divider">
 
-                <!-- External HTML Page Links -->
-                <a href="book.html">Books</a>
-                <a href="contact.html">Contact Us</a>
+                <!-- External Pages & Actions -->
+                <a href="books.html">Books on Thinking</a>
+                <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">Contact Us</a>
 
                 <hr class="nav-divider">
 
@@ -882,7 +882,7 @@ body {
             <p class="hero-subtitle">Think Lab helps to playfully practice Thinking with 'Elevating Stories &amp; Puzzles' and takes your thinking journey to a success at school, work &amp; life.</p>
             
             <div class="video-container" id="videoContainer" onclick="playLocalVideo()">
-                <video id="heroVideo" controls preload="metadata">
+                <video id="heroVideo" controls preload="auto" onended="onVideoEnded()">
                     <source src="thinking-journey.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -1012,7 +1012,7 @@ body {
 
             <div class="benefit-card">
                 <h3>📖 Books on Thinking</h3>
-                <p>Members can explore <a href="https://www.thinkingskill.in/home/books-on-thinking" class="book-link" target="_blank"><em>Books on Thinking</em></a> and enjoy special discounts on the book "Elevating Stories & Puzzles".</p>
+                <p>Members can explore <a href="books.html" class="book-link"><em>Books on Thinking</em></a> and enjoy special discounts on the book "Elevating Stories & Puzzles".</p>
             </div>
 
             <div class="benefit-card full">
@@ -1106,7 +1106,7 @@ body {
 
 <script>
 /* =====================================================
-   LOCAL VIDEO PLAY LOGIC
+   LOCAL VIDEO PLAY & ENDED LOGIC
 ===================================================== */
 function playLocalVideo() {
     const video = document.getElementById('heroVideo');
@@ -1117,6 +1117,18 @@ function playLocalVideo() {
     if (playBtn) playBtn.style.display = 'none';
     if (video) {
         video.play();
+    }
+}
+
+function onVideoEnded() {
+    const video = document.getElementById('heroVideo');
+    const thumb = document.getElementById('videoThumb');
+    const playBtn = document.getElementById('playBtn');
+
+    if (thumb) thumb.style.display = 'block';
+    if (playBtn) playBtn.style.display = 'flex';
+    if (video) {
+        video.currentTime = 0; // Rewind video back to start
     }
 }
 

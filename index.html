@@ -34,7 +34,7 @@ body {
 .header {
     position: sticky;
     top: 0;
-    z-index: 2001;
+    z-index: 1000;
     width: 100%;
     display: flex;
     align-items: center;
@@ -833,7 +833,7 @@ body {
                 <!-- External Pages & Actions -->
                 <a href="sample_stories.html">Sample Stories</a>
                 <a href="books.html">Books on Thinking</a>
-                <a href="https://wa.me/919791917408" target="_blank" rel="noopener noreferrer">Contact Us</a>
+                <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">Contact Us</a>
 
                 <hr class="nav-divider">
 
@@ -1137,9 +1137,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (navBackdrop) navBackdrop.addEventListener('click', closeNavDrawer);
 
     /* =====================================================
-       VIEW SWITCHER LOGIC
+       VIEW SWITCHER LOGIC & HASH ROUTING
     ===================================================== */
-    function switchView(targetViewId) {
+    const viewHashMap = {
+        'homeView': 'home',
+        'benefitsView': 'benefits',
+        'impactView': 'impact',
+        'registerView': 'register'
+    };
+
+    function switchView(targetViewId, updateHash = true) {
         const views = ['homeView', 'impactView', 'benefitsView', 'registerView'];
         
         views.forEach(function(id) {
@@ -1153,10 +1160,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        if (updateHash && viewHashMap[targetViewId]) {
+            history.replaceState(null, null, '#' + viewHashMap[targetViewId]);
+        }
+
         if (aboutDropdown) aboutDropdown.classList.remove('show');
         closeNavDrawer();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    function checkUrlHash() {
+        const hash = window.location.hash.toLowerCase().replace('#', '');
+        if (hash === 'benefits') switchView('benefitsView', false);
+        else if (hash === 'impact') switchView('impactView', false);
+        else if (hash === 'register') switchView('registerView', false);
+        else switchView('homeView', false);
+    }
+
+    window.addEventListener('hashchange', checkUrlHash);
+    checkUrlHash(); // Check hash on initial load
 
     // Attach View Navigation Event Listeners
     const bindClick = (id, viewName) => {

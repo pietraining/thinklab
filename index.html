@@ -81,12 +81,12 @@ body {
 .nav-drawer {
     position: fixed;
     top: 0;
-    right: -300px;
+    right: -320px;
     width: 280px;
     height: 100vh;
     background: #ffffff;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-    z-index: 1005; /* Kept higher than backdrop */
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
     transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 24px 20px;
     display: flex;
@@ -94,7 +94,7 @@ body {
 }
 
 .nav-drawer.open {
-    right: 0;
+    right: 0 !important;
 }
 
 .drawer-header {
@@ -147,6 +147,7 @@ body {
     cursor: pointer;
     transition: background 0.2s ease;
     font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
 }
 
 .drawer-links a:hover, 
@@ -163,6 +164,7 @@ body {
 .nav-btn-link {
     text-align: center !important;
     margin-top: 4px;
+    display: block;
 }
 
 .login-btn {
@@ -187,12 +189,12 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 1001;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1500;
 }
 
 .nav-backdrop.active {
-    display: block;
+    display: block !important;
 }
 
 /* =========================
@@ -807,7 +809,7 @@ body {
         </a>
 
         <!-- 3-Line Hamburger Button on Right -->
-        <button class="hamburger-btn" onclick="toggleNavDrawer()" aria-label="Toggle navigation menu">
+        <button type="button" class="hamburger-btn" onclick="openNavDrawer()" aria-label="Toggle navigation menu">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
@@ -817,7 +819,7 @@ body {
         <div class="nav-drawer" id="navDrawer">
             <div class="drawer-header">
                 <span>Menu</span>
-                <button type="button" class="close-drawer-btn" onclick="toggleNavDrawer()">✕</button>
+                <button type="button" class="close-drawer-btn" onclick="closeNavDrawer()">✕</button>
             </div>
 
             <nav class="drawer-links">
@@ -842,7 +844,7 @@ body {
     </header>
 
     <!-- Backdrop overlay to dismiss menu when clicking outside -->
-    <div class="nav-backdrop" id="navBackdrop" onclick="toggleNavDrawer()"></div>
+    <div class="nav-backdrop" id="navBackdrop" onclick="closeNavDrawer()"></div>
 
     <!-- Collapsible About Section -->
     <div class="about-dropdown" id="aboutDropdown">
@@ -1106,6 +1108,23 @@ body {
 
 <script>
 /* =====================================================
+   HAMBURGER MENU DRAWER CONTROLLER
+===================================================== */
+function openNavDrawer() {
+    var drawer = document.getElementById('navDrawer');
+    var backdrop = document.getElementById('navBackdrop');
+    if (drawer) drawer.classList.add('open');
+    if (backdrop) backdrop.classList.add('active');
+}
+
+function closeNavDrawer() {
+    var drawer = document.getElementById('navDrawer');
+    var backdrop = document.getElementById('navBackdrop');
+    if (drawer) drawer.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
+}
+
+/* =====================================================
    LOCAL VIDEO PLAY & ENDED LOGIC
 ===================================================== */
 function playLocalVideo() {
@@ -1133,33 +1152,12 @@ function onVideoEnded() {
 }
 
 /* =====================================================
-   HAMBURGER MENU DRAWER TOGGLE
-===================================================== */
-function toggleNavDrawer() {
-    const drawer = document.getElementById('navDrawer');
-    const backdrop = document.getElementById('navBackdrop');
-    if (drawer && backdrop) {
-        drawer.classList.toggle('open');
-        backdrop.classList.toggle('active');
-    }
-}
-
-function closeNavDrawer() {
-    const drawer = document.getElementById('navDrawer');
-    const backdrop = document.getElementById('navBackdrop');
-    if (drawer && backdrop) {
-        drawer.classList.remove('open');
-        backdrop.classList.remove('active');
-    }
-}
-
-/* =====================================================
    VIEW SWITCHER LOGIC
 ===================================================== */
 function switchView(targetViewId) {
     const views = ['homeView', 'impactView', 'benefitsView', 'registerView'];
     
-    views.forEach(id => {
+    views.forEach(function(id) {
         const el = document.getElementById(id);
         if (el) {
             if (id === targetViewId) {

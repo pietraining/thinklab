@@ -25,9 +25,7 @@
     padding: 0 18px 40px;
   }
 
-  /* =========================
-     STICKY HEADER & LOGO
-  ========================= */
+  /* STICKY HEADER & LOGO */
   .header {
     position: sticky;
     top: 0;
@@ -50,7 +48,6 @@
     background: transparent;
   }
 
-  /* 3-Line Hamburger Button */
   .hamburger-btn {
     display: flex;
     flex-direction: column;
@@ -73,9 +70,7 @@
     pointer-events: none;
   }
 
-  /* =========================
-     SLIDE-OUT NAVIGATION DRAWER
-  ========================= */
+  /* SLIDE-OUT NAVIGATION DRAWER */
   .nav-drawer {
     position: fixed;
     top: 0;
@@ -178,7 +173,6 @@
     background: #2d3d5b !important;
   }
 
-  /* Backdrop Overlay */
   .nav-backdrop {
     display: none;
     position: fixed;
@@ -194,15 +188,33 @@
     display: block !important;
   }
 
-  /* ---------- BOOKS PAGE CONTENT ---------- */
+  /* BACK TO HOME BUTTON */
+  .back-to-home-btn {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 16px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1d2940;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
 
+  .back-to-home-btn:hover {
+    background: #ffffff;
+    border-color: #1d2940;
+  }
+
+  /* BOOKS PAGE CONTENT */
   .books-page {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 10px 0 35px;
+    padding: 0 0 35px;
   }
-
-  /* ---------- HEADER ---------- */
 
   .page-header {
     text-align: center;
@@ -222,8 +234,6 @@
     font-size: 15px;
     color: #555;
   }
-
-  /* ---------- FILTERS ---------- */
 
   .filters {
     display: flex;
@@ -245,15 +255,11 @@
     cursor: pointer;
   }
 
-  /* ---------- BOOK GRID ---------- */
-
   .books-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 22px;
   }
-
-  /* ---------- BOOK CARD ---------- */
 
   .book-card {
     background: transparent;
@@ -271,8 +277,6 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
   }
 
-  /* ---------- COVER ---------- */
-
   .cover-container {
     width: 100%;
     height: 285px;
@@ -289,8 +293,6 @@
     object-fit: contain;
     padding: 12px;
   }
-
-  /* ---------- DETAILS ---------- */
 
   .book-details {
     padding: 15px 15px 16px;
@@ -330,8 +332,6 @@
     border-radius: 20px;
   }
 
-  /* ---------- BUY BUTTON ---------- */
-
   .buy-button {
     display: block;
     margin-top: auto;
@@ -349,8 +349,6 @@
   .buy-button:hover {
     background: #2d3d5b;
   }
-
-  /* ---------- PAGINATION ---------- */
 
   .pagination {
     display: flex;
@@ -386,8 +384,6 @@
     cursor: default;
   }
 
-  /* ---------- STATUS ---------- */
-
   .status {
     text-align: center;
     padding: 30px 10px;
@@ -404,57 +400,25 @@
     margin-bottom: 20px;
   }
 
-  /* ---------- RESPONSIVE ---------- */
-
   @media (max-width: 1000px) {
-    .books-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .cover-container {
-      height: 270px;
-    }
+    .books-grid { grid-template-columns: repeat(3, 1fr); }
+    .cover-container { height: 270px; }
   }
 
   @media (max-width: 700px) {
     .header { padding: 8px 14px; }
     .brand-logo { height: 36px; }
-
-    .books-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .cover-container {
-      height: 250px;
-    }
-
-    .book-details {
-      padding: 12px;
-    }
-
-    .book-name {
-      font-size: 15px;
-    }
+    .books-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .cover-container { height: 250px; }
+    .book-details { padding: 12px; }
+    .book-name { font-size: 15px; }
   }
 
   @media (max-width: 450px) {
-    .books-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .cover-container {
-      height: 330px;
-    }
-
-    .filters {
-      flex-direction: column;
-    }
-
-    .filters select {
-      width: 100%;
-      max-width: 300px;
-    }
+    .books-grid { grid-template-columns: 1fr; }
+    .cover-container { height: 330px; }
+    .filters { flex-direction: column; }
+    .filters select { width: 100%; max-width: 300px; }
   }
 </style>
 </head>
@@ -465,19 +429,16 @@
 
   <!-- Sticky Top Header -->
   <header class="header">
-    <!-- Brand Logo on Left -->
-    <a href="index.html" class="brand">
+    <a href="index.html#home" class="brand">
       <img src="logo.webp" alt="Think Lab Logo" class="brand-logo">
     </a>
 
-    <!-- 3-Line Hamburger Button on Right -->
     <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu">
       <span class="bar"></span>
       <span class="bar"></span>
       <span class="bar"></span>
     </button>
 
-    <!-- Slide-Out Navigation Drawer -->
     <div class="nav-drawer" id="navDrawer">
       <div class="drawer-header">
         <span>Menu</span>
@@ -485,32 +446,31 @@
       </div>
 
       <nav class="drawer-links">
-        <!-- Main Home & Views Navigation -->
-        <a href="index.html">Home</a>
-        <a href="index.html">Your Benefits</a>
-        <a href="index.html">Our Impact</a>
+        <a href="index.html#home">Home</a>
+        <a href="index.html#benefits">Your Benefits</a>
+        <a href="index.html#impact">Our Impact</a>
 
         <hr class="nav-divider">
 
-        <!-- External Pages & Actions -->
         <a href="sample_stories.html">Sample Stories</a>
         <a href="books.html" style="background:#f0f2f5;">Books on Thinking</a>
         <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">Contact Us</a>
 
         <hr class="nav-divider">
 
-        <!-- Member Portal & Registration Buttons -->
         <a href="https://member.thinkingskill.in" target="_blank" class="nav-btn-link login-btn">Member Login</a>
-        <a href="index.html" class="nav-btn-link join-btn">Join Think Lab</a>
+        <a href="index.html#register" class="nav-btn-link join-btn">Join Think Lab</a>
       </nav>
     </div>
   </header>
 
-  <!-- Backdrop overlay to dismiss menu when clicking outside -->
   <div class="nav-backdrop" id="navBackdrop"></div>
 
   <!-- Main Books Content -->
   <div class="books-page">
+
+    <!-- Back to Home Button -->
+    <a href="index.html#home" class="back-to-home-btn">← Back to Home</a>
 
     <div class="page-header">
       <h1>Books on Thinking</h1>
@@ -520,7 +480,6 @@
     </div>
 
     <div class="filters">
-
       <select id="categoryFilter">
         <option value="all">All Categories</option>
       </select>
@@ -528,7 +487,6 @@
       <select id="languageFilter">
         <option value="all">All Languages</option>
       </select>
-
     </div>
 
     <div id="bookCount" class="book-count"></div>
@@ -543,13 +501,9 @@
 
 </div>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-  /* =========================================================
-     DRAWER CONTROLLER
-     ========================================================= */
   const navDrawer = document.getElementById('navDrawer');
   const navBackdrop = document.getElementById('navBackdrop');
   const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -569,26 +523,12 @@ document.addEventListener('DOMContentLoaded', function() {
   if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeNavDrawer);
   if (navBackdrop) navBackdrop.addEventListener('click', closeNavDrawer);
 
-  /* =========================================================
-     THINK LAB BOOKS
-     Google Sheets Published CSV
-     ========================================================= */
-
-  const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRrWjgpCdgZdXvw8wCH27chZROO882LQqipfpa01vXuIuEEe8AbaSunCUvA5xLgoY1rHR9Jtw2nvdw/pub?gid=0&single=true&output=csv";
-
-  /* Number of books shown on each page */
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRrWjgpCdgZdXvw8wCH27chZROO882LQqipfpa01vXuIuEEe8AbaSunCUvA5xLgoY1rHR9Jtw2nvdw/pub?gid=0&single=true&output=csv";
   const BOOKS_PER_PAGE = 8;
 
-  /* Data */
   let allBooks = [];
   let filteredBooks = [];
   let currentPage = 1;
-
-  /* =========================================================
-     CSV PARSER
-     Handles commas inside quoted fields
-     ========================================================= */
 
   function parseCSV(text) {
     const rows = [];
@@ -634,16 +574,9 @@ document.addEventListener('DOMContentLoaded', function() {
     return rows;
   }
 
-  /* =========================================================
-     CONVERT CSV TO BOOK OBJECTS
-     ========================================================= */
-
   function convertToBooks(csvText) {
     const rows = parseCSV(csvText);
-
-    if (rows.length < 2) {
-      return [];
-    }
+    if (rows.length < 2) return [];
 
     const headers = rows[0].map(h => h.trim().toLowerCase());
     const getIndex = name => headers.indexOf(name.toLowerCase());
@@ -674,11 +607,7 @@ document.addEventListener('DOMContentLoaded', function() {
         order: parseInt(getValue(orderIndex)) || 999999
       };
 
-      if (
-        book.name &&
-        book.imageId &&
-        book.display.toLowerCase() === "yes"
-      ) {
+      if (book.name && book.imageId && book.display.toLowerCase() === "yes") {
         books.push(book);
       }
     }
@@ -687,31 +616,16 @@ document.addEventListener('DOMContentLoaded', function() {
     return books;
   }
 
-  /* =========================================================
-     GOOGLE DRIVE IMAGE URL
-     ========================================================= */
-
   function getImageURL(imageId) {
-    return "https://drive.google.com/thumbnail?id=" +
-           encodeURIComponent(imageId) +
-           "&sz=w800";
+    return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(imageId) + "&sz=w800";
   }
-
-  /* =========================================================
-     CREATE FILTER OPTIONS
-     ========================================================= */
 
   function createFilters() {
     const categoryFilter = document.getElementById("categoryFilter");
     const languageFilter = document.getElementById("languageFilter");
 
-    const categories = [...new Set(
-      allBooks.map(book => book.category).filter(Boolean)
-    )].sort();
-
-    const languages = [...new Set(
-      allBooks.map(book => book.language).filter(Boolean)
-    )].sort();
+    const categories = [...new Set(allBooks.map(book => book.category).filter(Boolean))].sort();
+    const languages = [...new Set(allBooks.map(book => book.language).filter(Boolean))].sort();
 
     categories.forEach(category => {
       const option = document.createElement("option");
@@ -728,10 +642,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  /* =========================================================
-     APPLY FILTERS
-     ========================================================= */
-
   function applyFilters() {
     const category = document.getElementById("categoryFilter").value;
     const language = document.getElementById("languageFilter").value;
@@ -746,10 +656,6 @@ document.addEventListener('DOMContentLoaded', function() {
     renderBooks();
   }
 
-  /* =========================================================
-     CREATE BOOK CARD
-     ========================================================= */
-
   function createBookCard(book) {
     const card = document.createElement("div");
     card.className = "book-card";
@@ -761,10 +667,7 @@ document.addEventListener('DOMContentLoaded', function() {
     img.src = getImageURL(book.imageId);
     img.alt = book.name;
     img.loading = "lazy";
-
-    img.onerror = function() {
-      card.remove();
-    };
+    img.onerror = function() { card.remove(); };
 
     cover.appendChild(img);
 
@@ -800,9 +703,7 @@ document.addEventListener('DOMContentLoaded', function() {
       meta.appendChild(language);
     }
 
-    if (meta.children.length > 0) {
-      details.appendChild(meta);
-    }
+    if (meta.children.length > 0) details.appendChild(meta);
 
     if (book.buyLink) {
       const buy = document.createElement("a");
@@ -818,10 +719,6 @@ document.addEventListener('DOMContentLoaded', function() {
     card.appendChild(details);
     return card;
   }
-
-  /* =========================================================
-     DISPLAY BOOKS
-     ========================================================= */
 
   function renderBooks() {
     const grid = document.getElementById("booksGrid");
@@ -840,32 +737,19 @@ document.addEventListener('DOMContentLoaded', function() {
     count.textContent = filteredBooks.length + (filteredBooks.length === 1 ? " book" : " books");
 
     const totalPages = Math.ceil(filteredBooks.length / BOOKS_PER_PAGE);
-
-    if (currentPage > totalPages) {
-      currentPage = totalPages;
-    }
+    if (currentPage > totalPages) currentPage = totalPages;
 
     const start = (currentPage - 1) * BOOKS_PER_PAGE;
     const end = start + BOOKS_PER_PAGE;
     const pageBooks = filteredBooks.slice(start, end);
 
-    pageBooks.forEach(book => {
-      grid.appendChild(createBookCard(book));
-    });
-
+    pageBooks.forEach(book => grid.appendChild(createBookCard(book)));
     createPagination(totalPages);
   }
 
-  /* =========================================================
-     PAGINATION
-     ========================================================= */
-
   function createPagination(totalPages) {
     const pagination = document.getElementById("pagination");
-
-    if (totalPages <= 1) {
-      return;
-    }
+    if (totalPages <= 1) return;
 
     const previous = document.createElement("button");
     previous.className = "page-button";
@@ -884,17 +768,13 @@ document.addEventListener('DOMContentLoaded', function() {
       const button = document.createElement("button");
       button.className = "page-button";
       button.textContent = i;
-
-      if (i === currentPage) {
-        button.classList.add("active");
-      }
+      if (i === currentPage) button.classList.add("active");
 
       button.onclick = function() {
         currentPage = i;
         renderBooks();
         window.scrollTo({ top: 0, behavior: "smooth" });
       };
-
       pagination.appendChild(button);
     }
 
@@ -912,19 +792,11 @@ document.addEventListener('DOMContentLoaded', function() {
     pagination.appendChild(next);
   }
 
-  /* =========================================================
-     LOAD DATA
-     ========================================================= */
-
   async function loadBooks() {
     const grid = document.getElementById("booksGrid");
-
     try {
       const response = await fetch(CSV_URL, { cache: "no-store" });
-
-      if (!response.ok) {
-        throw new Error("Unable to load spreadsheet");
-      }
+      if (!response.ok) throw new Error("Unable to load spreadsheet");
 
       const csvText = await response.text();
       allBooks = convertToBooks(csvText);
@@ -932,20 +804,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
       createFilters();
       renderBooks();
-
     } catch (error) {
       console.error(error);
-      grid.innerHTML =
-        '<div class="status">' +
-        'Unable to load the books at the moment.' +
-        '<br>Please try again later.' +
-        '</div>';
+      grid.innerHTML = '<div class="status">Unable to load books at the moment.<br>Please try again later.</div>';
     }
   }
-
-  /* =========================================================
-     FILTER EVENTS
-     ========================================================= */
 
   const categoryFilter = document.getElementById("categoryFilter");
   const languageFilter = document.getElementById("languageFilter");
@@ -953,12 +816,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (categoryFilter) categoryFilter.addEventListener("change", applyFilters);
   if (languageFilter) languageFilter.addEventListener("change", applyFilters);
 
-  /* =========================================================
-     START
-     ========================================================= */
-
   loadBooks();
-
 });
 </script>
 

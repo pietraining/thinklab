@@ -199,6 +199,116 @@ body {
 }
 
 /* =========================
+   MEMBER LOGIN MODAL STYLES
+========================= */
+.login-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+}
+
+.login-modal-overlay.active {
+    display: flex !important;
+}
+
+.login-modal-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 16px;
+    max-width: 420px;
+    width: 100%;
+    padding: 28px 24px 24px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: fadeInModal 0.2s ease-out;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #f0f2f5;
+    border: none;
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #1d2940;
+}
+
+.modal-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.modal-title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    color: #1d2940;
+    font-weight: 700;
+}
+
+.modal-body {
+    margin: 0 0 20px;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.modal-btn.primary {
+    background: #1d2940;
+    color: #ffffff;
+}
+
+.modal-btn.primary:hover {
+    background: #2d3d5b;
+}
+
+.modal-btn.secondary {
+    background: #f0f2f5;
+    color: #1d2940;
+    border: 1px solid #d0d5dd;
+}
+
+.modal-btn.secondary:hover {
+    background: #e2e8f0;
+}
+
+/* =========================
    DROPDOWN SECTIONS
 ========================= */
 .about-dropdown {
@@ -980,15 +1090,6 @@ body {
                 <h3>📚 Growing Story Library</h3>
                 <p>Access stories in Tamil, English & Sourashtra - with more stories and languages added regularly.</p>
                 <a href="sample_stories.html" class="brochure-link">📖 Sample Story & Puzzle</a>
-                
-<!--                <div class="featured-video">
-                    <iframe src="https://www.youtube.com/embed/oLVPBP8EfYg" title="Think Lab Featured Story" loading="lazy" allowfullscreen></iframe>
-                </div>
-
-                <div class="intro-image" style="margin-top:15px;">
-                    <img src="https://lh3.googleusercontent.com/d/1kvUItXim0Fei6mvb4b4cm3PD9lBWfwXK" alt="Sample Puzzle">
-                </div>
-               -->
             </div>
 
             <div class="benefit-card">
@@ -1100,6 +1201,26 @@ body {
 
 </div>
 
+<!-- MEMBER LOGIN MODAL -->
+<div id="loginModal" class="login-modal-overlay">
+    <div class="login-modal-card">
+        <button type="button" id="closeLoginModalBtn" class="close-modal-btn">✕</button>
+        <div class="modal-icon">🔒</div>
+        <h3 class="modal-title">Think Lab Member Access</h3>
+        <p class="modal-body">
+            The Member Portal is exclusive to registered Think Lab families using their active Gmail account.
+        </p>
+        <div class="modal-actions">
+            <a href="https://member.thinkingskill.in" target="_blank" id="proceedPortalBtn" class="modal-btn primary">
+                Proceed to Portal
+            </a>
+            <button type="button" id="joinModalBtn" class="modal-btn secondary">
+                Not a Member? Join Think Lab
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- Hidden Google Form Backend Submissions -->
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 <form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSc3Ri48q4azrfl8A1wnrDH3y1YlJGnkCZSmqgSVf2LqGIMNfw/formResponse" method="POST" target="hidden_iframe" style="display:none;">
@@ -1139,6 +1260,47 @@ document.addEventListener('DOMContentLoaded', function() {
     if (navBackdrop) navBackdrop.addEventListener('click', closeNavDrawer);
 
     /* =====================================================
+       MEMBER LOGIN MODAL CONTROLLER
+    ===================================================== */
+    const loginModal = document.getElementById('loginModal');
+    const closeLoginModalBtn = document.getElementById('closeLoginModalBtn');
+    const proceedPortalBtn = document.getElementById('proceedPortalBtn');
+    const joinModalBtn = document.getElementById('joinModalBtn');
+
+    document.querySelectorAll('.login-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeNavDrawer();
+            if (loginModal) loginModal.classList.add('active');
+        });
+    });
+
+    function closeLoginModal() {
+        if (loginModal) loginModal.classList.remove('active');
+    }
+
+    if (closeLoginModalBtn) closeLoginModalBtn.addEventListener('click', closeLoginModal);
+
+    if (loginModal) {
+        loginModal.addEventListener('click', function(e) {
+            if (e.target === loginModal) closeLoginModal();
+        });
+    }
+
+    if (proceedPortalBtn) {
+        proceedPortalBtn.addEventListener('click', function() {
+            closeLoginModal();
+        });
+    }
+
+    if (joinModalBtn) {
+        joinModalBtn.addEventListener('click', function() {
+            closeLoginModal();
+            switchView('registerView');
+        });
+    }
+
+    /* =====================================================
        VIEW SWITCHER LOGIC & HASH ROUTING
     ===================================================== */
     const viewHashMap = {
@@ -1163,53 +1325,84 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (updateHash && viewHashMap[targetViewId]) {
-            history.replaceState(null, null, '#' + viewHashMap[targetViewId]);
+            window.location.hash = viewHashMap[targetViewId];
         }
 
-        if (aboutDropdown) aboutDropdown.classList.remove('show');
-        closeNavDrawer();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function checkUrlHash() {
-        const hash = window.location.hash.toLowerCase().replace('#', '');
-        if (hash === 'benefits') switchView('benefitsView', false);
-        else if (hash === 'impact') switchView('impactView', false);
-        else if (hash === 'register') switchView('registerView', false);
-        else switchView('homeView', false);
+    function handleHashRouting() {
+        const hash = window.location.hash.replace('#', '').toLowerCase();
+        if (hash === 'benefits') {
+            switchView('benefitsView', false);
+        } else if (hash === 'impact') {
+            switchView('impactView', false);
+        } else if (hash === 'register') {
+            switchView('registerView', false);
+        } else {
+            switchView('homeView', false);
+        }
     }
 
-    window.addEventListener('hashchange', checkUrlHash);
-    checkUrlHash(); // Check hash on initial load
-
-    // Attach View Navigation Event Listeners
-    const bindClick = (id, viewName) => {
-        const btn = document.getElementById(id);
-        if (btn) btn.addEventListener('click', () => switchView(viewName));
-    };
-
-    bindClick('brandLogoBtn', 'homeView');
-    bindClick('navHome', 'homeView');
-    bindClick('navBenefits', 'benefitsView');
-    bindClick('navImpact', 'impactView');
-    bindClick('navRegister', 'registerView');
-    bindClick('ctaJoinBtn', 'registerView');
-
-    bindClick('aboutBenefitsBtn', 'benefitsView');
-    bindClick('aboutImpactBtn', 'impactView');
-    bindClick('aboutJoinBtn', 'registerView');
-
-    bindClick('backHomeFromImpact', 'homeView');
-    bindClick('backHomeFromBenefits', 'homeView');
-    bindClick('backHomeFromRegister', 'homeView');
-
-    const closeAboutBtn = document.getElementById('closeAboutBtn');
-    if (closeAboutBtn && aboutDropdown) {
-        closeAboutBtn.addEventListener('click', () => aboutDropdown.classList.remove('show'));
-    }
+    window.addEventListener('hashchange', handleHashRouting);
+    handleHashRouting();
 
     /* =====================================================
-       LOCAL VIDEO CONTROLLER
+       NAV LINK EVENT BINDINGS
+    ===================================================== */
+    const brandLogoBtn = document.getElementById('brandLogoBtn');
+    const navHome = document.getElementById('navHome');
+    const navBenefits = document.getElementById('navBenefits');
+    const navImpact = document.getElementById('navImpact');
+    const navRegister = document.getElementById('navRegister');
+    const ctaJoinBtn = document.getElementById('ctaJoinBtn');
+    
+    const backHomeFromImpact = document.getElementById('backHomeFromImpact');
+    const backHomeFromBenefits = document.getElementById('backHomeFromBenefits');
+    const backHomeFromRegister = document.getElementById('backHomeFromRegister');
+
+    if (brandLogoBtn) brandLogoBtn.addEventListener('click', function() { switchView('homeView'); });
+    if (navHome) navHome.addEventListener('click', function() { closeNavDrawer(); switchView('homeView'); });
+    if (navBenefits) navBenefits.addEventListener('click', function() { closeNavDrawer(); switchView('benefitsView'); });
+    if (navImpact) navImpact.addEventListener('click', function() { closeNavDrawer(); switchView('impactView'); });
+    if (navRegister) navRegister.addEventListener('click', function() { closeNavDrawer(); switchView('registerView'); });
+    if (ctaJoinBtn) ctaJoinBtn.addEventListener('click', function() { switchView('registerView'); });
+
+    if (backHomeFromImpact) backHomeFromImpact.addEventListener('click', function() { switchView('homeView'); });
+    if (backHomeFromBenefits) backHomeFromBenefits.addEventListener('click', function() { switchView('homeView'); });
+    if (backHomeFromRegister) backHomeFromRegister.addEventListener('click', function() { switchView('homeView'); });
+
+    /* =====================================================
+       ABOUT SECTION DROPDOWN LOGIC
+    ===================================================== */
+    const closeAboutBtn = document.getElementById('closeAboutBtn');
+    const aboutBenefitsBtn = document.getElementById('aboutBenefitsBtn');
+    const aboutImpactBtn = document.getElementById('aboutImpactBtn');
+    const aboutJoinBtn = document.getElementById('aboutJoinBtn');
+
+    function hideAboutDropdown() {
+        if (aboutDropdown) aboutDropdown.classList.remove('show');
+    }
+
+    if (closeAboutBtn) closeAboutBtn.addEventListener('click', hideAboutDropdown);
+
+    if (aboutBenefitsBtn) aboutBenefitsBtn.addEventListener('click', function() {
+        hideAboutDropdown();
+        switchView('benefitsView');
+    });
+
+    if (aboutImpactBtn) aboutImpactBtn.addEventListener('click', function() {
+        hideAboutDropdown();
+        switchView('impactView');
+    });
+
+    if (aboutJoinBtn) aboutJoinBtn.addEventListener('click', function() {
+        hideAboutDropdown();
+        switchView('registerView');
+    });
+
+    /* =====================================================
+       HERO VIDEO PLAY LOGIC
     ===================================================== */
     const videoContainer = document.getElementById('videoContainer');
     const heroVideo = document.getElementById('heroVideo');
@@ -1222,139 +1415,106 @@ document.addEventListener('DOMContentLoaded', function() {
             if (playBtn) playBtn.style.display = 'none';
             heroVideo.play();
         });
-
-        heroVideo.addEventListener('ended', function() {
-            if (videoThumb) videoThumb.style.display = 'block';
-            if (playBtn) playBtn.style.display = 'flex';
-            heroVideo.currentTime = 0;
-        });
     }
 
     /* =====================================================
-       REGISTRATION PRICING & FORM LOGIC
+       PRICING & COUPON SYSTEM
     ===================================================== */
-    const currencyConfig = {
-        INR: { symbol: "₹", full: 730, discounted: 365 },
-        SGD: { symbol: "S$", full: 10, discounted: 5 }
+    const currencySelect = document.getElementById('currencySelect');
+    const priceDisplay = document.getElementById('priceDisplay');
+    const savingDisplay = document.getElementById('savingDisplay');
+    const couponInput = document.getElementById('couponInput');
+    const applyCouponBtn = document.getElementById('applyCouponBtn');
+    const couponMessage = document.getElementById('couponMessage');
+    const couponField = document.getElementById('coupon');
+    const paymentRefField = document.getElementById('paymentRef');
+
+    const pricing = {
+        INR: { regular: 730, original: 1000, symbol: '₹' },
+        SGD: { regular: 15, original: 20, symbol: 'S$' }
     };
 
-    function normalizeCouponCode(value) {
-        return String(value || "").toUpperCase().replace(/\s+/g, "").replace(/\((INR|SGD)\)$/, "");
+    let activeCoupon = "";
+
+    function normalizeCouponCode(code) {
+        return (code || "").trim().toUpperCase();
     }
 
-    function buildCouponCode() {
-        const currencySelect = document.getElementById("currencySelect");
-        const selectedCurrency = currencySelect ? currencySelect.value : "INR";
-        return `THINK365 (${selectedCurrency})`;
-    }
+    function updatePriceDisplay() {
+        const currency = currencySelect.value;
+        const config = pricing[currency];
+        const code = normalizeCouponCode(activeCoupon);
 
-    function getCurrentAmountText() {
-        const currencySelect = document.getElementById("currencySelect");
-        const selectedCurrency = currencySelect ? currencySelect.value : "INR";
-        const config = currencyConfig[selectedCurrency];
-        const couponField = document.getElementById("coupon");
-        const couponApplied = normalizeCouponCode(couponField ? couponField.value : "") === "THINK365";
-        const amount = couponApplied ? config.discounted : config.full;
-        return `${config.symbol}${amount} (${selectedCurrency})`;
-    }
-
-    function setAmountField() {
-        const paymentRef = document.getElementById("paymentRef");
-        if (paymentRef) paymentRef.value = getCurrentAmountText();
-    }
-
-    function renderPrice() {
-        const currencySelect = document.getElementById("currencySelect");
-        const selectedCurrency = currencySelect ? currencySelect.value : "INR";
-        const config = currencyConfig[selectedCurrency];
-        const couponField = document.getElementById("coupon");
-        const couponApplied = normalizeCouponCode(couponField ? couponField.value : "") === "THINK365";
-        const priceDisplay = document.getElementById("priceDisplay");
-        const savingDisplay = document.getElementById("savingDisplay");
-
-        if (!priceDisplay) return;
-
-        if (couponApplied) {
-            priceDisplay.innerHTML = `<span class="old-price">${config.symbol}${config.full} (${selectedCurrency})</span> ${config.symbol}${config.discounted} (${selectedCurrency})`;
-            if (savingDisplay) savingDisplay.innerHTML = `You save ${config.symbol}${config.full - config.discounted} (${selectedCurrency})`;
+        if (code === "THINK365") {
+            priceDisplay.innerHTML = `<span class="old-price">${config.symbol}${config.regular}</span> ${config.symbol}365`;
+            savingDisplay.textContent = "Coupon THINK365 applied! (50% Off)";
+            if (paymentRefField) paymentRefField.value = `${config.symbol}365`;
         } else {
-            priceDisplay.innerHTML = `${config.symbol}${config.full} (${selectedCurrency})`;
-            if (savingDisplay) savingDisplay.innerHTML = "";
+            priceDisplay.textContent = `${config.symbol}${config.regular}`;
+            savingDisplay.textContent = "";
+            if (paymentRefField) paymentRefField.value = `${config.symbol}${config.regular}`;
         }
-        setAmountField();
     }
 
-    function applyCoupon() {
-        const couponInput = document.getElementById("couponInput");
-        const couponField = document.getElementById("coupon");
-        const couponMessage = document.getElementById("couponMessage");
-        const coupon = couponInput ? couponInput.value.trim() : "";
-        const normalizedCoupon = normalizeCouponCode(coupon);
+    if (currencySelect) currencySelect.addEventListener('change', updatePriceDisplay);
 
-        if (normalizedCoupon === "THINK365") {
-            if (couponField) couponField.value = buildCouponCode();
-            if (couponInput) couponInput.value = "";
-            if (couponMessage) {
-                couponMessage.innerHTML = "✓ Coupon applied successfully";
+    if (applyCouponBtn) {
+        applyCouponBtn.addEventListener('click', function() {
+            const entered = couponInput.value.trim();
+            const normalized = normalizeCouponCode(entered);
+
+            if (normalized === "THINK365") {
+                activeCoupon = "THINK365";
+                if (couponField) couponField.value = "THINK365";
                 couponMessage.style.color = "#218838";
+                couponMessage.textContent = "Coupon code applied successfully!";
+            } else if (normalized === "") {
+                activeCoupon = "";
+                if (couponField) couponField.value = "";
+                couponMessage.style.color = "#666";
+                couponMessage.textContent = "";
+            } else {
+                activeCoupon = "";
+                if (couponField) couponField.value = "";
+                couponMessage.style.color = "#dc3545";
+                couponMessage.textContent = "Invalid coupon code.";
             }
-            renderPrice();
-        } else {
-            if (couponField) couponField.value = "";
-            if (couponMessage) {
-                if (coupon === "") {
-                    couponMessage.innerHTML = "";
-                } else {
-                    couponMessage.innerHTML = "Invalid coupon code";
-                    couponMessage.style.color = "#c62828";
-                }
-            }
-            renderPrice();
-        }
-    }
 
-    const applyCouponBtn = document.getElementById("applyCouponBtn");
-    if (applyCouponBtn) applyCouponBtn.addEventListener("click", applyCoupon);
-
-    const currencySelect = document.getElementById("currencySelect");
-    if (currencySelect) {
-        currencySelect.addEventListener("change", function() {
-            const couponField = document.getElementById("coupon");
-            if (normalizeCouponCode(couponField ? couponField.value : "") === "THINK365") {
-                if (couponField) couponField.value = buildCouponCode();
-            }
-            renderPrice();
+            updatePriceDisplay();
         });
     }
 
+    updatePriceDisplay();
+
+    /* =====================================================
+       SILENT FORM SUBMISSION TO GOOGLE FORM BACKEND
+    ===================================================== */
     const membershipForm = document.getElementById("membershipForm");
+
     if (membershipForm) {
         membershipForm.addEventListener("submit", function(event) {
             event.preventDefault();
 
             const name = document.getElementById("name").value.trim();
             const gmail = document.getElementById("gmail").value.trim();
-            const coupon = document.getElementById("coupon").value.trim();
-            const paymentRef = document.getElementById("paymentRef").value.trim();
+            const coupon = couponField ? couponField.value.trim() : "";
+            const paymentRef = paymentRefField ? paymentRefField.value.trim() : "";
 
             if (!name) { alert("Please enter your name."); return; }
             if (!gmail.toLowerCase().endsWith("@gmail.com")) { alert("Please enter a valid Gmail ID."); return; }
             if (coupon !== "" && normalizeCouponCode(coupon) !== "THINK365") { alert("The coupon code entered is invalid."); return; }
             if (!paymentRef) { alert("Please enter the amount."); return; }
 
-            // Populate the hidden Google Form inputs
             document.getElementById("gfName").value = name;
             document.getElementById("gfGmail").value = gmail;
             document.getElementById("gfCoupon").value = coupon;
             document.getElementById("gfPayment").value = paymentRef;
 
-            // Submit the hidden Google Form into the hidden iframe
             const googleForm = document.getElementById("googleForm");
             if (googleForm) {
                 googleForm.submit();
             }
 
-            // Display success message after a brief delay
             setTimeout(function() {
                 membershipForm.style.display = "none";
                 document.getElementById("successMessage").style.display = "block";
@@ -1362,7 +1522,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    renderPrice();
 });
 </script>
 

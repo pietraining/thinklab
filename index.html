@@ -1147,6 +1147,7 @@ body {
                     <select id="currencySelect">
                         <option value="INR">INR</option>
                         <option value="SGD">SGD</option>
+                        <option value="USD">USD</option>
                     </select>
                 </div>
 
@@ -1220,15 +1221,6 @@ body {
         </div>
     </div>
 </div>
-
-<!-- Hidden Google Form Backend Submissions -->
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-<form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSc3Ri48q4azrfl8A1wnrDH3y1YlJGnkCZSmqgSVf2LqGIMNfw/formResponse" method="POST" target="hidden_iframe" style="display:none;">
-    <input type="text" name="entry.1400679707" id="gfName">
-    <input type="text" name="entry.1183514379" id="gfGmail">
-    <input type="text" name="entry.1578402284" id="gfCoupon">
-    <input type="text" name="entry.1317112118" id="gfPayment">
-</form>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -1437,8 +1429,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const paymentRefField = document.getElementById('paymentRef');
 
     const pricing = {
-        INR: { regular: 730, original: 1000, symbol: '₹' },
-        SGD: { regular: 15, original: 20, symbol: 'S$' }
+        INR: { regular: 730, discounted: 365, symbol: '₹' },
+        SGD: { regular: 10, discounted: 5, symbol: 'S$' },
+        USD: { regular: 10, discounted: 5, symbol: 'US$' }
     };
 
     let activeCoupon = "";
@@ -1453,9 +1446,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const code = normalizeCouponCode(activeCoupon);
 
         if (code === "THINK365") {
-            priceDisplay.innerHTML = `<span class="old-price">${config.symbol}${config.regular}</span> ${config.symbol}365`;
+            priceDisplay.innerHTML = `<span class="old-price">${config.symbol}${config.regular}</span> ${config.symbol}${config.discounted}`;
             savingDisplay.textContent = "Coupon THINK365 applied! (50% Off)";
-            if (paymentRefField) paymentRefField.value = `${config.symbol}365`;
+            if (paymentRefField) paymentRefField.value = `${config.symbol}${config.discounted}`;
         } else {
             priceDisplay.textContent = `${config.symbol}${config.regular}`;
             savingDisplay.textContent = "";
@@ -1493,8 +1486,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updatePriceDisplay();
 
-/* =====================================================
-       RELIABLE FORM SUBMISSION VIA FETCH API
+    /* =====================================================
+       SILENT FORM SUBMISSION VIA FETCH API
     ===================================================== */
     const membershipForm = document.getElementById("membershipForm");
 
@@ -1512,7 +1505,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (coupon !== "" && normalizeCouponCode(coupon) !== "THINK365") { alert("The coupon code entered is invalid."); return; }
             if (!paymentRef) { alert("Please enter the amount."); return; }
 
-            // Prepare Google Form submission payload
             const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc3Ri48q4azrfl8A1wnrDH3y1YlJGnkCZSmqgSVf2LqGIMNfw/formResponse";
             
             const formData = new URLSearchParams();
@@ -1521,7 +1513,6 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append("entry.1578402284", coupon);
             formData.append("entry.1317112118", paymentRef);
 
-            // Post silently to Google Forms via Fetch (no-cors prevents browser blocking)
             fetch(formUrl, {
                 method: "POST",
                 mode: "no-cors",
@@ -1531,18 +1522,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData.toString()
             })
             .then(() => {
-                // Show success UI
                 membershipForm.style.display = "none";
                 document.getElementById("successMessage").style.display = "block";
             })
             .catch((err) => {
                 console.error("Submission error:", err);
-                // Even on CORS catch, Google Form usually receives the payload
                 membershipForm.style.display = "none";
                 document.getElementById("successMessage").style.display = "block";
             });
         });
     }
+
 });
 </script>
 

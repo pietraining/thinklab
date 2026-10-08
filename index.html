@@ -1402,7 +1402,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /* =====================================================
-       HERO VIDEO PLAY LOGIC
+       HERO VIDEO PLAY & RESET LOGIC
     ===================================================== */
     const videoContainer = document.getElementById('videoContainer');
     const heroVideo = document.getElementById('heroVideo');
@@ -1411,9 +1411,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (videoContainer && heroVideo) {
         videoContainer.addEventListener('click', function() {
-            if (videoThumb) videoThumb.style.display = 'none';
-            if (playBtn) playBtn.style.display = 'none';
-            heroVideo.play();
+            if (heroVideo.paused) {
+                if (videoThumb) videoThumb.style.display = 'none';
+                if (playBtn) playBtn.style.display = 'none';
+                heroVideo.play();
+            }
+        });
+
+        heroVideo.addEventListener('ended', function() {
+            if (videoThumb) videoThumb.style.display = 'block';
+            if (playBtn) playBtn.style.display = 'flex';
         });
     }
 

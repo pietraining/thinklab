@@ -9,7 +9,7 @@
 /* =========================
    BASE & LAYOUT
 ========================= */
-- {
+* {
     box-sizing: border-box;
 }
 
@@ -162,24 +162,40 @@ body {
     margin: 8px 0;
 }
 
+/* Unified Menu Action Buttons Width Fix */
 .nav-btn-link {
+    display: block;
+    width: 100%;
     text-align: center !important;
     margin-top: 4px;
-    display: block;
+    padding: 12px 14px !important;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    box-sizing: border-box;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .login-btn {
     background: #f0f2f5 !important;
+    color: #1d2940 !important;
     border: 1px solid #d0d5dd !important;
+}
+
+.login-btn:hover {
+    background: #e2e8f0 !important;
 }
 
 .join-btn {
     background: #1d2940 !important;
     color: #ffffff !important;
+    border: 1px solid #1d2940 !important;
 }
 
 .join-btn:hover {
     background: #2d3d5b !important;
+    border-color: #2d3d5b !important;
 }
 
 /* Backdrop Overlay */
@@ -809,16 +825,17 @@ body {
 }
 .available-offers-container {
     margin-bottom: 20px;
-    padding: 12px;
-    background: #f8f9fa;
-    border: 1px dashed #cbd5e1;
-    border-radius: 8px;
+    padding: 14px;
+    background: linear-gradient(135deg, #f0f7ff 0%, #eef9f2 100%);
+    border: 1px solid #93c5fd;
+    border-radius: 10px;
     text-align: left;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
 }
 .available-offers-title {
     font-size: 13px;
     font-weight: 700;
-    color: #1d2940;
+    color: #1e40af;
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -830,19 +847,22 @@ body {
 }
 .offer-chip {
     background: #ffffff;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #3b82f6;
     border-radius: 6px;
-    padding: 6px 12px;
+    padding: 7px 14px;
     font-size: 13px;
-    color: #1d2940;
+    color: #1e40af;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.15);
     transition: all 0.2s ease;
 }
 .offer-chip:hover {
-    background: #1d2940;
+    background: #1e40af;
     color: #ffffff;
-    border-color: #1d2940;
+    border-color: #1e40af;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(30, 64, 175, 0.25);
 }
 .coupon-area {
     display: flex;
@@ -1518,7 +1538,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const chip = document.createElement('button');
                 chip.type = "button";
                 chip.className = "offer-chip";
-                chip.textContent = `${offer['Coupon Code']} (${offer['Discount %']}% Off - ${offer.Period})`;
+                chip.textContent = `🏷️ ${offer['Coupon Code']} (${offer['Discount %']}% Off - ${offer.Period})`;
                 chip.addEventListener('click', function() {
                     couponInput.value = offer['Coupon Code'];
                     applyCouponBtn.click();
@@ -1601,7 +1621,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     fetchPricingData();
 
-        /* =====================================================
+    /* =====================================================
        SILENT FORM SUBMISSION VIA FETCH API
     ===================================================== */
     const membershipForm = document.getElementById("membershipForm");

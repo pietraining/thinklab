@@ -9,7 +9,7 @@
 /* =========================
    BASE & LAYOUT
 ========================= */
-* {
+- {
     box-sizing: border-box;
 }
 
@@ -813,6 +813,43 @@ body {
     color: #218838;
     font-weight: 600;
 }
+.available-offers-container {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #f8f9fa;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    text-align: left;
+}
+.available-offers-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1d2940;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.offer-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.offer-chip {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: #1d2940;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.offer-chip:hover {
+    background: #1d2940;
+    color: #ffffff;
+    border-color: #1d2940;
+}
 .coupon-area {
     display: flex;
     justify-content: center;
@@ -1147,12 +1184,17 @@ body {
                     <select id="currencySelect">
                         <option value="INR">INR</option>
                         <option value="SGD">SGD</option>
-                        <option value="USD">USD</option>
                     </select>
                 </div>
 
-                <div id="priceDisplay" class="regular-price">₹730</div>
+                <div id="priceDisplay" class="regular-price">Loading...</div>
                 <div id="savingDisplay" class="saving"></div>
+            </div>
+
+            <!-- Available Offers Section -->
+            <div id="availableOffersContainer" class="available-offers-container" style="display: none;">
+                <div class="available-offers-title">Available Offers!</div>
+                <div id="offerChips" class="offer-chips"></div>
             </div>
 
             <div class="coupon-area">
@@ -1417,7 +1459,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /* =====================================================
-       PRICING & COUPON SYSTEM
+       DYNAMIC GOOGLE SHEET PRICING & COUPON SYSTEM
     ===================================================== */
     const currencySelect = document.getElementById('currencySelect');
     const priceDisplay = document.getElementById('priceDisplay');
@@ -1427,32 +1469,107 @@ document.addEventListener('DOMContentLoaded', function() {
     const couponMessage = document.getElementById('couponMessage');
     const couponField = document.getElementById('coupon');
     const paymentRefField = document.getElementById('paymentRef');
+    const availableOffersContainer = document.getElementById('availableOffersContainer');
+    const offerChips = document.getElementById('offerChips');
 
-    const pricing = {
-        INR: { regular: 730, discounted: 365, symbol: '₹' },
-        SGD: { regular: 10, discounted: 5, symbol: 'S$' },
-        USD: { regular: 10, discounted: 5, symbol: 'US$' }
-    };
-
+    const currencySymbols = { INR: '₹', SGD: 'S$', USD: 'US$' };
+    let pricingData = [];
     let activeCoupon = "";
+
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTL9fwfSctKtjHsrh66_NQ2k7MvtwbCHuk5Do1LQyT0nbxkFsCZGCAWa3VWZcUkEjYFDivAzlDDY_51/pub?gid=1318535636&single=true&output=csv";
+
+    function parseCSV(text) {
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        if (lines.length === 0) return [];
+        const headers = lines[0].split(',').map(h => h.trim());
+        const results = [];
+        for (let i = 1; i < lines.length; i++) {
+            const currentLine = lines[i].split(',').map(val => val.trim());
+            const obj = {};
+            for (let j = 0; j < headers.length; j++) {
+                obj[headers[j]] = currentLine[j] !== undefined ? currentLine[j] : "";
+            }
+            results.push(obj);
+        }
+        return results;
+    }
 
     function normalizeCouponCode(code) {
         return (code || "").trim().toUpperCase();
     }
 
+    function fetchPricingData() {
+        fetch(csvUrl)
+            .then(response => response.text())
+            .then(data => {
+                pricingData = parseCSV(data);
+                renderAvailableOffers();
+                updatePriceDisplay();
+            })
+            .catch(err => {
+                console.error("Error fetching pricing sheet:", err);
+                // Fallback default if fetch fails
+                priceDisplay.textContent = "₹730 for 1 Year";
+                if (paymentRefField) paymentRefField.value = "₹730 for 1 Year";
+            });
+    }
+
+    function renderAvailableOffers() {
+        if (!offerChips || !availableOffersContainer) return;
+        offerChips.innerHTML = "";
+        
+        // Filter public offers that are active
+        const publicOffers = pricingData.filter(row => row.Visibility === "PUBLIC" && row.Status === "Active");
+        
+        if (publicOffers.length > 0) {
+            availableOffersContainer.style.display = "block";
+            publicOffers.forEach(offer => {
+                const chip = document.createElement('button');
+                chip.type = "button";
+                chip.className = "offer-chip";
+                chip.textContent = `${offer['Coupon Code']} (${offer['Discount %']}% Off - ${offer.Period})`;
+                chip.addEventListener('click', function() {
+                    couponInput.value = offer['Coupon Code'];
+                    applyCouponBtn.click();
+                });
+                offerChips.appendChild(chip);
+            });
+        } else {
+            availableOffersContainer.style.display = "none";
+        }
+    }
+
     function updatePriceDisplay() {
         const currency = currencySelect.value;
-        const config = pricing[currency];
+        const symbol = currencySymbols[currency] || '₹';
         const code = normalizeCouponCode(activeCoupon);
 
-        if (code === "THINK365") {
-            priceDisplay.innerHTML = `<span class="old-price">${config.symbol}${config.regular}</span> ${config.symbol}${config.discounted}`;
-            savingDisplay.textContent = "Coupon THINK365 applied! (50% Off)";
-            if (paymentRefField) paymentRefField.value = `${config.symbol}${config.discounted}`;
+        // Find matching row in CSV data
+        let matchedRow = null;
+        if (code !== "") {
+            matchedRow = pricingData.find(row => row.Currency === currency && normalizeCouponCode(row['Coupon Code']) === code && row.Status === "Active");
         } else {
-            priceDisplay.textContent = `${config.symbol}${config.regular}`;
+            matchedRow = pricingData.find(row => row.Currency === currency && (!row['Coupon Code'] || row['Coupon Code'] === "") && row.Status === "Active");
+        }
+
+        // Fallback if exact match not found
+        if (!matchedRow) {
+            matchedRow = pricingData.find(row => row.Currency === currency && row.Status === "Active") || { Price: "730", Period: "1 Year", "Discount %": "0" };
+        }
+
+        const regularPriceNum = parseFloat(matchedRow.Price) || 730;
+        const discountPct = parseFloat(matchedRow['Discount %']) || 0;
+        const period = matchedRow.Period || "1 Year";
+
+        if (discountPct > 0) {
+            const discountedPriceNum = Math.round(regularPriceNum * (1 - (discountPct / 100)));
+            priceDisplay.innerHTML = `<span class="old-price">${symbol}${regularPriceNum}</span> ${symbol}${discountedPriceNum} <span style="font-size:16px; font-weight:normal;">for ${period}</span>`;
+            savingDisplay.textContent = code ? `Coupon ${code} applied! (${discountPct}% Off - ${period})` : `${discountPct}% Off - ${period}`;
+            if (paymentRefField) paymentRefField.value = `${symbol}${discountedPriceNum} for ${period}`;
+        } else {
+            priceDisplay.textContent = `${symbol}${regularPriceNum} for ${period}`;
             savingDisplay.textContent = "";
-            if (paymentRefField) paymentRefField.value = `${config.symbol}${config.regular}`;
+            if (paymentRefField) paymentRefField.value = `${symbol}${regularPriceNum} for ${period}`;
         }
     }
 
@@ -1463,16 +1580,23 @@ document.addEventListener('DOMContentLoaded', function() {
             const entered = couponInput.value.trim();
             const normalized = normalizeCouponCode(entered);
 
-            if (normalized === "THINK365") {
-                activeCoupon = "THINK365";
-                if (couponField) couponField.value = "THINK365";
-                couponMessage.style.color = "#218838";
-                couponMessage.textContent = "Coupon code applied successfully!";
-            } else if (normalized === "") {
+            if (normalized === "") {
                 activeCoupon = "";
                 if (couponField) couponField.value = "";
                 couponMessage.style.color = "#666";
                 couponMessage.textContent = "";
+                updatePriceDisplay();
+                return;
+            }
+
+            // Check if coupon exists in sheet data
+            const found = pricingData.find(row => normalizeCouponCode(row['Coupon Code']) === normalized && row.Status === "Active");
+
+            if (found) {
+                activeCoupon = found['Coupon Code'];
+                if (couponField) couponField.value = activeCoupon;
+                couponMessage.style.color = "#218838";
+                couponMessage.textContent = "Coupon code applied successfully!";
             } else {
                 activeCoupon = "";
                 if (couponField) couponField.value = "";
@@ -1484,7 +1608,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    updatePriceDisplay();
+    // Initialize by fetching CSV data
+    fetchPricingData();
 
     /* =====================================================
        SILENT FORM SUBMISSION VIA FETCH API
@@ -1502,7 +1627,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!name) { alert("Please enter your name."); return; }
             if (!gmail.toLowerCase().endsWith("@gmail.com")) { alert("Please enter a valid Gmail ID."); return; }
-            if (coupon !== "" && normalizeCouponCode(coupon) !== "THINK365") { alert("The coupon code entered is invalid."); return; }
             if (!paymentRef) { alert("Please enter the amount."); return; }
 
             const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc3Ri48q4azrfl8A1wnrDH3y1YlJGnkCZSmqgSVf2LqGIMNfw/formResponse";
@@ -1520,7 +1644,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
                 body: formData.toString()
-            })
+           })
             .then(() => {
                 membershipForm.style.display = "none";
                 document.getElementById("successMessage").style.display = "block";

@@ -931,7 +931,7 @@ body {
 .success-message {
     display: none;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 20px;
     border-radius: 10px;
     background: #eef8f0;
@@ -1187,59 +1187,63 @@ body {
         <button type="button" class="back-to-home-btn" id="backHomeFromRegister">← Back to Home</button>
 
         <div class="registration-card">
-            <div class="page-title">Member Registration</div>
-            <div class="subtitle">Join Think Lab and begin your thinking journey with stories, puzzles and family thinking activities.</div>
+            <!-- Registration Content Wrapper to hide on submit -->
+            <div id="registrationContent">
+                <div class="page-title">Member Registration</div>
+                <div class="subtitle">Join Think Lab and begin your thinking journey with stories, puzzles and family thinking activities.</div>
 
-            <div class="price-box">
-                <div class="currency-picker">
-                    <label for="currencySelect">Currency</label>
-                    <select id="currencySelect">
-                        <option value="INR">INR</option>
-                        <option value="SGD">SGD</option>
-                    </select>
+                <div class="price-box">
+                    <div class="currency-picker">
+                        <label for="currencySelect">Currency</label>
+                        <select id="currencySelect">
+                            <option value="INR">INR</option>
+                            <option value="SGD">SGD</option>
+                        </select>
+                    </div>
+
+                    <div id="priceDisplay" class="regular-price">Loading...</div>
+                    <div id="savingDisplay" class="saving"></div>
                 </div>
 
-                <div id="priceDisplay" class="regular-price">Loading...</div>
-                <div id="savingDisplay" class="saving"></div>
+                <!-- Available Offers Section -->
+                <div id="availableOffersContainer" class="available-offers-container" style="display: none;">
+                    <div class="available-offers-title">Available Offers!</div>
+                    <div id="offerChips" class="offer-chips"></div>
+                </div>
+
+                <div class="coupon-area">
+                    <input type="text" id="couponInput" placeholder="Enter coupon code" autocomplete="off">
+                    <button type="button" id="applyCouponBtn">APPLY</button>
+                </div>
+
+                <div id="couponMessage" class="coupon-message"></div>
+
+                <form id="membershipForm" novalidate>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gmail">Gmail ID</label>
+                        <input type="email" id="gmail" placeholder="example@gmail.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="coupon">Coupon Code</label>
+                        <input type="text" id="coupon" placeholder="Coupon code will appear here if applied" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paymentRef">Amount</label>
+                        <input type="text" id="paymentRef" placeholder="Amount will be filled automatically" disabled>
+                    </div>
+
+                    <button type="submit" class="submit-button">Submit Membership Registration</button>
+                </form>
             </div>
 
-            <!-- Available Offers Section -->
-            <div id="availableOffersContainer" class="available-offers-container" style="display: none;">
-                <div class="available-offers-title">Available Offers!</div>
-                <div id="offerChips" class="offer-chips"></div>
-            </div>
-
-            <div class="coupon-area">
-                <input type="text" id="couponInput" placeholder="Enter coupon code" autocomplete="off">
-                <button type="button" id="applyCouponBtn">APPLY</button>
-            </div>
-
-            <div id="couponMessage" class="coupon-message"></div>
-
-            <form id="membershipForm" novalidate>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" placeholder="Enter your name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="gmail">Gmail ID</label>
-                    <input type="email" id="gmail" placeholder="example@gmail.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="coupon">Coupon Code</label>
-                    <input type="text" id="coupon" placeholder="Coupon code will appear here if applied" disabled>
-                </div>
-
-                <div class="form-group">
-                    <label for="paymentRef">Amount</label>
-                    <input type="text" id="paymentRef" placeholder="Amount will be filled automatically" disabled>
-                </div>
-
-                <button type="submit" class="submit-button">Submit Membership Registration</button>
-            </form>
-
+            <!-- Success Message -->
             <div id="successMessage" class="success-message">
                 <strong>Thank you for joining Think Lab!</strong>
                 <br><br>
@@ -1656,12 +1660,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData.toString()
             })
             .then(() => {
-                membershipForm.style.display = "none";
+                document.getElementById("registrationContent").style.display = "none";
                 document.getElementById("successMessage").style.display = "block";
             })
             .catch((err) => {
                 console.error("Submission error:", err);
-                membershipForm.style.display = "none";
+                document.getElementById("registrationContent").style.display = "none";
                 document.getElementById("successMessage").style.display = "block";
             });
         });

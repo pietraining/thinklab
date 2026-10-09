@@ -762,7 +762,7 @@ body {
     text-align: center;
     font-size: 28px;
     font-weight: 800;
-    margin: 20px 0 8px;
+    margin: 0 0 6px;
 }
 .subtitle {
     text-align: center;
@@ -770,12 +770,6 @@ body {
     color: #666;
     line-height: 1.5;
     margin-bottom: 25px;
-}
-.section-title {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 25px;
 }
 .price-box {
     text-align: center;
@@ -1172,11 +1166,9 @@ body {
     <div id="registerView" class="app-view">
         <button type="button" class="back-to-home-btn" id="backHomeFromRegister">← Back to Home</button>
 
-        <div class="page-title">Member Registration</div>
-        <div class="subtitle">Join Think Lab and begin your thinking journey with stories, puzzles and family thinking activities.</div>
-
         <div class="registration-card">
-            <div class="section-title">Annual Membership</div>
+            <div class="page-title">Member Registration</div>
+            <div class="subtitle">Join Think Lab and begin your thinking journey with stories, puzzles and family thinking activities.</div>
 
             <div class="price-box">
                 <div class="currency-picker">
@@ -1518,8 +1510,6 @@ document.addEventListener('DOMContentLoaded', function() {
         offerChips.innerHTML = "";
         
         const currentCurrency = currencySelect.value;
-        
-        // Filter public offers matching the selected currency and active status
         const publicOffers = pricingData.filter(row => row.Currency === currentCurrency && row.Visibility === "PUBLIC" && row.Status === "Active");
         
         if (publicOffers.length > 0) {
@@ -1545,10 +1535,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const symbol = currencySymbols[currency] || '₹';
         const code = normalizeCouponCode(activeCoupon);
 
-        // Re-render available offers when currency changes so only relevant currency offers show
         renderAvailableOffers();
 
-        // Find matching row in CSV data
         let matchedRow = null;
         if (code !== "") {
             matchedRow = pricingData.find(row => row.Currency === currency && normalizeCouponCode(row['Coupon Code']) === code && row.Status === "Active");
@@ -1556,7 +1544,6 @@ document.addEventListener('DOMContentLoaded', function() {
             matchedRow = pricingData.find(row => row.Currency === currency && (!row['Coupon Code'] || row['Coupon Code'] === "") && row.Status === "Active");
         }
 
-        // Fallback if exact match not found
         if (!matchedRow) {
             matchedRow = pricingData.find(row => row.Currency === currency && row.Status === "Active") || { Price: "730", Period: "1 Year", "Discount %": "0" };
         }
@@ -1593,7 +1580,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Check if coupon exists in sheet data for the current currency
             const currentCurrency = currencySelect.value;
             const found = pricingData.find(row => row.Currency === currentCurrency && normalizeCouponCode(row['Coupon Code']) === normalized && row.Status === "Active");
 
@@ -1613,10 +1599,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initialize by fetching CSV data
     fetchPricingData();
 
-    /* =====================================================
+        /* =====================================================
        SILENT FORM SUBMISSION VIA FETCH API
     ===================================================== */
     const membershipForm = document.getElementById("membershipForm");

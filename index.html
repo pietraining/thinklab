@@ -1508,7 +1508,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(err => {
                 console.error("Error fetching pricing sheet:", err);
-                // Fallback default if fetch fails
                 priceDisplay.textContent = "₹730 for 1 Year";
                 if (paymentRefField) paymentRefField.value = "₹730 for 1 Year";
             });
@@ -1518,8 +1517,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!offerChips || !availableOffersContainer) return;
         offerChips.innerHTML = "";
         
-        // Filter public offers that are active
-        const publicOffers = pricingData.filter(row => row.Visibility === "PUBLIC" && row.Status === "Active");
+        const currentCurrency = currencySelect.value;
+        
+        // Filter public offers matching the selected currency and active status
+        const publicOffers = pricingData.filter(row => row.Currency === currentCurrency && row.Visibility === "PUBLIC" && row.Status === "Active");
         
         if (publicOffers.length > 0) {
             availableOffersContainer.style.display = "block";
@@ -1543,6 +1544,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const currency = currencySelect.value;
         const symbol = currencySymbols[currency] || '₹';
         const code = normalizeCouponCode(activeCoupon);
+
+        // Re-render available offers when currency changes so only relevant currency offers show
+        renderAvailableOffers();
 
         // Find matching row in CSV data
         let matchedRow = null;
@@ -1589,8 +1593,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Check if coupon exists in sheet data
-            const found = pricingData.find(row => normalizeCouponCode(row['Coupon Code']) === normalized && row.Status === "Active");
+            // Check if coupon exists in sheet data for the current currency
+            const currentCurrency = currencySelect.value;
+            const found = pricingData.find(row => row.Currency === currentCurrency && normalizeCouponCode(row['Coupon Code']) === normalized && row.Status === "Active");
 
             if (found) {
                 activeCoupon = found['Coupon Code'];
@@ -1601,7 +1606,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 activeCoupon = "";
                 if (couponField) couponField.value = "";
                 couponMessage.style.color = "#dc3545";
-                couponMessage.textContent = "Invalid coupon code.";
+                couponMessage.textContent = "Invalid coupon code for this currency.";
             }
 
             updatePriceDisplay();
@@ -1644,7 +1649,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
                 body: formData.toString()
-           })
+            })
             .then(() => {
                 membershipForm.style.display = "none";
                 document.getElementById("successMessage").style.display = "block";

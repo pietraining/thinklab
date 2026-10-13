@@ -510,9 +510,9 @@ body {
     </div>
 
     <div class="selector">
-        <label for="script">Focus</label>
+        <label for="script">Focus (Optional Advanced Filter)</label>
         <select id="script" disabled>
-            <option value="">Select Focus</option>
+            <option value="">All / Default Focus</option>
         </select>
     </div>
 
@@ -713,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function() {
         story.innerHTML = '<option value="">Select Story</option>';
         story.disabled = true;
 
-        script.innerHTML = '<option value="">Select Script / Voice</option>';
+        script.innerHTML = '<option value="">All / Default Focus</option>';
         script.disabled = true;
 
         hideContent();
@@ -748,7 +748,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     story.addEventListener("change", function() {
         const selectedStory = this.value;
-        script.innerHTML = '<option value="">Select Script / Voice</option>';
+        script.innerHTML = '<option value="">All / Default Focus</option>';
         script.disabled = true;
 
         hideContent();
@@ -778,22 +778,9 @@ document.addEventListener('DOMContentLoaded', function() {
             script.appendChild(option);
         });
 
-        script.disabled = scripts.size === 0;
-        message.style.display = "block";
-        message.textContent = scripts.size ? "Select a script." : "No scripts found for this story.";
-    });
+        script.disabled = scripts.size <= 1; // Enable only if multiple focus options exist
 
-    script.addEventListener("change", function() {
-        const selectedScript = this.value;
-        hideContent();
-        document.getElementById("welcomeImage").style.display = "none";
-
-        if (!selectedScript) {
-            message.style.display = "block";
-            message.textContent = "Select a script.";
-            return;
-        }
-
+        // Automatically load content using the first available script/row
         const row = findSelectedRow();
         if (!row) {
             message.style.display = "block";
@@ -802,6 +789,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         message.style.display = "none";
+        document.getElementById("welcomeImage").style.display = "none";
         updateActivityLanguage();
         content.style.display = "block";
 
@@ -811,8 +799,27 @@ document.addEventListener('DOMContentLoaded', function() {
         if (readSection.style.display === "none" && watchSection.style.display === "none") {
             content.style.display = "none";
             message.style.display = "block";
-            message.textContent = "No content available for this script.";
+            message.textContent = "No content available for this story.";
         }
+    });
+
+    script.addEventListener("change", function() {
+        const selectedStory = story.value;
+        if (!selectedStory) return;
+
+        const row = findSelectedRow();
+        if (!row) {
+            return;
+        }
+
+        hideContent();
+        message.style.display = "none";
+        document.getElementById("welcomeImage").style.display = "none";
+        updateActivityLanguage();
+        content.style.display = "block";
+
+        showRead(row);
+        showWatch(row);
     });
 
     function findSelectedRow() {
@@ -820,10 +827,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedTitle = story.value;
         const selectedScript = script.value;
 
+        // If a specific script is selected via the advanced filter, find that exact row
+        if (selectedScript) {
+            return rows.find(row =>
+                getCell(row, "Language") === selectedLanguage &&
+                getCell(row, "Title") === selectedTitle &&
+                getCell(row, "Script") === selectedScript
+            );
+        }
+
+        // Otherwise, return the first matching row for the story (default/optional filter behavior)
         return rows.find(row =>
             getCell(row, "Language") === selectedLanguage &&
-            getCell(row, "Title") === selectedTitle &&
-            getCell(row, "Script") === selectedScript
+            getCell(row, "Title") === selectedTitle
         );
     }
 

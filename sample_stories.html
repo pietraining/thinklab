@@ -269,11 +269,23 @@ body {
     cursor: not-allowed;
 }
 
-/* Collapsible Advanced Filters Section */
-.advanced-filters-header {
+/* Language and Advanced Filter Row Alignment */
+.language-filter-row {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 8px;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.language-filter-row .selector {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.advanced-filter-inline-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .toggle-advanced-btn {
@@ -282,13 +294,15 @@ body {
     color: #1d2940;
     font-size: 13px;
     font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 8px;
+    padding: 11px 12px;
+    border-radius: 9px;
     cursor: pointer;
     transition: background 0.2s ease;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    height: 44px;
+    white-space: nowrap;
 }
 
 .toggle-advanced-btn:hover {
@@ -296,6 +310,7 @@ body {
     border-color: #1d2940;
 }
 
+/* Collapsible Advanced Filters Section */
 .advanced-filters {
     max-height: 0;
     overflow: hidden;
@@ -305,7 +320,7 @@ body {
 }
 
 .advanced-filters.show {
-    max-height: 150px;
+    max-height: 100px;
     opacity: 1;
     margin-bottom: 14px;
 }
@@ -463,6 +478,15 @@ body {
         font-size: 15px;
     }
 
+    .language-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .advanced-filter-inline-wrapper {
+        align-items: flex-end;
+    }
+
     #content {
         padding: 15px;
     }
@@ -534,28 +558,23 @@ body {
     <a href="index.html#home" class="back-to-home-btn">← Back to Home</a>
 
     <div class="page-title">Sample Stories</div>
-    <div class="subtitle">Explore interactive stories, audio scripts, and thinking challenges.</div>
+    <div class="subtitle">Explore stories and thinking challenges</div>
 
-    <div class="selector">
-        <label for="language">Language</label>
-        <select id="language">
-            <option value="">Select Language</option>
-        </select>
-    </div>
+    <!-- Language Selection & Advanced Filter Row -->
+    <div class="language-filter-row">
+        <div class="selector">
+            <label for="language">Language</label>
+            <select id="language">
+                <option value="">Select Language</option>
+            </select>
+        </div>
 
-    <div class="selector">
-        <label for="story">Story</label>
-        <select id="story" disabled>
-            <option value="">Select Story</option>
-        </select>
-    </div>
-
-    <!-- Collapsible Advanced Filter Toggle -->
-    <div class="advanced-filters-header">
-        <button type="button" id="toggleAdvancedBtn" class="toggle-advanced-btn">
-            <span>⚙️</span>
-            <span>Advanced Filters</span>
-        </button>
+        <div class="advanced-filter-inline-wrapper">
+            <button type="button" id="toggleAdvancedBtn" class="toggle-advanced-btn" title="Toggle Advanced Focus Filter">
+                <span>⚙️</span>
+                <span>Advanced Filters</span>
+            </button>
+        </div>
     </div>
 
     <!-- Collapsible Advanced Filter Container -->
@@ -566,6 +585,13 @@ body {
                 <option value="">All / Default Focus</option>
             </select>
         </div>
+    </div>
+
+    <div class="selector">
+        <label for="story">Story</label>
+        <select id="story" disabled>
+            <option value="">Select Story</option>
+        </select>
     </div>
 
     <div id="message">Loading stories...</div>
@@ -839,7 +865,7 @@ document.addEventListener('DOMContentLoaded', function() {
             script.appendChild(option);
         });
 
-        script.disabled = scripts.size <= 1; // Enable only if multiple focus options exist
+        script.disabled = scripts.size <= 0; // Combo list active whenever script values exist
 
         // Automatically load content using the first available script/row
         const row = findSelectedRow();

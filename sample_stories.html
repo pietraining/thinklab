@@ -577,21 +577,22 @@ body {
         </div>
     </div>
 
-    <!-- Collapsible Advanced Filter Container -->
-    <div id="advancedFiltersContainer" class="advanced-filters">
-        <div class="selector" style="margin-bottom: 0;">
-            <label for="script">Focus (Optional Advanced Filter)</label>
-            <select id="script" disabled>
-                <option value="">All / Default Focus</option>
-            </select>
-        </div>
-    </div>
-
+    <!-- Story Selection -->
     <div class="selector">
         <label for="story">Story</label>
         <select id="story" disabled>
             <option value="">Select Story</option>
         </select>
+    </div>
+
+    <!-- Collapsible Advanced Filter Container (Placed below Story list box) -->
+    <div id="advancedFiltersContainer" class="advanced-filters">
+        <div class="selector">
+            <label for="script">Focus (Optional Advanced Filter)</label>
+            <select id="script" disabled>
+                <option value="">All / Default Focus</option>
+            </select>
+        </div>
     </div>
 
     <div id="message">Loading stories...</div>
@@ -865,7 +866,7 @@ document.addEventListener('DOMContentLoaded', function() {
             script.appendChild(option);
         });
 
-        script.disabled = scripts.size <= 0; // Combo list active whenever script values exist
+        script.disabled = scripts.size === 0;
 
         // Automatically load content using the first available script/row
         const row = findSelectedRow();

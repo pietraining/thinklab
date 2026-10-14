@@ -269,23 +269,19 @@ body {
     cursor: not-allowed;
 }
 
-/* Language and Advanced Filter Row Alignment */
-.language-filter-row {
+/* Language Label Line with Advanced Filter Button on the Right */
+.language-label-row {
     display: flex;
-    align-items: flex-end;
-    gap: 12px;
-    margin-bottom: 14px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
 }
 
-.language-filter-row .selector {
-    flex: 1;
+.language-label-row label {
     margin-bottom: 0;
-}
-
-.advanced-filter-inline-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d2940;
 }
 
 .toggle-advanced-btn {
@@ -294,15 +290,13 @@ body {
     color: #1d2940;
     font-size: 13px;
     font-weight: 600;
-    padding: 11px 12px;
-    border-radius: 9px;
+    padding: 5px 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background 0.2s ease;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    height: 44px;
-    white-space: nowrap;
 }
 
 .toggle-advanced-btn:hover {
@@ -478,15 +472,6 @@ body {
         font-size: 15px;
     }
 
-    .language-filter-row {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .advanced-filter-inline-wrapper {
-        align-items: flex-end;
-    }
-
     #content {
         padding: 15px;
     }
@@ -560,21 +545,18 @@ body {
     <div class="page-title">Sample Stories</div>
     <div class="subtitle">Explore stories and thinking challenges</div>
 
-    <!-- Language Selection & Advanced Filter Row -->
-    <div class="language-filter-row">
-        <div class="selector">
+    <!-- Language Selection with Advanced Filter on the label line -->
+    <div class="selector">
+        <div class="language-label-row">
             <label for="language">Language</label>
-            <select id="language">
-                <option value="">Select Language</option>
-            </select>
-        </div>
-
-        <div class="advanced-filter-inline-wrapper">
-            <button type="button" id="toggleAdvancedBtn" class="toggle-advanced-btn" title="Toggle Advanced Focus Filter">
+            <button type="button" id="toggleAdvancedBtn" class="toggle-advanced-btn">
                 <span>⚙️</span>
                 <span>Advanced Filters</span>
             </button>
         </div>
+        <select id="language">
+            <option value="">Select Language</option>
+        </select>
     </div>
 
     <!-- Story Selection -->
@@ -587,7 +569,7 @@ body {
 
     <!-- Collapsible Advanced Filter Container (Placed below Story list box) -->
     <div id="advancedFiltersContainer" class="advanced-filters">
-        <div class="selector">
+        <div class="selector" style="margin-bottom: 0;">
             <label for="script">Focus (Optional Advanced Filter)</label>
             <select id="script" disabled>
                 <option value="">All / Default Focus</option>

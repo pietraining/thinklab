@@ -175,7 +175,6 @@
         padding-bottom: 4px;
     }
 
-    /* List Box / Dropdown style for names */
     .names-select {
         width: 100%;
         background: #f8fafc;
@@ -455,6 +454,7 @@
     
     let registrationData = { 
         total: 0, 
+        overallCountries: {},
         moduleCounts: {
             "Introduction to Python": {},
             "Object Oriented Programming": {},
@@ -524,6 +524,7 @@
         if (rows.length < 2) return;
 
         let total = 0;
+        let overallCountries = {};
         let moduleCounts = {
             "Introduction to Python": {},
             "Object Oriented Programming": {},
@@ -536,10 +537,15 @@
 
             total++;
 
-            // Extract Name (typically index 1) and Country (typically index 2)
             let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
             let country = row[2] ? row[2].replace(/^"|"$/g, '').trim() : 'Unknown';
             if (!country) country = 'Unknown';
+
+            // Track overall unique countries and participant names
+            if (!overallCountries[country]) {
+                overallCountries[country] = [];
+            }
+            overallCountries[country].push(name);
 
             // Scan columns for module keywords to map multi-select checkboxes securely
             let foundModulesForUser = new Set();
@@ -564,21 +570,36 @@
             });
         }
 
-        registrationData = { total, moduleCounts };
+        registrationData = { total, overallCountries, moduleCounts };
         document.getElementById('statsBanner').innerHTML = `📊 Live Registration Status: <b>${total} Enrolled</b> (Click for breakdown)`;
     }
 
     function openModal() {
         const modalBody = document.getElementById('modalBody');
         
+        // Total Enrolled Section with Country Summary List Box
         let html = `
-            <div class="stat-section" style="text-align: center; margin-bottom: 20px;">
-                <h4 style="border: none; display: inline-block; font-size: 16px;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
+            <div class="stat-section" style="margin-bottom: 24px; background: #fffbf0; padding: 12px; border-radius: 8px; border: 1px solid #fed7aa;">
+                <h4 style="border: none; margin-bottom: 8px;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
+                <div style="font-size: 13px; color: #475569; font-weight: 600; margin-bottom: 4px;">🌍 Country-wise Distribution:</div>
+                <select class="names-select" size="${Math.min(Math.max(Object.keys(registrationData.overallCountries).length, 1), 4)}">
+        `;
+
+        if (Object.keys(registrationData.overallCountries).length === 0) {
+            html += `<option value="">No countries recorded yet</option>`;
+        } else {
+            for (const [country, namesArray] of Object.entries(registrationData.overallCountries)) {
+                html += `<option value="">${country} — ${namesArray.length} participant(s)</option>`;
+            }
+        }
+
+        html += `
+                </select>
             </div>
         `;
 
+        // Module-wise Breakdown Sections
         for (const [moduleName, countriesObj] of Object.entries(registrationData.moduleCounts)) {
-            // Calculate total participants for this module across all countries
             let totalForModule = 0;
             Object.values(countriesObj).forEach(namesArray => {
                 totalForModule += namesArray.length;
@@ -599,8 +620,7 @@
                                 <span>🌍 ${country}</span>
                                 <span><b>${namesArray.length}</b></span>
                             </div>
-                            <!-- Combo list box / dropdown showing names -->
-                            <select class="names-select" size="${Math.min(Math.max(namesArray.length, 1), 4)}">
+                            <select class="names-select" size="${Math.min(Math.max(namesArray.length, 1), 3)}">
                     `;
                     namesArray.forEach(name => {
                         html += `<option value="">${name}</option>`;

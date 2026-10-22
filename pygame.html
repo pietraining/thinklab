@@ -41,7 +41,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .nav-link {
@@ -58,40 +58,29 @@
         }
 
         .nav-link svg {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             flex-shrink: 0;
         }
 
         .back-link svg {
-            margin-right: 6px;
+            margin-right: 4px;
         }
 
         .forward-link svg {
-            margin-left: 6px;
+            margin-left: 4px;
         }
 
-        /* Responsive Mobile View Adjustments */
-        .desktop-text {
-            display: inline;
-        }
-        
-        .mobile-text {
-            display: none;
-        }
-
+        /* Responsive Mobile Adjustments for smaller screens */
         @media (max-width: 480px) {
-            .desktop-text {
-                display: none;
-            }
-            .mobile-text {
-                display: inline;
-            }
             body {
                 padding: 10px;
             }
             .form-container {
-                padding: 20px;
+                padding: 20px 15px;
+            }
+            .nav-header {
+                font-size: 12px; /* Slightly smaller text on mobile to fit the full wording */
             }
         }
 
@@ -198,14 +187,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            <span class="desktop-text">Join Think Lab</span>
-            <span class="mobile-text">Think Lab</span>
+            <span>Join Think Lab</span>
         </a>
 
         <!-- Right Link: Support Sou Calendar -->
         <a href="https://www.sourashtracalendar.com" class="nav-link forward-link">
-            <span class="desktop-text">Support Sou Calendar</span>
-            <span class="mobile-text">Support</span>
+            <span>Support Sou Calendar</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>

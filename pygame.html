@@ -544,42 +544,17 @@
             "Pygame": []
         };
 
-        const categoriesList = ["working professional", "school student", "college student", "educator"];
-
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
-            // Only require row[1] (Name) to exist so it never skips valid records due to column length checks
             if (!row[1]) continue;
 
             total++;
 
-            let name = row[1].replace(/^"|"$/g, '').trim();
-            
-            // Flexibly find country and category by checking available columns
-            let country = 'Other';
-            let category = 'Participant';
-
-            for (let j = 2; j < row.length; j++) {
-                let val = row[j] ? row[j].replace(/^"|"$/g, '').trim() : '';
-                if (!val) continue;
-                let lowerVal = val.toLowerCase();
-                
-                if (categoriesList.includes(lowerVal)) {
-                    category = val;
-                } else if (!isNaN(val) || val.includes('+') || (val.length > 15 && !val.includes(' '))) {
-                    // skip numbers / phones / timestamps
-                } else if (val.includes('/') && val.includes(':')) {
-                    // skip timestamp formats
-                } else {
-                    let isModule = false;
-                    for (let knownMod of Object.keys(moduleNames)) {
-                        if (val.toLowerCase() === knownMod.toLowerCase()) isModule = true;
-                    }
-                    if (!isModule && country === 'Other') {
-                        country = val;
-                    }
-                }
-            }
+            // Precise Google Form CSV column mapping:
+            // row[1] = Name, row[2] = Country, row[3] = Category
+            let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
+            let country = (row[2] && row[2].trim() !== '') ? row[2].replace(/^"|"$/g, '').trim() : 'Other';
+            let category = (row[3] && row[3].trim() !== '') ? row[3].replace(/^"|"$/g, '').trim() : 'Participant';
 
             if (!overallCountries[country]) {
                 overallCountries[country] = [];

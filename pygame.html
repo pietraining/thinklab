@@ -544,37 +544,60 @@
             "Pygame": []
         };
 
+        const categoriesList = ["working professional", "school student", "college student", "educator"];
+
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
-            // Ensure the row has enough columns based on standard Google Form export order
-            if (row.length < 6 || !row[1]) continue;
+            // Only require row[1] (Name) to exist so it never skips valid records due to column length checks
+            if (!row[1]) continue;
 
             total++;
 
-            let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
-            let country = row[2] ? row[2].replace(/^"|"$/g, '').trim() : 'Other';
-            let category = row[3] ? row[3].replace(/^"|"$/g, '').trim() : 'Participant';
-            let modulesRaw = row[5] ? row[5].replace(/^"|"$/g, '').trim() : '';
+            let name = row[1].replace(/^"|"$/g, '').trim();
+            
+            // Flexibly find country and category by checking available columns
+            let country = 'Other';
+            let category = 'Participant';
 
-            if (!country) country = 'Other';
+            for (let j = 2; j < row.length; j++) {
+                let val = row[j] ? row[j].replace(/^"|"$/g, '').trim() : '';
+                if (!val) continue;
+                let lowerVal = val.toLowerCase();
+                
+                if (categoriesList.includes(lowerVal)) {
+                    category = val;
+                } else if (!isNaN(val) || val.includes('+') || (val.length > 15 && !val.includes(' '))) {
+                    // skip numbers / phones / timestamps
+                } else if (val.includes('/') && val.includes(':')) {
+                    // skip timestamp formats
+                } else {
+                    let isModule = false;
+                    for (let knownMod of Object.keys(moduleNames)) {
+                        if (val.toLowerCase() === knownMod.toLowerCase()) isModule = true;
+                    }
+                    if (!isModule && country === 'Other') {
+                        country = val;
+                    }
+                }
+            }
 
-            // Populate overall country distribution
             if (!overallCountries[country]) {
                 overallCountries[country] = [];
             }
             overallCountries[country].push(name);
 
-            // Format entry as Name (Category)
             const displayEntry = `${name} (${category})`;
 
-            // Parse modules from the modules column (index 5)
-            if (modulesRaw) {
-                let selectedMods = modulesRaw.split(',').map(m => m.trim());
-                selectedMods.forEach(mod => {
-                    // Check against our 3 known modules case-insensitively
+            // Scan all cells in the row for selected modules
+            for (let cell of row) {
+                let cleanCell = cell.replace(/^"|"$/g, '');
+                let items = cleanCell.split(',').map(item => item.trim());
+                items.forEach(item => {
                     for (let knownMod of Object.keys(moduleNames)) {
-                        if (mod.toLowerCase() === knownMod.toLowerCase()) {
-                            moduleNames[knownMod].push(displayEntry);
+                        if (item.toLowerCase() === knownMod.toLowerCase()) {
+                            if (!moduleNames[knownMod].includes(displayEntry)) {
+                                moduleNames[knownMod].push(displayEntry);
+                            }
                         }
                     }
                 });
@@ -593,7 +616,6 @@
     function openModal() {
         const modalBody = document.getElementById('modalBody');
         
-        // Total Enrolled Section with Country Summary List Box
         let html = `
             <div class="stat-section" style="margin-bottom: 24px; background: #fffbf0; padding: 12px; border-radius: 8px; border: 1px solid #fed7aa;">
                 <h4 style="border: none; margin-bottom: 8px;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
@@ -614,7 +636,6 @@
             </div>
         `;
 
-        // Module-wise Names List Box Sections (Displaying Name (Category))
         registrationData.moduleNamesList.forEach(moduleName => {
             let namesArray = registrationData.moduleNames[moduleName] || [];
             

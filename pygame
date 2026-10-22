@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pygame Course Registration</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 24px;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Pygame Course Registration</h2>
+    <p class="subtitle">Fill out the details below to register for the upcoming batch.</p>
+
+    <!-- Form action points to the Google Form response endpoint -->
+    <form action="https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse" method="POST" target="_self">
+        
+        <!-- Field 1: Name / Text Field (entry.1215900612) -->
+        <div class="form-group">
+            <label for="entry.1215900612">Full Name</label>
+            <input type="text" id="entry.1215900612" name="entry.1215900612" placeholder="Enter your full name" required>
+        </div>
+
+        <!-- Field 2: Category / Dropdown (entry.38679720) -->
+        <div class="form-group">
+            <label for="entry.38679720">Participant Category</label>
+            <select id="entry.38679720" name="entry.38679720" required>
+                <option value="" disabled selected>Select your profile</option>
+                <option value="Working Professional">Working Professional</option>
+                <option value="School Student">School Student</option>
+                <option value="College Student">College Student</option>
+                <option value="Educator">Educator</option>
+            </select>
+        </div>
+
+        <!-- Field 3: Email / Text Field (entry.995387167) -->
+        <div class="form-group">
+            <label for="entry.995387167">Email Address</label>
+            <input type="email" id="entry.995387167" name="entry.995387167" placeholder="Enter your email address" required>
+        </div>
+
+        <!-- Field 4: Course Selection (Pre-filled as Pygame, hidden or readonly) -->
+        <div class="form-group">
+            <label for="entry.338072554">Selected Course</label>
+            <input type="text" id="entry.338072554" name="entry.338072554" value="Pygame" readonly style="background-color: #f1f5f9; cursor: not-allowed;">
+        </div>
+
+        <button type="submit">Register Now</button>
+    </form>
+</div>
+
+</body>
+</html>

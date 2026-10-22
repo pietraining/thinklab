@@ -380,16 +380,16 @@
           action="https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse" 
           method="POST" 
           target="hidden_iframe" 
-          onsubmit="submitted=true;">
+          onsubmit="handleFormSubmit();">
         
         <div class="form-group">
             <label for="entry.1215900612">Full Name</label>
-            <input type="text" id="entry.1215900612" name="entry.1215900612" placeholder="Enter your full name" required>
+            <input type="text" id="nameInput" name="entry.1215900612" placeholder="Enter your full name" required>
         </div>
 
         <div class="form-group">
             <label for="entry.2068278968">Country</label>
-            <input type="text" id="entry.2068278968" name="entry.2068278968" placeholder="e.g. India, Singapore" required>
+            <input type="text" id="countryInput" name="entry.2068278968" placeholder="e.g. India, Singapore" required>
         </div>
 
         <div class="form-group">
@@ -462,12 +462,47 @@
         } 
     };
 
+    function handleFormSubmit() {
+        submitted = true;
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Submitting...";
+
+        // INSTANT LOCAL UPDATE: Immediately add data to stats without waiting for sheet sync
+        const nameVal = document.getElementById('nameInput').value.trim();
+        const countryVal = document.getElementById('countryInput').value.trim() || 'Other';
+        const checkedModules = Array.from(document.querySelectorAll('input[name="entry.338072554"]:checked'))
+                                    .map(cb => cb.value);
+
+        if (nameVal) {
+            registrationData.total++;
+            
+            if (!registrationData.overallCountries[countryVal]) {
+                registrationData.overallCountries[countryVal] = [];
+            }
+            registrationData.overallCountries[countryVal].push(nameVal);
+
+            checkedModules.forEach(mod => {
+                if (registrationData.moduleCounts[mod]) {
+                    if (!registrationData.moduleCounts[mod][countryVal]) {
+                        registrationData.moduleCounts[mod][countryVal] = [];
+                    }
+                    registrationData.moduleCounts[mod][countryVal].push(nameVal);
+                }
+            });
+
+            // Refresh the banner display instantly
+            document.getElementById('statsBanner').innerHTML = `📊 Live Registration Status: <b>${registrationData.total} Enrolled</b> (Click for breakdown)`;
+        }
+    }
+
     function showSuccessMessage() {
         if (submitted) {
             document.getElementById('registrationForm').style.display = 'none';
             document.getElementById('formSubtitle').style.display = 'none';
             document.getElementById('successContainer').style.display = 'block';
 
+            // Also trigger background fetch to ensure alignment with cloud sheet
             setTimeout(fetchRegistrationStats, 3000);
         }
     }
@@ -485,12 +520,6 @@
         submitBtn.innerText = "Submit Registration";
     }
 
-    document.getElementById('registrationForm').addEventListener('submit', function() {
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Submitting...";
-    });
-
     async function fetchRegistrationStats() {
         try {
             const response = await fetch(csvUrl);
@@ -498,7 +527,6 @@
             parseCSV(csvText);
         } catch (error) {
             console.error("Error fetching stats:", error);
-            document.getElementById('statsBanner').innerText = "📊 Live Registrations: Click to View";
         }
     }
 
@@ -531,6 +559,8 @@
             "Pygame": {}
         };
 
+        const categoriesList = ["working professional", "school student", "college student", "educator"];
+
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
             if (row.length < 3 || !row[1]) continue;
@@ -538,16 +568,23 @@
             total++;
 
             let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
-            let country = row[2] ? row[2].replace(/^"|"$/g, '').trim() : 'Unknown';
-            if (!country) country = 'Unknown';
+            
+            let country = 'Unknown';
+            for (let j = 2; j < row.length - 1; j++) {
+                let val = row[j] ? row[j].replace(/^"|"$/g, '').trim() : '';
+                if (val && !categoriesList.includes(val.toLowerCase()) && isNaN(val) && !val.includes('+')) {
+                    country = val;
+                    break;
+                }
+            }
 
-            // Track overall unique countries and participant names
+            if (!country || country === 'Unknown') country = 'Other';
+
             if (!overallCountries[country]) {
                 overallCountries[country] = [];
             }
             overallCountries[country].push(name);
 
-            // Scan columns for module keywords to map multi-select checkboxes securely
             let foundModulesForUser = new Set();
             for (let cell of row) {
                 let cleanCell = cell.replace(/^"|"$/g, '');
@@ -561,7 +598,6 @@
                 });
             }
 
-            // Group names by Module -> Country -> Array of Names
             foundModulesForUser.forEach(mod => {
                 if (!moduleCounts[mod][country]) {
                     moduleCounts[mod][country] = [];
@@ -577,7 +613,6 @@
     function openModal() {
         const modalBody = document.getElementById('modalBody');
         
-        // Total Enrolled Section with Country Summary List Box
         let html = `
             <div class="stat-section" style="margin-bottom: 24px; background: #fffbf0; padding: 12px; border-radius: 8px; border: 1px solid #fed7aa;">
                 <h4 style="border: none; margin-bottom: 8px;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
@@ -598,7 +633,6 @@
             </div>
         `;
 
-        // Module-wise Breakdown Sections
         for (const [moduleName, countriesObj] of Object.entries(registrationData.moduleCounts)) {
             let totalForModule = 0;
             Object.values(countriesObj).forEach(namesArray => {

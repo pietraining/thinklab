@@ -457,7 +457,6 @@
             document.getElementById('formSubtitle').style.display = 'none';
             document.getElementById('successContainer').style.display = 'block';
 
-            // Fetch fresh stats from the Google Sheet 3.5 seconds after successful submission
             setTimeout(fetchRegistrationStats, 3500);
         }
     }
@@ -520,11 +519,6 @@
 
             total++;
 
-            // Accurate column mapping from your sheet layout:
-            // row[1] = Full Name
-            // row[2] = Category
-            // row[3] = Choose the Modules
-            // row[4] = Country
             let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
             let category = (row[2] && row[2].trim() !== '') ? row[2].replace(/^"|"$/g, '').trim() : 'Participant';
             let modulesRaw = (row[3] && row[3].trim() !== '') ? row[3].replace(/^"|"$/g, '').trim() : '';
@@ -563,14 +557,19 @@
     function openModal() {
         const modalBody = document.getElementById('modalBody');
         
+        let countryCount = Object.keys(registrationData.overallCountries).length;
+        
         let html = `
-            <div class="stat-section" style="margin-bottom: 24px; background: #fffbf0; padding: 12px; border-radius: 8px; border: 1px solid #fed7aa;">
-                <h4 style="border: none; margin-bottom: 8px;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
-                <div style="font-size: 13px; color: #475569; font-weight: 600; margin-bottom: 4px;">🌍 Country-wise Distribution:</div>
-                <select class="names-select" size="${Math.min(Math.max(Object.keys(registrationData.overallCountries).length, 1), 4)}">
+            <div class="stat-section" style="margin-bottom: 20px;">
+                <h4 style="margin-bottom: 6px;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
+            </div>
+
+            <div class="stat-section">
+                <h4>🌍 Country-wise Distribution</h4>
+                <select class="names-select" size="${Math.min(Math.max(countryCount, 1), 4)}">
         `;
 
-        if (Object.keys(registrationData.overallCountries).length === 0) {
+        if (countryCount === 0) {
             html += `<option value="">No countries recorded yet</option>`;
         } else {
             for (const [country, namesArray] of Object.entries(registrationData.overallCountries)) {
@@ -589,23 +588,21 @@
             html += `
                 <div class="stat-section">
                     <h4>${moduleName} <span style="float: right; font-weight: normal; font-size: 13px; color: #64748b;">Total: ${namesArray.length}</span></h4>
+                    <select class="names-select" size="${Math.min(Math.max(namesArray.length, 1), 4)}">
             `;
 
             if (namesArray.length === 0) {
-                html += `<p style="font-size: 13px; color: #64748b; margin: 4px 0;">No registrations yet</p>`;
+                html += `<option value="">No registrations yet</option>`;
             } else {
-                html += `
-                    <select class="names-select" size="${Math.min(Math.max(namesArray.length, 1), 4)}">
-                `;
                 namesArray.forEach(entryStr => {
                     html += `<option value="">${entryStr}</option>`;
                 });
-                html += `
-                    </select>
-                `;
             }
 
-            html += `</div>`;
+            html += `
+                    </select>
+                </div>
+            `;
         });
 
         modalBody.innerHTML = html;

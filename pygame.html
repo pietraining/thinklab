@@ -29,7 +29,7 @@
         .form-container {
             background-color: var(--card-bg);
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
@@ -62,7 +62,7 @@
         }
 
         input[type="text"],
-        input[type="email"],
+        input[type="tel"],
         select {
             width: 100%;
             padding: 10px 12px;
@@ -74,7 +74,7 @@
         }
 
         input[type="text"]:focus,
-        input[type="email"]:focus,
+        input[type="tel"]:focus,
         select:focus {
             outline: none;
             border-color: var(--primary);
@@ -104,22 +104,28 @@
 
 <div class="form-container">
     <h2>Pygame Course Registration</h2>
-    <p class="subtitle">Fill out the details below to register for the upcoming batch.</p>
+    <p class="subtitle">Please fill out your details below to enroll.</p>
 
-    <!-- Form action points to the Google Form response endpoint -->
+    <!-- Form action points directly to your Google Form response URL -->
     <form action="https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse" method="POST" target="_self">
         
-        <!-- Field 1: Name / Text Field (entry.1215900612) -->
+        <!-- Field 1: Name (entry.1215900612) -->
         <div class="form-group">
             <label for="entry.1215900612">Full Name</label>
             <input type="text" id="entry.1215900612" name="entry.1215900612" placeholder="Enter your full name" required>
         </div>
 
-        <!-- Field 2: Category / Dropdown (entry.38679720) -->
+        <!-- Field 2: Country (entry.2068278968) -->
         <div class="form-group">
-            <label for="entry.38679720">Participant Category</label>
+            <label for="entry.2068278968">Country</label>
+            <input type="text" id="entry.2068278968" name="entry.2068278968" placeholder="e.g. India, Singapore" required>
+        </div>
+
+        <!-- Field 3: Category (entry.38679720) -->
+        <div class="form-group">
+            <label for="entry.38679720">Category</label>
             <select id="entry.38679720" name="entry.38679720" required>
-                <option value="" disabled selected>Select your profile</option>
+                <option value="" disabled selected>Select your category</option>
                 <option value="Working Professional">Working Professional</option>
                 <option value="School Student">School Student</option>
                 <option value="College Student">College Student</option>
@@ -127,19 +133,23 @@
             </select>
         </div>
 
-        <!-- Field 3: Email / Text Field (entry.995387167) -->
+        <!-- Field 4: WhatsApp Number (entry.995387167) -->
         <div class="form-group">
-            <label for="entry.995387167">Email Address</label>
-            <input type="email" id="entry.995387167" name="entry.995387167" placeholder="Enter your email address" required>
+            <label for="entry.995387167">WhatsApp Number</label>
+            <input type="tel" id="entry.995387167" name="entry.995387167" placeholder="e.g. +91 9876543210" required>
         </div>
 
-        <!-- Field 4: Course Selection (Pre-filled as Pygame, hidden or readonly) -->
+        <!-- Field 5: Choose the modules (entry.338072554) -->
         <div class="form-group">
-            <label for="entry.338072554">Selected Course</label>
-            <input type="text" id="entry.338072554" name="entry.338072554" value="Pygame" readonly style="background-color: #f1f5f9; cursor: not-allowed;">
+            <label for="entry.338072554">Choose the Modules</label>
+            <select id="entry.338072554" name="entry.338072554" required>
+                <option value="" disabled selected>Select your module choice</option>
+                <option value="Pygame">Pygame</option>
+                <!-- Add other module options here if your Google Form supports multiple options -->
+            </select>
         </div>
 
-        <button type="submit">Register Now</button>
+        <button type="submit">Submit Registration</button>
     </form>
 </div>
 

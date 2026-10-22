@@ -451,7 +451,6 @@
     let submitted = false;
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJCV-KUn60ipapKwOxsbZCiDIgopMTZ2djss2pwY1la0UfLQnJr9nd-GOABGjxUXFeXKethhfsrcBd/pub?gid=308253844&single=true&output=csv';
     
-    // We explicitly pre-define the 3 target modules
     let registrationData = { 
         total: 0, 
         moduleCounts: {
@@ -535,19 +534,29 @@
 
             total++;
 
+            // Extract country safely (typically index 2, but fallback search if needed)
             let country = row[2] ? row[2].replace(/^"|"$/g, '').trim() : 'Unknown';
             if (!country) country = 'Unknown';
 
-            let moduleStr = row[row.length - 1] ? row[row.length - 1].replace(/^"|"$/g, '') : '';
-            if (moduleStr) {
-                const selectedModules = moduleStr.split(',').map(m => m.trim());
-                selectedModules.forEach(mod => {
-                    // Check if the module matches one of our 3 targets
-                    if (moduleCounts[mod]) {
-                        moduleCounts[mod][country] = (moduleCounts[mod][country] || 0) + 1;
+            // Dynamically scan all columns for module keywords to handle multi-select checkboxes securely
+            let foundModulesForUser = new Set();
+            for (let cell of row) {
+                let cleanCell = cell.replace(/^"|"$/g, '');
+                // Split by comma in case multiple checkboxes were concatenated in one cell
+                let items = cleanCell.split(',').map(item => item.trim());
+                items.forEach(item => {
+                    for (let knownMod of Object.keys(moduleCounts)) {
+                        if (item.toLowerCase() === knownMod.toLowerCase()) {
+                            foundModulesForUser.add(knownMod);
+                        }
                     }
                 });
             }
+
+            // Add counts for each module chosen by this participant
+            foundModulesForUser.forEach(mod => {
+                moduleCounts[mod][country] = (moduleCounts[mod][country] || 0) + 1;
+            });
         }
 
         registrationData = { total, moduleCounts };
@@ -563,7 +572,6 @@
             </div>
         `;
 
-        // Loop through each of the 3 specific modules
         for (const [moduleName, countriesObj] of Object.entries(registrationData.moduleCounts)) {
             let totalForModule = Object.values(countriesObj).reduce((a, b) => a + b, 0);
             

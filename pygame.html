@@ -67,7 +67,6 @@
             flex-shrink: 0;
         }
 
-        /* Think Lab Button: Vibrant Indigo/Purple Gradient */
         .btn-thinklab {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
         }
@@ -79,7 +78,6 @@
             margin-right: 6px;
         }
 
-        /* Sou Calendar Button: Vibrant Emerald/Teal Gradient */
         .btn-calendar {
             background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
         }
@@ -379,7 +377,7 @@
         </a>
     </div>
 
-    <!-- Enhanced Live Registration Status Banner -->
+    <!-- Live Registration Status Banner -->
     <div class="stats-banner" id="statsBanner" onclick="openModal()">
         📊 Loading Live Registration Status...
     </div>
@@ -387,8 +385,15 @@
     <h2>Free Python Course</h2>
     <p class="subtitle" id="formSubtitle">Please fill out your details below to enroll.</p>
 
-    <!-- Registration Form -->
-    <form id="registrationForm" onsubmit="submitForm(event)">
+    <!-- Hidden Iframe to target form submission without page reload -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { showSuccessMessage(); }"></iframe>
+
+    <!-- Registration Form targeting the hidden iframe -->
+    <form id="registrationForm" 
+          action="https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse" 
+          method="POST" 
+          target="hidden_iframe" 
+          onsubmit="submitted=true;">
         
         <div class="form-group">
             <label for="entry.1215900612">Full Name</label>
@@ -457,7 +462,7 @@
 </div>
 
 <script>
-    const googleFormActionUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse';
+    let submitted = false;
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJCV-KUn60ipapKwOxsbZCiDIgopMTZ2djss2pwY1la0UfLQnJr9nd-GOABGjxUXFeXKethhfsrcBd/pub?gid=308253844&single=true&output=csv';
     
     let registrationData = {
@@ -466,38 +471,19 @@
         countries: {}
     };
 
-    async function submitForm(event) {
-        event.preventDefault();
-        
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Submitting...";
-
-        const formElement = document.getElementById('registrationForm');
-        const formData = new FormData(formElement);
-
-        try {
-            await fetch(googleFormActionUrl, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            });
-
-            formElement.style.display = 'none';
+    function showSuccessMessage() {
+        if (submitted) {
+            document.getElementById('registrationForm').style.display = 'none';
             document.getElementById('formSubtitle').style.display = 'none';
             document.getElementById('successContainer').style.display = 'block';
 
+            // Refresh stats after a few seconds to reflect the new record
             setTimeout(fetchRegistrationStats, 3000);
-
-        } catch (error) {
-            console.error("Submission error:", error);
-            alert("Something went wrong. Please try again.");
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Submit Registration";
         }
     }
 
     function resetForm() {
+        submitted = false;
         const formElement = document.getElementById('registrationForm');
         formElement.reset();
         formElement.style.display = 'block';
@@ -508,6 +494,13 @@
         submitBtn.disabled = false;
         submitBtn.innerText = "Submit Registration";
     }
+
+    // Trigger loading state on button click
+    document.getElementById('registrationForm').addEventListener('submit', function() {
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Submitting...";
+    });
 
     async function fetchRegistrationStats() {
         try {

@@ -1,352 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Python Course - Think Lab</title>
-    <style>
-        :root {
-            --primary: #d95a1e;
-            --primary-hover: #b5451b;
-            --bg-color: #fffbf0;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #cbd5e1;
-            --success-color: #10b981;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Python Course - Think Lab</title>
+<style>
+    :root {
+        --primary: #d95a1e;
+        --primary-hover: #b5451b;
+        --bg-color: #fffbf0;
+        --card-bg: #ffffff;
+        --text-color: #1e293b;
+        --border-color: #cbd5e1;
+        --success-color: #10b981;
+    }
 
+    body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 16px 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+
+    .form-container {
+        background-color: var(--card-bg);
+        width: 100%;
+        max-width: 520px;
+        padding: 25px 30px;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Top Navigation Buttons */
+    .nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .nav-btn {
+        flex: 1;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 12px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 10px rgba(217, 90, 30, 0.2);
+    }
+
+    .btn-thinklab {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+    }
+    .btn-thinklab:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    .btn-calendar {
+        background: #d95a1e;
+    }
+    .btn-calendar:hover {
+        background: #b5451b;
+        transform: translateY(-1px);
+    }
+
+    /* Live Registration Status Banner */
+    .stats-banner {
+        background: #fff7f0;
+        border: 1px solid #fed7aa;
+        color: #c2410c;
+        padding: 11px 16px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 22px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .stats-banner:hover {
+        background: #ffedd5;
+        transform: translateY(-1px);
+    }
+
+    .stats-banner b {
+        color: #9a3412;
+        background: #ffffff;
+        padding: 2px 8px;
+        border-radius: 6px;
+        border: 1px solid #fdba74;
+    }
+
+    /* Modal Popup Styles */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .modal-content {
+        background: #ffffff;
+        width: 100%;
+        max-width: 440px;
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        position: relative;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .modal-header h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #b5451b;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #64748b;
+    }
+
+    .stat-section {
+        margin-bottom: 18px;
+        text-align: left;
+    }
+
+    .stat-section h4 {
+        margin: 0 0 6px 0;
+        font-size: 14px;
+        color: #b5451b;
+        border-bottom: 2px solid #fed7aa;
+        padding-bottom: 4px;
+    }
+
+    .stat-list {
+        background: #f8fafc;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 0;
+        list-style: none;
+    }
+
+    .stat-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+        font-size: 13px;
+        border-bottom: 1px dashed #e2e8f0;
+        color: #475569;
+    }
+
+    .stat-list li:last-child {
+        border-bottom: none;
+    }
+
+    /* Success Message Container */
+    .success-container {
+        display: none;
+        text-align: center;
+        padding: 30px 10px;
+    }
+
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        background-color: #d1fae5;
+        color: var(--success-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px auto;
+        font-size: 28px;
+    }
+
+    .success-container h3 {
+        color: #065f46;
+        margin: 0 0 8px 0;
+        font-size: 22px;
+    }
+
+    .success-container p {
+        color: #4b5563;
+        font-size: 14px;
+        margin-bottom: 24px;
+    }
+
+    @media (max-width: 480px) {
         body {
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 16px 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            align-items: flex-start;
+            padding: 10px 8px;
         }
-
         .form-container {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 520px;
-            padding: 25px 30px;
-            border-radius: 14px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            padding: 20px 15px;
         }
-
-        /* Top Navigation Buttons */
-        .nav-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
         .nav-btn {
-            flex: 1;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 12px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            color: white;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 10px rgba(217, 90, 30, 0.2);
+            font-size: 11px;
+            padding: 8px 10px;
         }
+    }
 
-        .btn-thinklab {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
-        }
-        .btn-thinklab:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
+    h2 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 26px;
+        color: #b5451b;
+        text-align: center;
+    }
 
-        .btn-calendar {
-            background: #d95a1e;
-        }
-        .btn-calendar:hover {
-            background: #b5451b;
-            transform: translateY(-1px);
-        }
+    p.subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 24px;
+        font-size: 14px;
+    }
 
-        /* Live Registration Status Banner */
-        .stats-banner {
-            background: #fff7f0;
-            border: 1px solid #fed7aa;
-            color: #c2410c;
-            padding: 11px 16px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 22px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
 
-        .stats-banner:hover {
-            background: #ffedd5;
-            transform: translateY(-1px);
-        }
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        font-size: 14px;
+        color: #333;
+    }
 
-        .stats-banner b {
-            color: #9a3412;
-            background: #ffffff;
-            padding: 2px 8px;
-            border-radius: 6px;
-            border: 1px solid #fdba74;
-        }
+    input[type="text"],
+    input[type="tel"],
+    select {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
 
-        /* Modal Popup Styles */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(217, 90, 30, 0.15);
+    }
 
-        .modal-content {
-            background: #ffffff;
-            width: 100%;
-            max-width: 440px;
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
+    .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #fffaf0;
+        padding: 12px;
+        border: 1px solid #fed7aa;
+        border-radius: 8px;
+    }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        font-weight: normal;
+        font-size: 14px;
+        cursor: pointer;
+        margin-bottom: 0;
+    }
 
-        .modal-header h3 {
-            margin: 0;
-            font-size: 18px;
-            color: #b5451b;
-        }
+    .checkbox-label input[type="checkbox"] {
+        margin-right: 10px;
+        width: 16px;
+        height: 16px;
+        accent-color: var(--primary);
+        cursor: pointer;
+    }
 
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            color: #64748b;
-        }
+    button[type="submit"], .btn-secondary {
+        width: 100%;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(217, 90, 30, 0.3);
+    }
 
-        .stat-section {
-            margin-bottom: 15px;
-            text-align: left;
-        }
+    button[type="submit"]:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+    }
 
-        .stat-section h4 {
-            margin: 0 0 8px 0;
-            font-size: 14px;
-            color: #475569;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-list {
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 10px 14px;
-            margin: 0;
-            list-style: none;
-        }
-
-        .stat-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            font-size: 14px;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-
-        .stat-list li:last-child {
-            border-bottom: none;
-        }
-
-        /* Success Message Container */
-        .success-container {
-            display: none;
-            text-align: center;
-            padding: 30px 10px;
-        }
-
-        .success-icon {
-            width: 60px;
-            height: 60px;
-            background-color: #d1fae5;
-            color: var(--success-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px auto;
-            font-size: 28px;
-        }
-
-        .success-container h3 {
-            color: #065f46;
-            margin: 0 0 8px 0;
-            font-size: 22px;
-        }
-
-        .success-container p {
-            color: #4b5563;
-            font-size: 14px;
-            margin-bottom: 24px;
-        }
-
-        @media (max-width: 480px) {
-            body {
-                align-items: flex-start;
-                padding: 10px 8px;
-            }
-            .form-container {
-                padding: 20px 15px;
-            }
-            .nav-btn {
-                font-size: 11px;
-                padding: 8px 10px;
-            }
-        }
-
-        h2 {
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 26px;
-            color: #b5451b;
-            text-align: center;
-        }
-
-        p.subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 24px;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-        }
-
-        input[type="text"],
-        input[type="tel"],
-        select {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        input[type="text"]:focus,
-        input[type="tel"]:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(217, 90, 30, 0.15);
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background-color: #fffaf0;
-            padding: 12px;
-            border: 1px solid #fed7aa;
-            border-radius: 8px;
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            font-weight: normal;
-            font-size: 14px;
-            cursor: pointer;
-            margin-bottom: 0;
-        }
-
-        .checkbox-label input[type="checkbox"] {
-            margin-right: 10px;
-            width: 16px;
-            height: 16px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-
-        button[type="submit"], .btn-secondary {
-            width: 100%;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(217, 90, 30, 0.3);
-        }
-
-        button[type="submit"]:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: #fff;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            box-shadow: none;
-        }
-        .btn-secondary:hover {
-            background-color: #fff7f0;
-        }
-    </style>
+    .btn-secondary {
+        background-color: #fff;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        box-shadow: none;
+    }
+    .btn-secondary:hover {
+        background-color: #fff7f0;
+    }
+</style>
 </head>
 <body>
 
@@ -450,7 +451,15 @@
     let submitted = false;
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJCV-KUn60ipapKwOxsbZCiDIgopMTZ2djss2pwY1la0UfLQnJr9nd-GOABGjxUXFeXKethhfsrcBd/pub?gid=308253844&single=true&output=csv';
     
-    let registrationData = { total: 0, modules: {}, countries: {} };
+    // We explicitly pre-define the 3 target modules
+    let registrationData = { 
+        total: 0, 
+        moduleCounts: {
+            "Introduction to Python": {},
+            "Object Oriented Programming": {},
+            "Pygame": {}
+        } 
+    };
 
     function showSuccessMessage() {
         if (submitted) {
@@ -458,7 +467,6 @@
             document.getElementById('formSubtitle').style.display = 'none';
             document.getElementById('successContainer').style.display = 'block';
 
-            // Refresh stats after 3 seconds to catch the newly inserted row
             setTimeout(fetchRegistrationStats, 3000);
         }
     }
@@ -515,8 +523,11 @@
         if (rows.length < 2) return;
 
         let total = 0;
-        let modules = {};
-        let countries = {};
+        let moduleCounts = {
+            "Introduction to Python": {},
+            "Object Oriented Programming": {},
+            "Pygame": {}
+        };
 
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
@@ -524,21 +535,22 @@
 
             total++;
 
-            let country = row[2] ? row[2].replace(/^"|"$/g, '') : 'Unknown';
-            countries[country] = (countries[country] || 0) + 1;
+            let country = row[2] ? row[2].replace(/^"|"$/g, '').trim() : 'Unknown';
+            if (!country) country = 'Unknown';
 
             let moduleStr = row[row.length - 1] ? row[row.length - 1].replace(/^"|"$/g, '') : '';
             if (moduleStr) {
                 const selectedModules = moduleStr.split(',').map(m => m.trim());
                 selectedModules.forEach(mod => {
-                    if (mod) {
-                        modules[mod] = (modules[mod] || 0) + 1;
+                    // Check if the module matches one of our 3 targets
+                    if (moduleCounts[mod]) {
+                        moduleCounts[mod][country] = (moduleCounts[mod][country] || 0) + 1;
                     }
                 });
             }
         }
 
-        registrationData = { total, modules, countries };
+        registrationData = { total, moduleCounts };
         document.getElementById('statsBanner').innerHTML = `📊 Live Registration Status: <b>${total} Enrolled</b> (Click for breakdown)`;
     }
 
@@ -546,42 +558,34 @@
         const modalBody = document.getElementById('modalBody');
         
         let html = `
-            <div class="stat-section">
-                <h4>Total Enrolled: <span style="color: #b5451b;">${registrationData.total}</span></h4>
+            <div class="stat-section" style="text-align: center; margin-bottom: 20px;">
+                <h4 style="border: none; display: inline-block; font-size: 16px;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
             </div>
-            <div class="stat-section">
-                <h4>Module-wise Breakdown</h4>
-                <ul class="stat-list">
         `;
 
-        if (Object.keys(registrationData.modules).length === 0) {
-            html += `<li><span>No module data yet</span><span>0</span></li>`;
-        } else {
-            for (const [mod, count] of Object.entries(registrationData.modules)) {
-                html += `<li><span>${mod}</span><strong>${count}</strong></li>`;
+        // Loop through each of the 3 specific modules
+        for (const [moduleName, countriesObj] of Object.entries(registrationData.moduleCounts)) {
+            let totalForModule = Object.values(countriesObj).reduce((a, b) => a + b, 0);
+            
+            html += `
+                <div class="stat-section">
+                    <h4>${moduleName} <span style="float: right; font-weight: normal; font-size: 13px; color: #64748b;">Total: ${totalForModule}</span></h4>
+                    <ul class="stat-list">
+            `;
+
+            if (Object.keys(countriesObj).length === 0) {
+                html += `<li><span>No registrations yet</span><span>0</span></li>`;
+            } else {
+                for (const [country, count] of Object.entries(countriesObj)) {
+                    html += `<li><span>${country}</span><strong>${count}</strong></li>`;
+                }
             }
+
+            html += `
+                    </ul>
+                </div>
+            `;
         }
-
-        html += `
-                </ul>
-            </div>
-            <div class="stat-section">
-                <h4>Country-wise Breakdown</h4>
-                <ul class="stat-list">
-        `;
-
-        if (Object.keys(registrationData.countries).length === 0) {
-            html += `<li><span>No country data yet</span><span>0</span></li>`;
-        } else {
-            for (const [country, count] of Object.entries(registrationData.countries)) {
-                html += `<li><span>${country}</span><strong>${count}</strong></li>`;
-            }
-        }
-
-        html += `
-                </ul>
-            </div>
-        `;
 
         modalBody.innerHTML = html;
         document.getElementById('statsModal').style.display = 'flex';

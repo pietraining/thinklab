@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pygame Course Registration - Think Lab</title>
+    <title>Free Pygame Course Registration - Think Lab</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -35,25 +35,64 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
-        .back-link {
+        /* Top Navigation Bar */
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .nav-link {
             display: inline-flex;
             align-items: center;
             color: #64748b;
             text-decoration: none;
-            font-size: 14px;
             font-weight: 500;
-            margin-bottom: 20px;
             transition: color 0.2s;
         }
 
-        .back-link:hover {
+        .nav-link:hover {
             color: var(--primary);
+        }
+
+        .nav-link svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
         }
 
         .back-link svg {
             margin-right: 6px;
-            width: 16px;
-            height: 16px;
+        }
+
+        .forward-link svg {
+            margin-left: 6px;
+        }
+
+        /* Responsive Mobile View Adjustments */
+        .desktop-text {
+            display: inline;
+        }
+        
+        .mobile-text {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .desktop-text {
+                display: none;
+            }
+            .mobile-text {
+                display: inline;
+            }
+            body {
+                padding: 10px;
+            }
+            .form-container {
+                padding: 20px;
+            }
         }
 
         h2 {
@@ -124,15 +163,28 @@
 <body>
 
 <div class="form-container">
-    <!-- Back to Think Lab Navigation Link -->
-    <a href="https://www.thinkingskill.in" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        Back to Think Lab
-    </a>
+    <!-- Top Navigation Header -->
+    <div class="nav-header">
+        <!-- Left Link: Think Lab -->
+        <a href="https://www.thinkingskill.in" class="nav-link back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span class="desktop-text">Back to Think Lab</span>
+            <span class="mobile-text">Think Lab</span>
+        </a>
 
-    <h2>Pygame Course Registration</h2>
+        <!-- Right Link: Sou Calendar (Replace URL with your Sourashtra Calendar Request Form link if needed) -->
+        <a href="https://www.sourashtracalendar.com" class="nav-link forward-link">
+            <span class="desktop-text">Sou Calendar</span>
+            <span class="mobile-text">Calendar</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </a>
+    </div>
+
+    <h2>Free Pygame Course</h2>
     <p class="subtitle">Please fill out your details below to enroll.</p>
 
     <!-- Form action points directly to your Google Form response URL -->

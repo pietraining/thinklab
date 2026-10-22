@@ -521,11 +521,13 @@
             // row[1] = Full Name
             // row[2] = Category
             // row[3] = Choose the Modules
+            // row[4] = Country
             let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
             let category = (row[2] && row[2].trim() !== '') ? row[2].replace(/^"|"$/g, '').trim() : 'Participant';
             let modulesRaw = (row[3] && row[3].trim() !== '') ? row[3].replace(/^"|"$/g, '').trim() : '';
+            let country = (row[4] && row[4].trim() !== '') ? row[4].replace(/^"|"$/g, '').trim() : 'Other';
 
-            const displayEntry = `${name} (${category})`;
+            const displayEntry = `${name} (${category}, ${country})`;
 
             if (modulesRaw) {
                 let selectedMods = modulesRaw.split(',').map(m => m.trim());

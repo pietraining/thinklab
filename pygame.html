@@ -186,18 +186,6 @@
         margin-top: 4px;
     }
 
-    .country-block {
-        margin-bottom: 8px;
-        font-size: 13px;
-    }
-
-    .country-title {
-        font-weight: 600;
-        color: #475569;
-        display: flex;
-        justify-content: space-between;
-    }
-
     /* Success Message Container */
     .success-container {
         display: none;
@@ -394,7 +382,7 @@
 
         <div class="form-group">
             <label for="entry.38679720">Category</label>
-            <select id="entry.38679720" name="entry.38679720" required>
+            <select id="categorySelect" name="entry.38679720" required>
                 <option value="" disabled selected>Select your category</option>
                 <option value="Working Professional">Working Professional</option>
                 <option value="School Student">School Student</option>
@@ -455,10 +443,11 @@
     let registrationData = { 
         total: 0, 
         overallCountries: {},
-        moduleCounts: {
-            "Introduction to Python": {},
-            "Object Oriented Programming": {},
-            "Pygame": {}
+        moduleNamesList: ["Introduction to Python", "Object Oriented Programming", "Pygame"],
+        moduleNames: {
+            "Introduction to Python": [],
+            "Object Oriented Programming": [],
+            "Pygame": []
         } 
     };
 
@@ -468,9 +457,9 @@
         submitBtn.disabled = true;
         submitBtn.innerText = "Submitting...";
 
-        // INSTANT LOCAL UPDATE: Immediately add data to stats without waiting for sheet sync
         const nameVal = document.getElementById('nameInput').value.trim();
         const countryVal = document.getElementById('countryInput').value.trim() || 'Other';
+        const categoryVal = document.getElementById('categorySelect').value || 'Participant';
         const checkedModules = Array.from(document.querySelectorAll('input[name="entry.338072554"]:checked'))
                                     .map(cb => cb.value);
 
@@ -482,16 +471,13 @@
             }
             registrationData.overallCountries[countryVal].push(nameVal);
 
+            const displayEntry = `${nameVal} (${categoryVal})`;
             checkedModules.forEach(mod => {
-                if (registrationData.moduleCounts[mod]) {
-                    if (!registrationData.moduleCounts[mod][countryVal]) {
-                        registrationData.moduleCounts[mod][countryVal] = [];
-                    }
-                    registrationData.moduleCounts[mod][countryVal].push(nameVal);
+                if (registrationData.moduleNames[mod]) {
+                    registrationData.moduleNames[mod].push(displayEntry);
                 }
             });
 
-            // Refresh the banner display instantly
             document.getElementById('statsBanner').innerHTML = `📊 Live Registration Status: <b>${registrationData.total} Enrolled</b> (Click for breakdown)`;
         }
     }
@@ -502,7 +488,6 @@
             document.getElementById('formSubtitle').style.display = 'none';
             document.getElementById('successContainer').style.display = 'block';
 
-            // Also trigger background fetch to ensure alignment with cloud sheet
             setTimeout(fetchRegistrationStats, 3000);
         }
     }
@@ -553,10 +538,10 @@
 
         let total = 0;
         let overallCountries = {};
-        let moduleCounts = {
-            "Introduction to Python": {},
-            "Object Oriented Programming": {},
-            "Pygame": {}
+        let moduleNames = {
+            "Introduction to Python": [],
+            "Object Oriented Programming": [],
+            "Pygame": []
         };
 
         const categoriesList = ["working professional", "school student", "college student", "educator"];
@@ -570,11 +555,27 @@
             let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
             
             let country = 'Unknown';
-            for (let j = 2; j < row.length - 1; j++) {
+            let category = 'Participant';
+
+            for (let j = 2; j < row.length; j++) {
                 let val = row[j] ? row[j].replace(/^"|"$/g, '').trim() : '';
-                if (val && !categoriesList.includes(val.toLowerCase()) && isNaN(val) && !val.includes('+')) {
-                    country = val;
-                    break;
+                if (!val) continue;
+                let lowerVal = val.toLowerCase();
+                
+                if (categoriesList.includes(lowerVal)) {
+                    category = val;
+                } else if (!isNaN(val) || val.includes('+') || (val.length > 15 && !val.includes(' '))) {
+                    // skip phone numbers / timestamps
+                } else if (val.includes('/') && val.includes(':')) {
+                    // skip timestamps
+                } else {
+                    let isModule = false;
+                    for (let knownMod of Object.keys(moduleNames)) {
+                        if (val.toLowerCase() === knownMod.toLowerCase()) isModule = true;
+                    }
+                    if (!isModule && country === 'Unknown') {
+                        country = val;
+                    }
                 }
             }
 
@@ -585,12 +586,14 @@
             }
             overallCountries[country].push(name);
 
+            const displayEntry = `${name} (${category})`;
+
             let foundModulesForUser = new Set();
             for (let cell of row) {
                 let cleanCell = cell.replace(/^"|"$/g, '');
                 let items = cleanCell.split(',').map(item => item.trim());
                 items.forEach(item => {
-                    for (let knownMod of Object.keys(moduleCounts)) {
+                    for (let knownMod of Object.keys(moduleNames)) {
                         if (item.toLowerCase() === knownMod.toLowerCase()) {
                             foundModulesForUser.add(knownMod);
                         }
@@ -599,14 +602,16 @@
             }
 
             foundModulesForUser.forEach(mod => {
-                if (!moduleCounts[mod][country]) {
-                    moduleCounts[mod][country] = [];
-                }
-                moduleCounts[mod][country].push(name);
+                moduleNames[mod].push(displayEntry);
             });
         }
 
-        registrationData = { total, overallCountries, moduleCounts };
+        registrationData = { 
+            total, 
+            overallCountries, 
+            moduleNamesList: ["Introduction to Python", "Object Oriented Programming", "Pygame"],
+            moduleNames 
+        };
         document.getElementById('statsBanner').innerHTML = `📊 Live Registration Status: <b>${total} Enrolled</b> (Click for breakdown)`;
     }
 
@@ -633,41 +638,30 @@
             </div>
         `;
 
-        for (const [moduleName, countriesObj] of Object.entries(registrationData.moduleCounts)) {
-            let totalForModule = 0;
-            Object.values(countriesObj).forEach(namesArray => {
-                totalForModule += namesArray.length;
-            });
+        registrationData.moduleNamesList.forEach(moduleName => {
+            let namesArray = registrationData.moduleNames[moduleName] || [];
             
             html += `
                 <div class="stat-section">
-                    <h4>${moduleName} <span style="float: right; font-weight: normal; font-size: 13px; color: #64748b;">Total: ${totalForModule}</span></h4>
+                    <h4>${moduleName} <span style="float: right; font-weight: normal; font-size: 13px; color: #64748b;">Total: ${namesArray.length}</span></h4>
             `;
 
-            if (Object.keys(countriesObj).length === 0) {
+            if (namesArray.length === 0) {
                 html += `<p style="font-size: 13px; color: #64748b; margin: 4px 0;">No registrations yet</p>`;
             } else {
-                for (const [country, namesArray] of Object.entries(countriesObj)) {
-                    html += `
-                        <div class="country-block">
-                            <div class="country-title">
-                                <span>🌍 ${country}</span>
-                                <span><b>${namesArray.length}</b></span>
-                            </div>
-                            <select class="names-select" size="${Math.min(Math.max(namesArray.length, 1), 3)}">
-                    `;
-                    namesArray.forEach(name => {
-                        html += `<option value="">${name}</option>`;
-                    });
-                    html += `
-                            </select>
-                        </div>
-                    `;
-                }
+                html += `
+                    <select class="names-select" size="${Math.min(Math.max(namesArray.length, 1), 4)}">
+                `;
+                namesArray.forEach(entryStr => {
+                    html += `<option value="">${entryStr}</option>`;
+                });
+                html += `
+                    </select>
+                `;
             }
 
             html += `</div>`;
-        }
+        });
 
         modalBody.innerHTML = html;
         document.getElementById('statsModal').style.display = 'flex';

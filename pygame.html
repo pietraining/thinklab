@@ -12,6 +12,7 @@
             --card-bg: #ffffff;
             --text-color: #1e293b;
             --border-color: #cbd5e1;
+            --success-color: #10b981;
         }
 
         body {
@@ -184,10 +185,42 @@
             border-bottom: none;
         }
 
+        /* Success Message Container */
+        .success-container {
+            display: none;
+            text-align: center;
+            padding: 30px 10px;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #d1fae5;
+            color: var(--success-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px auto;
+            font-size: 28px;
+        }
+
+        .success-container h3 {
+            color: #065f46;
+            margin: 0 0 8px 0;
+            font-size: 22px;
+        }
+
+        .success-container p {
+            color: #4b5563;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
         /* Responsive Mobile Adjustments */
         @media (max-width: 480px) {
             body {
-                align-items: flex-start; /* Prevents awkward centering gaps on mobile */
+                align-items: flex-start;
                 padding: 10px 8px;
             }
             .form-container {
@@ -271,7 +304,7 @@
             cursor: pointer;
         }
 
-        button[type="submit"] {
+        button[type="submit"], .btn-secondary {
             width: 100%;
             background-color: var(--primary);
             color: white;
@@ -285,8 +318,15 @@
             margin-top: 10px;
         }
 
-        button[type="submit"]:hover {
+        button[type="submit"]:hover, .btn-secondary:hover {
             background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: #64748b;
+        }
+        .btn-secondary:hover {
+            background-color: #475569;
         }
     </style>
 </head>
@@ -316,10 +356,10 @@
     </div>
 
     <h2>Free Python Course</h2>
-    <p class="subtitle">Please fill out your details below to enroll.</p>
+    <p class="subtitle" id="formSubtitle">Please fill out your details below to enroll.</p>
 
     <!-- Registration Form -->
-    <form action="https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse" method="POST" target="_self">
+    <form id="registrationForm" onsubmit="submitForm(event)">
         
         <div class="form-group">
             <label for="entry.1215900612">Full Name</label>
@@ -362,8 +402,16 @@
             </div>
         </div>
 
-        <button type="submit">Submit Registration</button>
+        <button type="submit" id="submitBtn">Submit Registration</button>
     </form>
+
+    <!-- Success Message View -->
+    <div class="success-container" id="successContainer">
+        <div class="success-icon">✓</div>
+        <h3>Successfully Registered!</h3>
+        <p>Thank you for enrolling in the Free Python Course. Your details have been recorded successfully.</p>
+        <button class="btn-secondary" onclick="resetForm()">Register Another Participant</button>
+    </div>
 </div>
 
 <!-- Statistics Breakdown Modal -->
@@ -380,6 +428,7 @@
 </div>
 
 <script>
+    const googleFormActionUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse';
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJCV-KUn60ipapKwOxsbZCiDIgopMTZ2djss2pwY1la0UfLQnJr9nd-GOABGjxUXFeXKethhfsrcBd/pub?gid=308253844&single=true&output=csv';
     
     let registrationData = {
@@ -387,6 +436,52 @@
         modules: {},
         countries: {}
     };
+
+    async function submitForm(event) {
+        event.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Submitting...";
+
+        const formElement = document.getElementById('registrationForm');
+        const formData = new FormData(formElement);
+
+        try {
+            // Submit to Google Forms via no-cors mode in background
+            await fetch(googleFormActionUrl, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            });
+
+            // Show success message and hide form
+            formElement.style.display = 'none';
+            document.getElementById('formSubtitle').style.display = 'none';
+            document.getElementById('successContainer').style.display = 'block';
+
+            // Refresh stats after a short delay to account for sheet update latency
+            setTimeout(fetchRegistrationStats, 3000);
+
+        } catch (error) {
+            console.error("Submission error:", error);
+            alert("Something went wrong. Please try again.");
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Submit Registration";
+        }
+    }
+
+    function resetForm() {
+        const formElement = document.getElementById('registrationForm');
+        formElement.reset();
+        formElement.style.display = 'block';
+        document.getElementById('formSubtitle').style.display = 'block';
+        document.getElementById('successContainer').style.display = 'none';
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Registration";
+    }
 
     async function fetchRegistrationStats() {
         try {

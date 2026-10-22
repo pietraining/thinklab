@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Pygame Course - Think Lab</title>
+    <title>Free Python Course - Think Lab</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -19,18 +19,19 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 16px 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            box-sizing: border-box;
         }
 
         .form-container {
             background-color: var(--card-bg);
             width: 100%;
             max-width: 520px;
-            padding: 30px;
+            padding: 25px 30px;
             border-radius: 12px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
@@ -40,7 +41,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 13px;
         }
 
@@ -71,16 +72,129 @@
             margin-left: 4px;
         }
 
-        /* Responsive Mobile Adjustments for smaller screens */
+        /* Live Registration Badge Style */
+        .stats-banner {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            color: #3730a3;
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .stats-banner:hover {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            box-shadow: 0 2px 5px rgba(79, 70, 229, 0.15);
+        }
+
+        /* Modal Popup Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            width: 100%;
+            max-width: 440px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .close-btn:hover {
+            color: var(--text-color);
+        }
+
+        .stat-section {
+            margin-bottom: 15px;
+        }
+
+        .stat-section h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-list {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin: 0;
+            list-style: none;
+        }
+
+        .stat-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 14px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .stat-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsive Mobile Adjustments */
         @media (max-width: 480px) {
             body {
-                padding: 10px;
+                align-items: flex-start; /* Prevents awkward centering gaps on mobile */
+                padding: 10px 8px;
             }
             .form-container {
                 padding: 20px 15px;
             }
             .nav-header {
-                font-size: 12px; /* Slightly smaller text on mobile to fit the full wording */
+                font-size: 12px;
             }
         }
 
@@ -130,7 +244,6 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
         }
 
-        /* Checkbox Group Styling */
         .checkbox-group {
             display: flex;
             flex-direction: column;
@@ -182,7 +295,6 @@
 <div class="form-container">
     <!-- Top Navigation Header -->
     <div class="nav-header">
-        <!-- Left Link: Join Think Lab -->
         <a href="https://www.thinkingskill.in" class="nav-link back-link">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -190,7 +302,6 @@
             <span>Join Think Lab</span>
         </a>
 
-        <!-- Right Link: Support Sou Calendar -->
         <a href="https://sourashtracalendar.github.io/2027" class="nav-link forward-link">
             <span>Support Sou Calendar</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -199,25 +310,27 @@
         </a>
     </div>
 
+    <!-- Clickable Live Statistics Banner -->
+    <div class="stats-banner" id="statsBanner" onclick="openModal()">
+        👥 Loading live registration stats...
+    </div>
+
     <h2>Free Python Course</h2>
     <p class="subtitle">Please fill out your details below to enroll.</p>
 
-    <!-- Form action points directly to your Google Form response URL -->
+    <!-- Registration Form -->
     <form action="https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse" method="POST" target="_self">
         
-        <!-- Field 1: Name (entry.1215900612) -->
         <div class="form-group">
             <label for="entry.1215900612">Full Name</label>
             <input type="text" id="entry.1215900612" name="entry.1215900612" placeholder="Enter your full name" required>
         </div>
 
-        <!-- Field 2: Country (entry.2068278968) -->
         <div class="form-group">
             <label for="entry.2068278968">Country</label>
             <input type="text" id="entry.2068278968" name="entry.2068278968" placeholder="e.g. India, Singapore" required>
         </div>
 
-        <!-- Field 3: Category (entry.38679720) -->
         <div class="form-group">
             <label for="entry.38679720">Category</label>
             <select id="entry.38679720" name="entry.38679720" required>
@@ -229,13 +342,11 @@
             </select>
         </div>
 
-        <!-- Field 4: WhatsApp Number (entry.995387167) -->
         <div class="form-group">
             <label for="entry.995387167">WhatsApp Number</label>
             <input type="tel" id="entry.995387167" name="entry.995387167" placeholder="e.g. +91 9876543210" required>
         </div>
 
-        <!-- Field 5: Choose the modules (Checkboxes sharing the same entry ID) -->
         <div class="form-group">
             <label>Choose the Modules (Select one or more)</label>
             <div class="checkbox-group">
@@ -254,6 +365,146 @@
         <button type="submit">Submit Registration</button>
     </form>
 </div>
+
+<!-- Statistics Breakdown Modal -->
+<div class="modal-overlay" id="statsModal" onclick="handleModalOutsideClick(event)">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Registration Statistics</h3>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div id="modalBody">
+            <p style="text-align: center; color: #64748b;">Loading breakdown...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJCV-KUn60ipapKwOxsbZCiDIgopMTZ2djss2pwY1la0UfLQnJr9nd-GOABGjxUXFeXKethhfsrcBd/pub?gid=308253844&single=true&output=csv';
+    
+    let registrationData = {
+        total: 0,
+        modules: {},
+        countries: {}
+    };
+
+    async function fetchRegistrationStats() {
+        try {
+            const response = await fetch(csvUrl);
+            const csvText = await response.text();
+            parseCSV(csvText);
+        } catch (error) {
+            console.error("Error fetching stats:", error);
+            document.getElementById('statsBanner').innerText = "👥 Total Registrations: View Stats";
+        }
+    }
+
+    function parseCSV(text) {
+        const rows = text.split('\n').map(row => {
+            const cols = [];
+            let inQuote = false;
+            let col = '';
+            for (let char of row) {
+                if (char === '"') {
+                    inQuote = !inQuote;
+                } else if (char === ',' && !inQuote) {
+                    cols.push(col.trim());
+                    col = '';
+                } else {
+                    col += char;
+                }
+            }
+            cols.push(col.trim());
+            return cols;
+        });
+
+        if (rows.length < 2) return;
+
+        let total = 0;
+        let modules = {};
+        let countries = {};
+
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (row.length < 3 || !row[1]) continue;
+
+            total++;
+
+            let country = row[2] ? row[2].replace(/^"|"$/g, '') : 'Unknown';
+            countries[country] = (countries[country] || 0) + 1;
+
+            let moduleStr = row[row.length - 1] ? row[row.length - 1].replace(/^"|"$/g, '') : '';
+            if (moduleStr) {
+                const selectedModules = moduleStr.split(',').map(m => m.trim());
+                selectedModules.forEach(mod => {
+                    if (mod) {
+                        modules[mod] = (modules[mod] || 0) + 1;
+                    }
+                });
+            }
+        }
+
+        registrationData = { total, modules, countries };
+        document.getElementById('statsBanner').innerHTML = `👥 Total Registrations: <b>${total}</b> (Click for breakdown)`;
+    }
+
+    function openModal() {
+        const modalBody = document.getElementById('modalBody');
+        
+        let html = `
+            <div class="stat-section">
+                <h4>Total Enrolled: <span style="color: var(--primary);">${registrationData.total}</span></h4>
+            </div>
+            <div class="stat-section">
+                <h4>Module-wise Breakdown</h4>
+                <ul class="stat-list">
+        `;
+
+        if (Object.keys(registrationData.modules).length === 0) {
+            html += `<li><span>No module data yet</span><span>0</span></li>`;
+        } else {
+            for (const [mod, count] of Object.entries(registrationData.modules)) {
+                html += `<li><span>${mod}</span><strong>${count}</strong></li>`;
+            }
+        }
+
+        html += `
+                </ul>
+            </div>
+            <div class="stat-section">
+                <h4>Country-wise Breakdown</h4>
+                <ul class="stat-list">
+        `;
+
+        if (Object.keys(registrationData.countries).length === 0) {
+            html += `<li><span>No country data yet</span><span>0</span></li>`;
+        } else {
+            for (const [country, count] of Object.entries(registrationData.countries)) {
+                html += `<li><span>${country}</span><strong>${count}</strong></li>`;
+            }
+        }
+
+        html += `
+                </ul>
+            </div>
+        `;
+
+        modalBody.innerHTML = html;
+        document.getElementById('statsModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('statsModal').style.display = 'none';
+    }
+
+    function handleModalOutsideClick(event) {
+        if (event.target.id === 'statsModal') {
+            closeModal();
+        }
+    }
+
+    fetchRegistrationStats();
+</script>
 
 </body>
 </html>

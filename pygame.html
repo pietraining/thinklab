@@ -368,7 +368,7 @@
           action="https://docs.google.com/forms/d/e/1FAIpQLSeRQBAZLN8KrDetU94mc1afDx6l7jNuNLNCVlgO_-g0the9LA/formResponse" 
           method="POST" 
           target="hidden_iframe" 
-          onsubmit="handleFormSubmit();">
+          onsubmit="submitted=true; document.getElementById('submitBtn').disabled=true; document.getElementById('submitBtn').innerText='Submitting...';">
         
         <div class="form-group">
             <label for="entry.1215900612">Full Name</label>
@@ -451,44 +451,14 @@
         } 
     };
 
-    function handleFormSubmit() {
-        submitted = true;
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Submitting...";
-
-        const nameVal = document.getElementById('nameInput').value.trim();
-        const countryVal = document.getElementById('countryInput').value.trim() || 'Other';
-        const categoryVal = document.getElementById('categorySelect').value || 'Participant';
-        const checkedModules = Array.from(document.querySelectorAll('input[name="entry.338072554"]:checked'))
-                                    .map(cb => cb.value);
-
-        if (nameVal) {
-            registrationData.total++;
-            
-            if (!registrationData.overallCountries[countryVal]) {
-                registrationData.overallCountries[countryVal] = [];
-            }
-            registrationData.overallCountries[countryVal].push(nameVal);
-
-            const displayEntry = `${nameVal} (${categoryVal})`;
-            checkedModules.forEach(mod => {
-                if (registrationData.moduleNames[mod]) {
-                    registrationData.moduleNames[mod].push(displayEntry);
-                }
-            });
-
-            document.getElementById('statsBanner').innerHTML = `📊 Live Registration Status: <b>${registrationData.total} Enrolled</b> (Click for breakdown)`;
-        }
-    }
-
     function showSuccessMessage() {
         if (submitted) {
             document.getElementById('registrationForm').style.display = 'none';
             document.getElementById('formSubtitle').style.display = 'none';
             document.getElementById('successContainer').style.display = 'block';
 
-            setTimeout(fetchRegistrationStats, 3000);
+            // Fetch fresh stats from the Google Sheet 3.5 seconds after successful submission
+            setTimeout(fetchRegistrationStats, 3500);
         }
     }
 
@@ -546,11 +516,11 @@
 
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
-            if (!row[1]) continue; // Skip if Name is empty
+            if (!row[1]) continue;
 
             total++;
 
-            // Exact column mapping based on your sheet layout:
+            // Accurate column mapping from your sheet layout:
             // row[1] = Full Name
             // row[2] = Category
             // row[3] = Choose the Modules
@@ -560,7 +530,6 @@
             let modulesRaw = (row[3] && row[3].trim() !== '') ? row[3].replace(/^"|"$/g, '').trim() : '';
             let country = (row[4] && row[4].trim() !== '') ? row[4].replace(/^"|"$/g, '').trim() : 'Other';
 
-            // Populate overall country distribution
             if (!overallCountries[country]) {
                 overallCountries[country] = [];
             }
@@ -568,7 +537,6 @@
 
             const displayEntry = `${name} (${category})`;
 
-            // Parse modules from Column D (index 3)
             if (modulesRaw) {
                 let selectedMods = modulesRaw.split(',').map(m => m.trim());
                 selectedMods.forEach(mod => {

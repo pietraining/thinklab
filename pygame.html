@@ -546,16 +546,21 @@
 
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
-            if (!row[1]) continue;
+            if (!row[1]) continue; // Skip if Name is empty
 
             total++;
 
-            // Precise Google Form CSV column mapping:
-            // row[1] = Name, row[2] = Country, row[3] = Category
+            // Exact column mapping based on your sheet layout:
+            // row[1] = Full Name
+            // row[2] = Category
+            // row[3] = Choose the Modules
+            // row[4] = Country
             let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
-            let country = (row[2] && row[2].trim() !== '') ? row[2].replace(/^"|"$/g, '').trim() : 'Other';
-            let category = (row[3] && row[3].trim() !== '') ? row[3].replace(/^"|"$/g, '').trim() : 'Participant';
+            let category = (row[2] && row[2].trim() !== '') ? row[2].replace(/^"|"$/g, '').trim() : 'Participant';
+            let modulesRaw = (row[3] && row[3].trim() !== '') ? row[3].replace(/^"|"$/g, '').trim() : '';
+            let country = (row[4] && row[4].trim() !== '') ? row[4].replace(/^"|"$/g, '').trim() : 'Other';
 
+            // Populate overall country distribution
             if (!overallCountries[country]) {
                 overallCountries[country] = [];
             }
@@ -563,13 +568,12 @@
 
             const displayEntry = `${name} (${category})`;
 
-            // Scan all cells in the row for selected modules
-            for (let cell of row) {
-                let cleanCell = cell.replace(/^"|"$/g, '');
-                let items = cleanCell.split(',').map(item => item.trim());
-                items.forEach(item => {
+            // Parse modules from Column D (index 3)
+            if (modulesRaw) {
+                let selectedMods = modulesRaw.split(',').map(m => m.trim());
+                selectedMods.forEach(mod => {
                     for (let knownMod of Object.keys(moduleNames)) {
-                        if (item.toLowerCase() === knownMod.toLowerCase()) {
+                        if (mod.toLowerCase() === knownMod.toLowerCase()) {
                             if (!moduleNames[knownMod].includes(displayEntry)) {
                                 moduleNames[knownMod].push(displayEntry);
                             }

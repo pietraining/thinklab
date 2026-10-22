@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pygame Course Registration</title>
+    <title>Pygame Course Registration - Think Lab</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -33,6 +33,27 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        .back-link svg {
+            margin-right: 6px;
+            width: 16px;
+            height: 16px;
         }
 
         h2 {
@@ -103,6 +124,14 @@
 <body>
 
 <div class="form-container">
+    <!-- Back to Think Lab Navigation Link -->
+    <a href="https://www.thinkingskill.in" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to Think Lab
+    </a>
+
     <h2>Pygame Course Registration</h2>
     <p class="subtitle">Please fill out your details below to enroll.</p>
 
@@ -145,7 +174,6 @@
             <select id="entry.338072554" name="entry.338072554" required>
                 <option value="" disabled selected>Select your module choice</option>
                 <option value="Pygame">Pygame</option>
-                <!-- Add other module options here if your Google Form supports multiple options -->
             </select>
         </div>
 

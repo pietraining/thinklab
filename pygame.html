@@ -33,68 +33,96 @@
             width: 100%;
             max-width: 520px;
             padding: 25px 30px;
-            border-radius: 12px;
+            border-radius: 14px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Top Navigation Bar */
+        /* Colorful Top Button Bar */
         .nav-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            font-size: 13px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .nav-link {
+        .nav-btn {
+            flex: 1;
             display: inline-flex;
+            justify-content: center;
             align-items: center;
-            color: #64748b;
+            padding: 9px 12px;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        .nav-link:hover {
-            color: var(--primary);
-        }
-
-        .nav-link svg {
-            width: 15px;
-            height: 15px;
+        .nav-btn svg {
+            width: 14px;
+            height: 14px;
             flex-shrink: 0;
         }
 
-        .back-link svg {
-            margin-right: 4px;
+        /* Think Lab Button: Vibrant Indigo/Purple Gradient */
+        .btn-thinklab {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .btn-thinklab:hover {
+            background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+            box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
+        }
+        .btn-thinklab svg {
+            margin-right: 6px;
         }
 
-        .forward-link svg {
-            margin-left: 4px;
+        /* Sou Calendar Button: Vibrant Emerald/Teal Gradient */
+        .btn-calendar {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+        }
+        .btn-calendar:hover {
+            background: linear-gradient(135deg, #047857 0%, #0f766e 100%);
+            box-shadow: 0 6px 8px -1px rgba(5, 150, 105, 0.3);
+        }
+        .btn-calendar svg {
+            margin-left: 6px;
         }
 
-        /* Live Registration Badge Style */
+        /* Enhanced Live Registration Status Banner */
         .stats-banner {
-            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-            border: 1px solid #c7d2fe;
-            color: #3730a3;
-            padding: 8px 14px;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            color: #0369a1;
+            padding: 11px 16px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
         }
 
         .stats-banner:hover {
-            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-            box-shadow: 0 2px 5px rgba(79, 70, 229, 0.15);
+            background: linear-gradient(135deg, #e0f2fe 100%, #bae6fd 0%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(14, 165, 233, 0.15);
+        }
+
+        .stats-banner b {
+            color: #0284c7;
+            background: #ffffff;
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid #7dd3fc;
         }
 
         /* Modal Popup Styles */
@@ -118,7 +146,7 @@
             width: 100%;
             max-width: 440px;
             padding: 25px;
-            border-radius: 12px;
+            border-radius: 14px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             position: relative;
             max-height: 85vh;
@@ -226,8 +254,9 @@
             .form-container {
                 padding: 20px 15px;
             }
-            .nav-header {
-                font-size: 12px;
+            .nav-btn {
+                font-size: 11px;
+                padding: 8px 8px;
             }
         }
 
@@ -312,7 +341,7 @@
             padding: 12px;
             font-size: 16px;
             font-weight: 600;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.2s;
             margin-top: 10px;
@@ -333,16 +362,16 @@
 <body>
 
 <div class="form-container">
-    <!-- Top Navigation Header -->
+    <!-- Colorful Top Button Bar -->
     <div class="nav-header">
-        <a href="https://www.thinkingskill.in" class="nav-link back-link">
+        <a href="https://www.thinkingskill.in" class="nav-btn btn-thinklab">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             <span>Join Think Lab</span>
         </a>
 
-        <a href="https://sourashtracalendar.github.io/2027" class="nav-link forward-link">
+        <a href="https://sourashtracalendar.github.io/2027" class="nav-btn btn-calendar">
             <span>Support Sou Calendar</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -350,9 +379,9 @@
         </a>
     </div>
 
-    <!-- Clickable Live Statistics Banner -->
+    <!-- Enhanced Live Registration Status Banner -->
     <div class="stats-banner" id="statsBanner" onclick="openModal()">
-        👥 Loading live registration stats...
+        📊 Loading Live Registration Status...
     </div>
 
     <h2>Free Python Course</h2>
@@ -448,19 +477,16 @@
         const formData = new FormData(formElement);
 
         try {
-            // Submit to Google Forms via no-cors mode in background
             await fetch(googleFormActionUrl, {
                 method: 'POST',
                 body: formData,
                 mode: 'no-cors'
             });
 
-            // Show success message and hide form
             formElement.style.display = 'none';
             document.getElementById('formSubtitle').style.display = 'none';
             document.getElementById('successContainer').style.display = 'block';
 
-            // Refresh stats after a short delay to account for sheet update latency
             setTimeout(fetchRegistrationStats, 3000);
 
         } catch (error) {
@@ -490,7 +516,7 @@
             parseCSV(csvText);
         } catch (error) {
             console.error("Error fetching stats:", error);
-            document.getElementById('statsBanner').innerText = "👥 Total Registrations: View Stats";
+            document.getElementById('statsBanner').innerText = "📊 Live Registrations: Click to View";
         }
     }
 
@@ -540,7 +566,7 @@
         }
 
         registrationData = { total, modules, countries };
-        document.getElementById('statsBanner').innerHTML = `👥 Total Registrations: <b>${total}</b> (Click for breakdown)`;
+        document.getElementById('statsBanner').innerHTML = `📊 Live Registration Status: <b>${total} Enrolled</b> (Click for breakdown)`;
     }
 
     function openModal() {

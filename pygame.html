@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Pygame Course Registration - Think Lab</title>
+    <title>Free Pygame Course - Think Lab</title>
     <style>
         :root {
             --primary: #4f46e5;
@@ -141,6 +141,34 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
         }
 
+        /* Checkbox Group Styling */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #f8fafc;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 10px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
         button[type="submit"] {
             width: 100%;
             background-color: var(--primary);
@@ -174,7 +202,7 @@
             <span class="mobile-text">Think Lab</span>
         </a>
 
-        <!-- Right Link: Sou Calendar (Replace URL with your Sourashtra Calendar Request Form link if needed) -->
+        <!-- Right Link: Sou Calendar -->
         <a href="https://www.sourashtracalendar.com" class="nav-link forward-link">
             <span class="desktop-text">Sou Calendar</span>
             <span class="mobile-text">Calendar</span>
@@ -220,13 +248,20 @@
             <input type="tel" id="entry.995387167" name="entry.995387167" placeholder="e.g. +91 9876543210" required>
         </div>
 
-        <!-- Field 5: Choose the modules (entry.338072554) -->
+        <!-- Field 5: Choose the modules (Checkboxes sharing the same entry ID) -->
         <div class="form-group">
-            <label for="entry.338072554">Choose the Modules</label>
-            <select id="entry.338072554" name="entry.338072554" required>
-                <option value="" disabled selected>Select your module choice</option>
-                <option value="Pygame">Pygame</option>
-            </select>
+            <label>Choose the Modules (Select one or more)</label>
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="entry.338072554" value="Introduction to Python"> Introduction to Python
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="entry.338072554" value="Object Oriented Programming"> Object Oriented Programming
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="entry.338072554" value="Pygame"> Pygame
+                </label>
+            </div>
         </div>
 
         <button type="submit">Submit Registration</button>

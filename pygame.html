@@ -6,9 +6,9 @@
     <title>Free Python Course - Think Lab</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-color: #f8fafc;
+            --primary: #d95a1e;
+            --primary-hover: #b5451b;
+            --bg-color: #fffbf0;
             --card-bg: #ffffff;
             --text-color: #1e293b;
             --border-color: #cbd5e1;
@@ -16,7 +16,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -37,7 +37,7 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Colorful Top Button Bar */
+        /* Top Navigation Buttons */
         .nav-header {
             display: flex;
             justify-content: space-between;
@@ -51,49 +51,38 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            padding: 9px 12px;
-            border-radius: 8px;
+            padding: 10px 12px;
+            border-radius: 50px;
             text-decoration: none;
             font-size: 13px;
             font-weight: 600;
             color: white;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-btn svg {
-            width: 14px;
-            height: 14px;
-            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(217, 90, 30, 0.2);
         }
 
         .btn-thinklab {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
         }
         .btn-thinklab:hover {
-            background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
-            box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
-        }
-        .btn-thinklab svg {
-            margin-right: 6px;
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
 
         .btn-calendar {
-            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            background: #d95a1e;
         }
         .btn-calendar:hover {
-            background: linear-gradient(135deg, #047857 0%, #0f766e 100%);
-            box-shadow: 0 6px 8px -1px rgba(5, 150, 105, 0.3);
-        }
-        .btn-calendar svg {
-            margin-left: 6px;
+            background: #b5451b;
+            transform: translateY(-1px);
         }
 
-        /* Enhanced Live Registration Status Banner */
+        /* Live Registration Status Banner */
         .stats-banner {
-            background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
-            border: 1px solid #bae6fd;
-            color: #0369a1;
+            background: #fff7f0;
+            border: 1px solid #fed7aa;
+            color: #c2410c;
             padding: 11px 16px;
             border-radius: 10px;
             text-align: center;
@@ -110,17 +99,16 @@
         }
 
         .stats-banner:hover {
-            background: linear-gradient(135deg, #e0f2fe 100%, #bae6fd 0%);
+            background: #ffedd5;
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(14, 165, 233, 0.15);
         }
 
         .stats-banner b {
-            color: #0284c7;
+            color: #9a3412;
             background: #ffffff;
             padding: 2px 8px;
             border-radius: 6px;
-            border: 1px solid #7dd3fc;
+            border: 1px solid #fdba74;
         }
 
         /* Modal Popup Styles */
@@ -163,7 +151,7 @@
         .modal-header h3 {
             margin: 0;
             font-size: 18px;
-            color: var(--primary);
+            color: #b5451b;
         }
 
         .close-btn {
@@ -174,12 +162,9 @@
             color: #64748b;
         }
 
-        .close-btn:hover {
-            color: var(--text-color);
-        }
-
         .stat-section {
             margin-bottom: 15px;
+            text-align: left;
         }
 
         .stat-section h4 {
@@ -243,7 +228,6 @@
             margin-bottom: 24px;
         }
 
-        /* Responsive Mobile Adjustments */
         @media (max-width: 480px) {
             body {
                 align-items: flex-start;
@@ -254,27 +238,28 @@
             }
             .nav-btn {
                 font-size: 11px;
-                padding: 8px 8px;
+                padding: 8px 10px;
             }
         }
 
         h2 {
             margin-top: 0;
             margin-bottom: 8px;
-            font-size: 24px;
-            color: var(--text-color);
+            font-size: 26px;
+            color: #b5451b;
             text-align: center;
         }
 
         p.subtitle {
             text-align: center;
-            color: #64748b;
+            color: #666;
             margin-bottom: 24px;
             font-size: 14px;
         }
 
         .form-group {
             margin-bottom: 20px;
+            text-align: left;
         }
 
         label {
@@ -282,15 +267,16 @@
             margin-bottom: 6px;
             font-weight: 600;
             font-size: 14px;
+            color: #333;
         }
 
         input[type="text"],
         input[type="tel"],
         select {
             width: 100%;
-            padding: 10px 12px;
+            padding: 11px 14px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 14px;
             box-sizing: border-box;
             transition: border-color 0.2s, box-shadow 0.2s;
@@ -301,17 +287,17 @@
         select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 0 0 3px rgba(217, 90, 30, 0.15);
         }
 
         .checkbox-group {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            background-color: #f8fafc;
+            background-color: #fffaf0;
             padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
         }
 
         .checkbox-label {
@@ -336,44 +322,43 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px;
+            padding: 14px;
             font-size: 16px;
             font-weight: 600;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
             margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(217, 90, 30, 0.3);
         }
 
-        button[type="submit"]:hover, .btn-secondary:hover {
+        button[type="submit"]:hover {
             background-color: var(--primary-hover);
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background-color: #64748b;
+            background-color: #fff;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: none;
         }
         .btn-secondary:hover {
-            background-color: #475569;
+            background-color: #fff7f0;
         }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <!-- Colorful Top Button Bar -->
+    <!-- Top Navigation Buttons -->
     <div class="nav-header">
         <a href="https://www.thinkingskill.in" class="nav-btn btn-thinklab">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            <span>Join Think Lab</span>
+            Join Think Lab
         </a>
 
         <a href="https://sourashtracalendar.github.io/2027" class="nav-btn btn-calendar">
-            <span>Support Sou Calendar</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
+            Support Sou Calendar
         </a>
     </div>
 
@@ -385,7 +370,7 @@
     <h2>Free Python Course</h2>
     <p class="subtitle" id="formSubtitle">Please fill out your details below to enroll.</p>
 
-    <!-- Hidden Iframe to target form submission without page reload -->
+    <!-- Hidden Iframe to guarantee submission recording without page navigation -->
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { showSuccessMessage(); }"></iframe>
 
     <!-- Registration Form targeting the hidden iframe -->
@@ -465,11 +450,7 @@
     let submitted = false;
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJCV-KUn60ipapKwOxsbZCiDIgopMTZ2djss2pwY1la0UfLQnJr9nd-GOABGjxUXFeXKethhfsrcBd/pub?gid=308253844&single=true&output=csv';
     
-    let registrationData = {
-        total: 0,
-        modules: {},
-        countries: {}
-    };
+    let registrationData = { total: 0, modules: {}, countries: {} };
 
     function showSuccessMessage() {
         if (submitted) {
@@ -477,7 +458,7 @@
             document.getElementById('formSubtitle').style.display = 'none';
             document.getElementById('successContainer').style.display = 'block';
 
-            // Refresh stats after a few seconds to reflect the new record
+            // Refresh stats after 3 seconds to catch the newly inserted row
             setTimeout(fetchRegistrationStats, 3000);
         }
     }
@@ -495,7 +476,6 @@
         submitBtn.innerText = "Submit Registration";
     }
 
-    // Trigger loading state on button click
     document.getElementById('registrationForm').addEventListener('submit', function() {
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
@@ -567,7 +547,7 @@
         
         let html = `
             <div class="stat-section">
-                <h4>Total Enrolled: <span style="color: var(--primary);">${registrationData.total}</span></h4>
+                <h4>Total Enrolled: <span style="color: #b5451b;">${registrationData.total}</span></h4>
             </div>
             <div class="stat-section">
                 <h4>Module-wise Breakdown</h4>

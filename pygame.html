@@ -427,7 +427,7 @@
 <div class="modal-overlay" id="statsModal" onclick="handleModalOutsideClick(event)">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Registration Statistics & Names</h3>
+            <h3>Module Breakdown & Participants</h3>
             <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
         <div id="modalBody">
@@ -442,7 +442,6 @@
     
     let registrationData = { 
         total: 0, 
-        overallCountries: {},
         moduleNamesList: ["Introduction to Python", "Object Oriented Programming", "Pygame"],
         moduleNames: {
             "Introduction to Python": [],
@@ -506,7 +505,6 @@
         if (rows.length < 2) return;
 
         let total = 0;
-        let overallCountries = {};
         let moduleNames = {
             "Introduction to Python": [],
             "Object Oriented Programming": [],
@@ -519,15 +517,13 @@
 
             total++;
 
+            // Accurate column mapping based on your sheet layout:
+            // row[1] = Full Name
+            // row[2] = Category
+            // row[3] = Choose the Modules
             let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
             let category = (row[2] && row[2].trim() !== '') ? row[2].replace(/^"|"$/g, '').trim() : 'Participant';
             let modulesRaw = (row[3] && row[3].trim() !== '') ? row[3].replace(/^"|"$/g, '').trim() : '';
-            let country = (row[4] && row[4].trim() !== '') ? row[4].replace(/^"|"$/g, '').trim() : 'Other';
-
-            if (!overallCountries[country]) {
-                overallCountries[country] = [];
-            }
-            overallCountries[country].push(name);
 
             const displayEntry = `${name} (${category})`;
 
@@ -547,7 +543,6 @@
 
         registrationData = { 
             total, 
-            overallCountries, 
             moduleNamesList: ["Introduction to Python", "Object Oriented Programming", "Pygame"],
             moduleNames 
         };
@@ -557,28 +552,9 @@
     function openModal() {
         const modalBody = document.getElementById('modalBody');
         
-        let countryCount = Object.keys(registrationData.overallCountries).length;
-        
         let html = `
             <div class="stat-section" style="margin-bottom: 20px;">
-                <h4 style="margin-bottom: 6px;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
-            </div>
-
-            <div class="stat-section">
-                <h4>🌍 Country-wise Distribution</h4>
-                <select class="names-select" size="${Math.min(Math.max(countryCount, 1), 4)}">
-        `;
-
-        if (countryCount === 0) {
-            html += `<option value="">No countries recorded yet</option>`;
-        } else {
-            for (const [country, namesArray] of Object.entries(registrationData.overallCountries)) {
-                html += `<option value="">${country} — ${namesArray.length} participant(s)</option>`;
-            }
-        }
-
-        html += `
-                </select>
+                <h4 style="margin-bottom: 0;">Total Enrolled Participants: <span style="color: var(--primary);">${registrationData.total}</span></h4>
             </div>
         `;
 

@@ -130,7 +130,7 @@
     .modal-content {
         background: #ffffff;
         width: 100%;
-        max-width: 440px;
+        max-width: 480px;
         padding: 25px;
         border-radius: 14px;
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -163,7 +163,7 @@
     }
 
     .stat-section {
-        margin-bottom: 18px;
+        margin-bottom: 20px;
         text-align: left;
     }
 
@@ -175,26 +175,28 @@
         padding-bottom: 4px;
     }
 
-    .stat-list {
+    /* List Box / Dropdown style for names */
+    .names-select {
+        width: 100%;
         background: #f8fafc;
         border: 1px solid var(--border-color);
         border-radius: 6px;
-        padding: 8px 12px;
-        margin: 0;
-        list-style: none;
+        padding: 6px;
+        font-size: 13px;
+        color: #334155;
+        margin-top: 4px;
     }
 
-    .stat-list li {
+    .country-block {
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .country-title {
+        font-weight: 600;
+        color: #475569;
         display: flex;
         justify-content: space-between;
-        padding: 4px 0;
-        font-size: 13px;
-        border-bottom: 1px dashed #e2e8f0;
-        color: #475569;
-    }
-
-    .stat-list li:last-child {
-        border-bottom: none;
     }
 
     /* Success Message Container */
@@ -438,7 +440,7 @@
 <div class="modal-overlay" id="statsModal" onclick="handleModalOutsideClick(event)">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Registration Statistics</h3>
+            <h3>Registration Statistics & Names</h3>
             <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
         <div id="modalBody">
@@ -534,15 +536,15 @@
 
             total++;
 
-            // Extract country safely (typically index 2, but fallback search if needed)
+            // Extract Name (typically index 1) and Country (typically index 2)
+            let name = row[1] ? row[1].replace(/^"|"$/g, '').trim() : 'Unknown';
             let country = row[2] ? row[2].replace(/^"|"$/g, '').trim() : 'Unknown';
             if (!country) country = 'Unknown';
 
-            // Dynamically scan all columns for module keywords to handle multi-select checkboxes securely
+            // Scan columns for module keywords to map multi-select checkboxes securely
             let foundModulesForUser = new Set();
             for (let cell of row) {
                 let cleanCell = cell.replace(/^"|"$/g, '');
-                // Split by comma in case multiple checkboxes were concatenated in one cell
                 let items = cleanCell.split(',').map(item => item.trim());
                 items.forEach(item => {
                     for (let knownMod of Object.keys(moduleCounts)) {
@@ -553,9 +555,12 @@
                 });
             }
 
-            // Add counts for each module chosen by this participant
+            // Group names by Module -> Country -> Array of Names
             foundModulesForUser.forEach(mod => {
-                moduleCounts[mod][country] = (moduleCounts[mod][country] || 0) + 1;
+                if (!moduleCounts[mod][country]) {
+                    moduleCounts[mod][country] = [];
+                }
+                moduleCounts[mod][country].push(name);
             });
         }
 
@@ -573,26 +578,41 @@
         `;
 
         for (const [moduleName, countriesObj] of Object.entries(registrationData.moduleCounts)) {
-            let totalForModule = Object.values(countriesObj).reduce((a, b) => a + b, 0);
+            // Calculate total participants for this module across all countries
+            let totalForModule = 0;
+            Object.values(countriesObj).forEach(namesArray => {
+                totalForModule += namesArray.length;
+            });
             
             html += `
                 <div class="stat-section">
                     <h4>${moduleName} <span style="float: right; font-weight: normal; font-size: 13px; color: #64748b;">Total: ${totalForModule}</span></h4>
-                    <ul class="stat-list">
             `;
 
             if (Object.keys(countriesObj).length === 0) {
-                html += `<li><span>No registrations yet</span><span>0</span></li>`;
+                html += `<p style="font-size: 13px; color: #64748b; margin: 4px 0;">No registrations yet</p>`;
             } else {
-                for (const [country, count] of Object.entries(countriesObj)) {
-                    html += `<li><span>${country}</span><strong>${count}</strong></li>`;
+                for (const [country, namesArray] of Object.entries(countriesObj)) {
+                    html += `
+                        <div class="country-block">
+                            <div class="country-title">
+                                <span>🌍 ${country}</span>
+                                <span><b>${namesArray.length}</b></span>
+                            </div>
+                            <!-- Combo list box / dropdown showing names -->
+                            <select class="names-select" size="${Math.min(Math.max(namesArray.length, 1), 4)}">
+                    `;
+                    namesArray.forEach(name => {
+                        html += `<option value="">${name}</option>`;
+                    });
+                    html += `
+                            </select>
+                        </div>
+                    `;
                 }
             }
 
-            html += `
-                    </ul>
-                </div>
-            `;
+            html += `</div>`;
         }
 
         modalBody.innerHTML = html;

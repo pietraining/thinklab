@@ -6,6 +6,23 @@
 <title>Think Lab – Welcome Families</title>
 
 <style>
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pylab-btn {
+    background: #16804a;
+    border: 1px solid #16804a;
+}
+
+.pylab-btn:hover {
+    background: #116639;
+}
 /* =========================
    BASE & LAYOUT
 ========================= */
@@ -1067,10 +1084,23 @@ body {
         </section>
 
         <section class="cta-banner">
-            <h2>Build Values & Thinking Habit!</h2>
-            <p>Join to access stories, monthly contests, and interactive family meets.</p>
-            <button type="button" class="primary-btn" id="ctaJoinBtn">Join Think Lab</button>
-        </section>
+          <h2>Build Values & Thinking Habit!</h2>
+          <p>Join to access stories, monthly contests, and interactive family meets.</p>
+
+          <div class="cta-buttons">
+              <button type="button" class="primary-btn" id="ctaJoinBtn">
+                  Join Think Lab
+              </button>
+      
+              <a href="https://pietraining.github.io/python/basics.html"
+                 class="primary-btn pylab-btn"
+                 target="_blank"
+                 rel="noopener noreferrer">
+                  Python Learning Lab
+           </a>
+          </div>
+      </section>
+       
     </div>
 
 

@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Python Course - Think Lab</title>
 <style>
+
+.btn-brochure {
+    flex: 0 0 auto;
+    background: linear-gradient(135deg, #1769aa, #102a43);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(23, 105, 170, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.btn-brochure:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+    
     :root {
         --primary: #d95a1e;
         --primary-hover: #b5451b;
@@ -76,6 +95,29 @@
     .btn-calendar:hover {
         background: #b5451b;
         transform: translateY(-1px);
+    }
+
+    .btn-pylab {
+        background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+        box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2);
+    }
+    .btn-pylab:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 420px) {
+        .form-container {
+            padding: 20px 16px;
+        }
+        .nav-header {
+            gap: 8px;
+        }
+        .nav-btn,
+        .btn-brochure {
+            font-size: 12px;
+            padding: 9px 10px;
+        }
     }
 
     /* Live Registration Status Banner */
@@ -339,10 +381,23 @@
 </style>
 </head>
 <body>
-
 <div class="form-container">
+<div class="nav-header">
+    <a class="nav-btn btn-pylab"
+       href="https://pietraining.github.io/python/">
+        ← Back to PyLab
+    </a>
+    <a class="btn-brochure"
+       href="https://drive.google.com/file/d/1bmojy4Dx41MxXfHPWyyMZPM7c4EO2tIi/view?usp=drive_link"
+       target="_blank"
+       rel="noopener noreferrer">
+        📘 Course Brochure ↗
+    </a>
+</div>
+    
+
     <!-- Top Navigation Buttons -->
-    <div class="nav-header">
+    <!-- <div class="nav-header">
         <a href="https://www.thinkingskill.in" class="nav-btn btn-thinklab">
             Join Think Lab
         </a>
@@ -350,7 +405,7 @@
         <a href="https://sourashtracalendar.github.io/2027" class="nav-btn btn-calendar">
             Support Sou Calendar
         </a>
-    </div>
+    </div> -->
 
     <!-- Live Registration Status Banner -->
     <div class="stats-banner" id="statsBanner" onclick="openModal()">

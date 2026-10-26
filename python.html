@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123B5D">
+<title>Python Basics — 4-Step Learning Journey</title>
+<style>
+:root{
+  --navy:#123b5d; --blue:#1676b8; --blue-light:#eaf5ff;
+  --teal:#087f8c; --green:#18794e; --green-light:#eaf8f0;
+  --gold:#f4b942; --ink:#203040; --muted:#617184;
+  --paper:#ffffff; --page:#f3f7fb; --line:#d9e4ee;
+  --code:#17212b; --shadow:0 10px 28px rgba(18,59,93,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.6}
+button,a{font:inherit}
+a{color:#0869a8;text-underline-offset:3px;overflow-wrap:anywhere}
+a:hover{color:#034b7a}
+button{touch-action:manipulation}
+.site-header{background:linear-gradient(135deg,#102f4b,#176ca5);color:white;padding:28px 16px 24px;position:relative;overflow:hidden}
+.site-header:after{content:"";position:absolute;width:240px;height:240px;border:35px solid rgba(255,255,255,.07);border-radius:50%;right:-70px;top:-110px;pointer-events:none}
+.header-inner,.container{width:min(100% - 28px,900px);margin-inline:auto}
+.header-inner{position:relative;z-index:1}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#ccecff}
+.brochure-btn{border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.12);color:white;border-radius:999px;padding:9px 14px;font-size:.9rem;font-weight:750;cursor:pointer}
+.brochure-btn:hover{background:rgba(255,255,255,.22)}
+h1{font-size:clamp(2rem,6vw,3.1rem);line-height:1.08;letter-spacing:-.04em;margin:20px 0 10px}
+.hero-sub{font-size:clamp(.98rem,2.6vw,1.15rem);color:#e0f2ff;margin:0;max-width:650px}
+.journey{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:24px 0 0}
+.journey-item{border:1px solid rgba(255,255,255,.23);background:rgba(255,255,255,.08);border-radius:14px;padding:10px 8px;text-align:center;color:#e8f5ff;font-size:.78rem;font-weight:750;min-width:0}
+.journey-item .num{display:grid;place-items:center;width:29px;height:29px;margin:0 auto 6px;border-radius:50%;background:rgba(255,255,255,.18);font-size:.85rem}
+.journey-item.active{background:white;color:var(--navy);border-color:white}
+.journey-item.active .num{background:var(--gold);color:#2e2b21}
+.container{padding:22px 0 38px}
+.progress-card{background:white;border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:16px;box-shadow:0 4px 14px rgba(18,59,93,.04)}
+.progress-label{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:9px}
+.progress-bar{height:9px;background:#e4ebf2;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:25%;background:linear-gradient(90deg,var(--teal),#40b8a8);border-radius:99px;transition:width .25s ease}
+.step-box{display:none;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:clamp(17px,4vw,30px);box-shadow:var(--shadow);animation:appear .22s ease}
+.step-box.active{display:block}
+@keyframes appear{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.step-kicker{display:inline-flex;align-items:center;gap:7px;color:var(--blue);background:var(--blue-light);padding:5px 10px;border-radius:999px;font-size:.78rem;font-weight:850;letter-spacing:.04em;text-transform:uppercase}
+h2{font-size:clamp(1.45rem,4vw,2rem);line-height:1.2;letter-spacing:-.025em;color:var(--navy);margin:14px 0 10px}
+h3{font-size:1.12rem;line-height:1.3;color:var(--navy);margin:0 0 8px}
+p{margin:9px 0 14px}
+.intro{color:var(--muted);font-size:1.02rem;margin-bottom:22px}
+.task{border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0;background:#fff}
+.task-heading{display:flex;gap:10px;align-items:flex-start}
+.task-number{flex:0 0 32px;width:32px;height:32px;border-radius:10px;background:var(--blue-light);color:var(--blue);display:grid;place-items:center;font-weight:900}
+.task p:last-child{margin-bottom:0}
+.checklist{list-style:none;padding:0;margin:10px 0 0}
+.checklist li{display:flex;gap:10px;align-items:flex-start;margin:10px 0}
+.checklist input{width:19px;height:19px;margin-top:4px;accent-color:var(--teal);flex:0 0 auto}
+.link-box{background:#f0f8ff;border:1px solid #c6e4fa;padding:15px;border-radius:13px;margin:14px 0}
+.link-box strong{color:var(--navy)}
+.link-box ul,.link-box ol{padding-left:22px;margin:8px 0}
+.link-box li{margin:7px 0}
+.tip,.success,.warning{padding:13px 15px;border-radius:10px;margin:15px 0}
+.tip{background:#fff7df;border-left:4px solid var(--gold)}
+.success{background:var(--green-light);border-left:4px solid #2b9b66}
+.warning{background:#fff1e9;border-left:4px solid #e58b42}
+pre{position:relative;background:var(--code);color:#f1f6fb;padding:18px 14px 14px;border-radius:12px;overflow:auto;max-width:100%;font: .91rem/1.65 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;tab-size:4;margin:10px 0 14px;white-space:pre}
+pre code{background:none;color:inherit;padding:0;border-radius:0;font:inherit}
+.code-label{font-size:.76rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#a8c7df;margin:3px 0 6px}
+.copy-btn{float:right;border:1px solid #60788a;background:#253746;color:#fff;border-radius:7px;padding:5px 9px;font-size:.78rem;cursor:pointer}
+.copy-btn:hover{background:#344e60}
+.inline-code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#eef3f8;color:#9b2c2c;border-radius:5px;padding:2px 5px;overflow-wrap:anywhere}
+.sub-step{background:#fbfdff;border:1px solid var(--line);border-left:5px solid var(--blue);padding:15px;border-radius:12px;margin:15px 0}
+.sub-step:nth-of-type(odd){border-left-color:var(--teal)}
+.sub-step-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.topic-number{display:grid;place-items:center;width:29px;height:29px;flex:0 0 29px;border-radius:9px;background:#e5f5f2;color:#087f75;font-weight:900}
+details{border:1px solid var(--line);border-radius:12px;margin:14px 0;background:#fff;overflow:hidden}
+summary{cursor:pointer;padding:14px 16px;font-weight:800;color:var(--navy);background:#f5f9fc}
+details .details-body{padding:14px 16px}
+details[open] summary{border-bottom:1px solid var(--line)}
+.btn-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0 0}
+.btn{min-height:46px;padding:11px 20px;border:0;border-radius:10px;font-weight:850;cursor:pointer;font-size:1rem}
+.btn-prev{background:#e2eaf1;color:#263e51}
+.btn-next{background:var(--blue);color:white;margin-left:auto}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.step-status{font-size:.86rem;color:var(--muted);font-weight:700}
+.modal{display:none;position:fixed;inset:0;background:rgba(7,20,32,.88);z-index:2000;align-items:center;justify-content:center;padding:18px}
+.modal.active{display:flex}
+.modal-panel{position:relative;max-width:1000px;max-height:94vh;display:flex;flex-direction:column;align-items:center;gap:10px}
+.modal img{max-width:100%;max-height:84vh;object-fit:contain;border-radius:12px;background:white}
+.close-modal{position:absolute;top:-13px;right:-8px;z-index:1;border:0;border-radius:50%;width:42px;height:42px;background:white;color:#17212b;font-size:27px;cursor:pointer;box-shadow:0 2px 12px #0005}
+.modal-note{color:white;font-size:.9rem;text-align:center}
+.site-footer{text-align:center;color:var(--muted);font-size:.85rem;padding:18px 10px 8px}
+@media(max-width:520px){
+ .site-header{padding-top:20px}
+ .header-inner,.container{width:min(100% - 20px,900px)}
+ .journey{gap:5px}
+ .journey-item{font-size:.68rem;padding:9px 4px;border-radius:10px}
+ .journey-item .num{width:25px;height:25px}
+ .step-box{border-radius:15px}
+ .task{padding:13px}
+ pre{font-size:.82rem;padding:14px 11px}
+ .btn{padding:10px 15px}
+ .step-status{font-size:.78rem}
+ .close-modal{top:-10px;right:-5px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="topline">
+      <span class="eyebrow">Your first steps into coding</span>
+      <button class="brochure-btn" type="button" onclick="showImage()">📘 Course Brochure</button>
+    </div>
+    <h1>Python Basics<br>4-Step Learning Journey</h1>
+    <p class="hero-sub">Start small, ask questions, practise in your editor, and build projects one step at a time.</p>
+    <div class="journey" aria-label="Four learning steps">
+      <div class="journey-item active" data-journey="1"><span class="num">1</span>IDLE</div>
+      <div class="journey-item" data-journey="2"><span class="num">2</span>AI Tutor</div>
+      <div class="journey-item" data-journey="3"><span class="num">3</span>VS Code</div>
+      <div class="journey-item" data-journey="4"><span class="num">4</span>Projects</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <section class="progress-card" aria-label="Learning progress">
+    <div class="progress-label"><span id="progressTitle">Step 1 of 4 · Quick start</span><span id="progressPercent">25%</span></div>
+    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" id="progressBar"><div class="progress-fill" id="fill"></div></div>
+  </section>
+
+  <!-- STEP 1 -->
+  <section class="step-box active" id="s1" aria-labelledby="step1title">
+    <span class="step-kicker">🚀 Step 1 · Get started</span>
+    <h2 id="step1title">Meet Python IDLE</h2>
+    <p class="intro">Your first goal is simple: install Python and make it print a message. You do not need to understand everything yet.</p>
+
+    <div class="task">
+      <div class="task-heading"><span class="task-number">1</span><div><h3>Install Python IDLE</h3><p>Open the Python website in a new browser tab and follow the setup steps.</p></div></div>
+      <ol class="checklist">
+        <li><input type="checkbox" id="s1a"><label for="s1a">Open <a href="https://www.python.org/" target="_blank" rel="noopener">python.org</a> in a new tab.</label></li>
+        <li><input type="checkbox" id="s1b"><label for="s1b">Choose <strong>Download</strong> and install Python.</label></li>
+        <li><input type="checkbox" id="s1c"><label for="s1c">On Windows, tick <strong>“Add python.exe to PATH”</strong> in the installer when that option appears.</label></li>
+        <li><input type="checkbox" id="s1d"><label for="s1d">Open <strong>IDLE</strong> from the Start Menu.</label></li>
+      </ol>
+    </div>
+
+    <div class="task">
+      <div class="task-heading"><span class="task-number">2</span><div><h3>Test IDLE</h3><p>Type these lines into the IDLE Shell. Press Enter after each line.</p></div></div>
+      <div class="code-label">Your first Python code <button class="copy-btn" type="button" data-copy="print(&quot;Hello Python&quot;)\nVar1 = 10\nStr1 = &quot;Py&quot;\nprint(Var1, Str1)">Copy code</button></div>
+      <pre><code>print("Hello Python")
+Var1 = 10
+Str1 = "Py"
+print(Var1, Str1)</code></pre>
+      <div class="success"><strong>Success check:</strong> Did IDLE display <code class="inline-code">Hello Python</code> and then <code class="inline-code">10 Py</code>? Both printed? IDLE works.</div>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="step-box" id="s2" aria-labelledby="step2title">
+    <span class="step-kicker">🧠 Step 2 · Learn with AI</span>
+    <h2 id="step2title">Set up your AI Tutor — NotebookLM</h2>
+    <p class="intro">NotebookLM is your AI Tutor to learn the concepts behind code. Use it to ask questions and understand examples, not just copy answers.</p>
+
+    <div class="link-box">
+      <h3>First, prepare your Gmail login</h3>
+      <p><strong>If you have Gmail:</strong> Right-click the link and choose <em>Open link in new tab</em>: <a href="https://gmail.com" target="_blank" rel="noopener">gmail.com</a> → Login.</p>
+      <p><strong>If you don't have Gmail:</strong> Right-click and open <a href="https://accounts.google.com/signup" target="_blank" rel="noopener">accounts.google.com/signup</a> in a new tab → Create an account → Then log in.</p>
+      <p class="tip">Keep this setup tab open, with Gmail in a new tab.</p>
+    </div>
+
+    <div class="task">
+      <div class="task-heading"><span class="task-number">1</span><div><h3>Create your AI Tutor notebook</h3><p>Follow the steps in order to add all three learning sources.</p></div></div>
+      <ol class="checklist">
+        <li><input type="checkbox" id="s2a"><label for="s2a">Open <a href="https://notebooklm.google.com" target="_blank" rel="noopener">notebooklm.google.com</a> in a new tab. Use the Gmail account from above.</label></li>
+        <li><input type="checkbox" id="s2b"><label for="s2b">Click <strong>+ New Notebook</strong>, then <strong>+ Add Source</strong>.</label></li>
+        <li><input type="checkbox" id="s2c"><label for="s2c"><strong>Source 1:</strong> Choose <strong>Upload PDF</strong> and select the Basics PDF from the Drive folder linked below.</label></li>
+        <li><input type="checkbox" id="s2d"><label for="s2d"><strong>Source 2:</strong> Click <strong>+ Add Source</strong> → <strong>Website URL</strong>. Paste <code class="inline-code">https://docs.python.org/3/</code> → <strong>Insert</strong>.</label></li>
+        <li><input type="checkbox" id="s2e"><label for="s2e"><strong>Source 3:</strong> Click <strong>+ Add Source</strong> → <strong>Website URL</strong>. Paste <code class="inline-code">https://docs.python.org/3/tutorial/</code> → <strong>Insert</strong>.</label></li>
+        <li><input type="checkbox" id="s2f"><label for="s2f">Check that you now have <strong>3 sources in one notebook</strong>.</label></li>
+        <li><input type="checkbox" id="s2g"><label for="s2g">Ask your AI Tutor: <em>“Explain variables and print with examples from all sources”</em>.</label></li>
+      </ol>
+    </div>
+
+    <div class="link-box">
+      <h3>📚 Resources for your AI Tutor</h3>
+      <ul>
+        <li><strong>Official Docs:</strong> <a href="https://docs.python.org/3/" target="_blank" rel="noopener">https://docs.python.org/3/</a></li>
+        <li><strong>Tutorial:</strong> <a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">https://docs.python.org/3/tutorial/</a></li>
+        <li><strong>PDF Book:</strong> <a href="https://drive.google.com/drive/folders/1blhLVhT3cOMP0aNcVD8q5ZPEL2JtTOVp" target="_blank" rel="noopener">Drive — PDF Book + Projects</a></li>
+      </ul>
+    </div>
+    <div class="tip"><strong>Try asking follow-up questions:</strong> If an explanation is confusing, ask NotebookLM to explain it in simpler words or give you another example.</div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="step-box" id="s3" aria-labelledby="step3title">
+    <span class="step-kicker">🛠️ Step 3 · Set up your tools</span>
+    <h2 id="step3title">VS Code & GitHub Copilot</h2>
+    <p class="intro">You will use VS Code to write and organise Python programs. GitHub Copilot can help explain code and suggest ideas as you learn.</p>
+
+    <div class="task">
+      <div class="task-heading"><span class="task-number">A</span><div><h3>Set up GitHub via Google</h3><p>This account is used to sign in to GitHub Copilot.</p></div></div>
+      <ol>
+        <li>Open <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a> in a new tab.</li>
+        <li>Choose <strong>Continue with Google</strong>.</li>
+        <li>Select the Gmail account you used in Step 2.</li>
+      </ol>
+    </div>
+
+    <div class="task">
+      <div class="task-heading"><span class="task-number">B</span><div><h3>Install VS Code</h3><p>Open <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">code.visualstudio.com</a> in a new tab → Download → Install.</p></div></div>
+      <label class="checklist"><input type="checkbox" id="s3b"> <span>VS Code is installed and opens successfully.</span></label>
+    </div>
+
+    <div class="task">
+      <div class="task-heading"><span class="task-number">C</span><div><h3>Install extensions & sign in to Copilot</h3><p>Inside VS Code, follow these steps:</p></div></div>
+      <ol class="checklist">
+        <li><input type="checkbox" id="s3c1"><label for="s3c1">Press <strong>Ctrl + Shift + X</strong> to open Extensions.</label></li>
+        <li><input type="checkbox" id="s3c2"><label for="s3c2">Install <strong>Python by Microsoft</strong>.</label></li>
+        <li><input type="checkbox" id="s3c3"><label for="s3c3">Install <strong>GitHub Copilot</strong> and <strong>Copilot Chat</strong>.</label></li>
+        <li><input type="checkbox" id="s3c4"><label for="s3c4">Click the Copilot icon and sign in with GitHub.</label></li>
+        <li><input type="checkbox" id="s3c5"><label for="s3c5">Complete the authorisation steps.</label></li>
+      </ol>
+      <div class="tip"><strong>Remember:</strong> AI suggestions can be helpful, but read the code, ask why it works, and run it yourself.</div>
+    </div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section class="step-box" id="s4" aria-labelledby="step4title">
+    <span class="step-kicker">🎯 Step 4 · Practise & build</span>
+    <h2 id="step4title">Your learning path: Basics to Projects</h2>
+    <p class="intro">In VS Code, choose <strong>File → Open Folder</strong> and open or create the folder named <code class="inline-code">PythonPractice</code>. Follow the topics in this order. Type, run, observe, and experiment with each example.</p>
+
+    <div class="sub-step">
+      <div class="sub-step-head"><span class="topic-number">1</span><h3>Variables</h3></div>
+      <div class="code-label">Store values and print them <button class="copy-btn" type="button" data-copy="Var1 = 1\nStr1 = &quot;Py&quot;\nprint(Var1, Str1)">Copy code</button></div>
+      <pre><code>Var1 = 1
+Str1 = "Py"
+print(Var1, Str1)</code></pre>
+    </div>
+
+    <div class="sub-step">
+      <div class="sub-step-head"><span class="topic-number">2</span><h3>Data Types — Basic</h3></div>
+      <div class="code-label">Check the type of a value <button class="copy-btn" type="button" data-copy="x = 10\nname = &quot;Python&quot;\nprint(type(x), type(name))">Copy code</button></div>
+      <pre><code>x = 10
+name = "Python"
+print(type(x), type(name))</code></pre>
+    </div>
+
+    <div class="sub-step">
+      <div class="sub-step-head"><span class="topic-number">3</span><h3>Print / Input</h3></div>
+      <div class="code-label">Display text and ask the user a question <button class="copy-btn" type="button" data-copy="print(&quot;Learn&quot;, &quot;Python&quot;, sep=&#39;,&#39;)\nname = input(&quot;Your name?\\n&quot;)\nprint(&quot;Welcome&quot;, name)">Copy code</button></div>
+      <pre><code>print("Learn", "Python", sep=',')
+name = input("Your name?\n")
+print("Welcome", name)</code></pre>
+    </div>
+
+    <div class="sub-step">
+      <div class="sub-step-head"><span class="topic-number">4</span><h3>Comments & Indentation</h3></div>
+      <div class="code-label">Notice the four spaces inside the if block <button class="copy-btn" type="button" data-copy="# comment\nif True:\n    print(&quot;inside - 4 spaces&quot;)\nprint(&quot;outside&quot;)">Copy code</button></div>
+      <pre><code># comment
+if True:
+    print("inside - 4 spaces")
+print("outside")</code></pre>
+    </div>
+
+    <div class="sub-step">
+      <div class="sub-step-head"><span class="topic-number">5</span><h3>If / While / For</h3></div>
+      <div class="code-label">Make decisions and repeat actions <button class="copy-btn" type="button" data-copy="yearofexp = 4\nif yearofexp > 3:\n    bonus = 10000\nelse:\n    bonus = 5000\nprint(bonus)\nfor i in range(3):\n    print(&quot;Hi&quot;, i)">Copy code</button></div>
+      <pre><code>yearofexp = 4
+if yearofexp > 3:
+    bonus = 10000
+else:
+    bonus = 5000
+print(bonus)
+for i in range(3):
+    print("Hi", i)</code></pre>
+      <details>
+        <summary>What should you notice?</summary>
+        <div class="details-body">The <code class="inline-code">if</code> and <code class="inline-code">else</code> blocks choose a bonus based on the condition. The <code class="inline-code">for</code> loop runs three times, with <code class="inline-code">i</code> taking the values 0, 1 and 2.</div>
+      </details>
+    </div>
+
+    <div class="sub-step">
+      <div class="sub-step-head"><span class="topic-number">6</span><h3>Advanced Data Types</h3></div>
+      <div class="code-label">Lists, tuples, sets and dictionaries <button class="copy-btn" type="button" data-copy="nums = [1,2,3]\nt = (1,2,3)\ns = {1,2,2,3}\np = {1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 6}\nfor i, j in p.items():\n    print(&quot;ROW:&quot;, i, &quot;-\\t&quot;, j * &#39;1 &#39;)">Copy code</button></div>
+      <pre><code>nums = [1,2,3]
+t = (1,2,3)
+s = {1,2,2,3}
+p = {1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 6}
+for i, j in p.items():
+    print("ROW:", i, "-\t", j * '1 ')</code></pre>
+      <details>
+        <summary>Explore the data structures</summary>
+        <div class="details-body">
+          <ul>
+            <li><code class="inline-code">nums</code> is a list.</li>
+            <li><code class="inline-code">t</code> is a tuple.</li>
+            <li><code class="inline-code">s</code> is a set, so repeated values are stored only once.</li>
+            <li><code class="inline-code">p</code> is a dictionary mapping each key to the value 6.</li>
+          </ul>
+          <p>The loop visits each key-value pair in <code class="inline-code">p</code> and prints a row made from repeated <code class="inline-code">1 </code> text.</p>
+        </div>
+      </details>
+    </div>
+
+    <details>
+      <summary>⭐ Optional project extension — Pop-it Game & Tower of Hanoi</summary>
+      <div class="details-body">
+        <p>These project examples were included in the original learning document as an optional commented-out section. Try them after you are comfortable with functions, loops, conditions and recursion.</p>
+        <h3>Pop-it Game starter</h3>
+        <pre><code>def letusplay():
+    p = {1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 6}
+    for i, j in p.items():
+        print("ROW:", i, "-\t", j * '1 ')
+user_response = input('Do you want to play?\n')
+if user_response.lower() in ["yes","y"]:
+    letusplay()</code></pre>
+        <h3>Tower of Hanoi</h3>
+        <pre><code>def hanoi(n, source, target, aux):
+    if n == 1:
+        print(f"Move disk 1 from {source} to {target}")
+        return
+    hanoi(n-1, source, aux, target)
+    print(f"Move disk {n} from {source} to {target}")
+    hanoi(n-1, aux, target, source)
+hanoi(3, 'A', 'C', 'B')</code></pre>
+      </div>
+    </details>
+
+    <div class="success"><strong>🎉 Completed all 4 steps!</strong><br>IDLE → AI Tutor → VS Code & Copilot → Projects built in VS Code.</div>
+  </section>
+
+  <nav class="btn-row" aria-label="Step navigation">
+    <button class="btn btn-prev" id="prevBtn" type="button" onclick="prevStep()">← Previous</button>
+    <span class="step-status" id="stepStatus" aria-live="polite">Step 1 of 4</span>
+    <button class="btn btn-next" id="nextBtn" type="button" onclick="nextStep()">Next step →</button>
+  </nav>
+  <footer class="site-footer">Go at your own pace. Understand a little, practise a little, and keep building.</footer>
+</div>
+
+<div class="modal" id="imgModal" role="dialog" aria-modal="true" aria-label="Course brochure" onclick="closeImage()">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <button class="close-modal" type="button" aria-label="Close brochure" onclick="closeImage()">×</button>
+    <img src="https://drive.google.com/thumbnail?id=1bmojy4Dx41MxXfHPWyyMZPM7c4EO2tIi&amp;sz=w1000" alt="Python learning path course brochure" onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1bmojy4Dx41MxXfHPWyyMZPM7c4EO2tIi';">
+    <div class="modal-note">Tap outside the brochure or press Escape to close.</div>
+  </div>
+</div>
+
+<script>
+const total = 4;
+let cur = 1;
+const titles = ['Quick start','AI Tutor','VS Code & Copilot','Basics to Projects'];
+
+function update(){
+  document.querySelectorAll('.step-box').forEach((box, index) => {
+    box.classList.toggle('active', index + 1 === cur);
+  });
+  document.querySelectorAll('.journey-item').forEach((item, index) => {
+    item.classList.toggle('active', index + 1 === cur);
+    if(index + 1 === cur) item.setAttribute('aria-current','step');
+    else item.removeAttribute('aria-current');
+  });
+  const percent = Math.round(cur / total * 100);
+  document.getElementById('fill').style.width = percent + '%';
+  document.getElementById('progressTitle').textContent = `Step ${cur} of ${total} · ${titles[cur-1]}`;
+  document.getElementById('progressPercent').textContent = percent + '%';
+  document.getElementById('progressBar').setAttribute('aria-valuenow', percent);
+  document.getElementById('stepStatus').textContent = `Step ${cur} of ${total}`;
+  document.getElementById('prevBtn').disabled = cur === 1;
+  const next = document.getElementById('nextBtn');
+  next.textContent = cur === total ? '✓ Completed' : 'Next step →';
+  next.setAttribute('aria-label', cur === total ? 'Course completed' : 'Go to next step');
+  try { localStorage.setItem('py_4step_final5', String(cur)); } catch(e) {}
+}
+function nextStep(){
+  if(cur < total){ cur++; update(); window.scrollTo({top:0,behavior:'smooth'}); }
+  else { document.getElementById('s4').scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+function prevStep(){
+  if(cur > 1){ cur--; update(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function showImage(){
+  document.getElementById('imgModal').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeImage(){
+  document.getElementById('imgModal').classList.remove('active');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown', event => {
+  if(event.key === 'Escape') closeImage();
+});
+document.querySelectorAll('[data-copy]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const textToCopy = button.getAttribute('data-copy')
+      .replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      const old = button.textContent;
+      button.textContent = 'Copied!';
+      setTimeout(() => button.textContent = old, 1400);
+    } catch(e) {
+      button.textContent = 'Select code to copy';
+      setTimeout(() => button.textContent = 'Copy code', 1600);
+    }
+  });
+});
+try {
+  const saved = parseInt(localStorage.getItem('py_4step_final5'), 10);
+  if(Number.isInteger(saved) && saved >= 1 && saved <= total) cur = saved;
+} catch(e) {}
+update();
+</script>
+</body>
+</html>

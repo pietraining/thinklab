@@ -12,15 +12,18 @@
 
   <style>
     :root {
-      --primary: #d94b15;
-      --primary-hover: #b83c0e;
+      /* ThinkersHub Brand Palette */
+      --brand-blue: #0082c8;
+      --brand-blue-hover: #006eb0;
+      --brand-navy: #103874;
+      --brand-navy-dark: #0b2550;
+      --brand-light-blue: #e0f2fe;
+      
       --bg: #ffffff;
       --surface: #f8fafc;
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -48,43 +51,43 @@
       overflow: hidden;
     }
 
-    /* TOP BAR: Silver Palette */
+    /* TOP BAR: Clean White Header matching ThinkersHub parent site */
     .top-bar {
       height: 56px;
       padding: 0 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-      border-bottom: 1px solid #94a3b8;
-      color: #0f172a;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      color: var(--brand-navy);
       z-index: 10;
       flex-shrink: 0;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .back-btn {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #1e293b;
+      color: var(--brand-navy);
       font-weight: 700;
       font-size: 14px;
       text-decoration: none;
       transition: opacity 0.2s;
     }
 
-    .back-btn:hover { opacity: 0.8; }
+    .back-btn:hover { opacity: 0.8; color: var(--brand-blue); }
 
     .action-icons { display: flex; align-items: center; gap: 12px; }
 
     .icon-btn {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid #cbd5e1;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 20px;
       padding: 5px 12px;
       cursor: pointer;
-      color: #334155;
+      color: var(--brand-navy);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -93,7 +96,7 @@
       transition: all 0.2s;
     }
 
-    .icon-btn:hover { background: #ffffff; color: var(--text-main); }
+    .icon-btn:hover { background: var(--brand-light-blue); color: var(--brand-blue); border-color: #bae6fd; }
     .icon-btn.active-heart { color: #e11d48; border-color: #fda4af; background: #fff1f2; }
     .icon-btn.active-heart svg { fill: #e11d48; stroke: #e11d48; }
 
@@ -131,7 +134,7 @@
       font-size: 24px;
       font-weight: 800;
       line-height: 1.25;
-      color: var(--text-main);
+      color: var(--brand-navy);
       margin-bottom: 20px;
       letter-spacing: -0.02em;
     }
@@ -152,7 +155,7 @@
       font-weight: 500;
     }
 
-    .meta-item i { color: var(--text-muted); margin-top: 2px; flex-shrink: 0; }
+    .meta-item i { color: var(--brand-blue); margin-top: 2px; flex-shrink: 0; }
 
     /* Organizer Card */
     .organizer-card {
@@ -182,7 +185,7 @@
 
     .organizer-details { display: flex; flex-direction: column; }
     .organizer-by { font-size: 14px; color: var(--text-muted); font-weight: 500; line-height: 1.2; }
-    .organizer-name { font-weight: 700; color: var(--text-main); }
+    .organizer-name { font-weight: 700; color: var(--brand-navy); }
     .organizer-subtext { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
     .visit-btn {
@@ -190,34 +193,34 @@
       align-items: center;
       justify-content: center;
       padding: 8px 18px;
-      border: 1.5px solid var(--border);
+      border: 1.5px solid var(--brand-blue);
       border-radius: 8px;
       background-color: #ffffff;
-      color: var(--text-main);
+      color: var(--brand-blue);
       font-weight: 700;
       font-size: 13px;
       text-decoration: none;
       transition: all 0.2s;
     }
 
-    .visit-btn:hover { border-color: var(--primary); color: var(--primary); background-color: #fff7ed; }
+    .visit-btn:hover { background-color: var(--brand-blue); color: #ffffff; }
 
     .divider { height: 1px; background-color: var(--border); margin: 24px 0; }
-    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--brand-navy); }
     .overview-text { color: #475569; font-size: 15px; line-height: 1.6; }
 
-    /* BOTTOM BAR: Elephant Gray Palette */
+    /* BOTTOM BAR: Deep Brand Navy with Cerulean Blue Action Button */
     .bottom-bar {
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 84px;
-      background: linear-gradient(135deg, #2a3441 0%, #1e2530 100%);
-      border-top: 1px solid #475569;
+      background: linear-gradient(135deg, var(--brand-navy-dark) 0%, var(--brand-navy) 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding: 12px 16px;
       display: flex;
       align-items: center;
       gap: 12px;
-      box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 -6px 20px rgba(16, 56, 116, 0.25);
       z-index: 30;
       padding-bottom: max(12px, env(safe-area-inset-bottom));
     }
@@ -227,8 +230,8 @@
     .batch-input {
       width: 100%;
       padding: 10px 12px;
-      border: 1.5px solid #475569;
-      background-color: #1e2530;
+      border: 1.5px solid #1e498a;
+      background-color: #081b3c;
       color: #ffffff;
       border-radius: 8px;
       font-size: 13px;
@@ -239,13 +242,13 @@
       transition: all 0.2s;
     }
 
-    .batch-input::placeholder { color: #94a3b8; }
-    .batch-input:focus { border-color: var(--primary); background-color: #0f172a; }
+    .batch-input::placeholder { color: #64748b; }
+    .batch-input:focus { border-color: var(--brand-blue); background-color: #030d22; }
     .batch-input.is-invalid { border-color: #ef4444; }
     .batch-input.is-valid { border-color: #22c55e; }
 
     .btn-reserve {
-      background: linear-gradient(135deg, #d94b15 0%, #b83c0e 100%);
+      background-color: var(--brand-blue);
       color: #ffffff;
       border: none;
       padding: 12px 18px;
@@ -255,17 +258,18 @@
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(217, 75, 21, 0.35);
+      box-shadow: 0 4px 12px rgba(0, 130, 200, 0.35);
     }
 
     .btn-reserve:hover:not(:disabled) {
+      background-color: var(--brand-blue-hover);
       transform: translateY(-1px);
-      box-shadow: 0 6px 15px rgba(217, 75, 21, 0.45);
+      box-shadow: 0 6px 15px rgba(0, 130, 200, 0.45);
     }
 
     .btn-reserve:disabled {
-      background: #475569;
-      color: #94a3b8;
+      background: #1e3a67;
+      color: #64748b;
       cursor: not-allowed;
       box-shadow: none;
       transform: none;
@@ -299,13 +303,14 @@
     .modal-overlay.open .modal-card { transform: translateY(0); }
 
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .modal-title { font-size: 18px; font-weight: 700; }
+    .modal-title { font-size: 18px; font-weight: 700; color: var(--brand-navy); }
     .close-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); }
     .form-group { margin-bottom: 16px; }
     .form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
     .form-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; outline: none; }
-    .form-input:focus { border-color: var(--primary); }
-    .submit-btn { width: 100%; background-color: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .form-input:focus { border-color: var(--brand-blue); }
+    .submit-btn { width: 100%; background-color: var(--brand-blue); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+    .submit-btn:hover { background-color: var(--brand-blue-hover); }
 
     .toast {
       position: absolute;
@@ -326,7 +331,7 @@
   <div class="app-container">
     <div class="toast" id="toast">Link copied to clipboard!</div>
 
-    <!-- Top Bar (Silver) -->
+    <!-- Top Bar (White Header matching ThinkersHub) -->
     <header class="top-bar">
       <a href="https://www.thinkingskill.in" class="back-btn">
         <i data-lucide="arrow-left" size="18"></i>
@@ -397,7 +402,7 @@
       </main>
     </div>
 
-    <!-- Bottom Reservation Bar (Elephant Gray) -->
+    <!-- Bottom Reservation Bar (Deep Brand Navy Palette) -->
     <footer class="bottom-bar">
       <div class="batch-input-wrapper">
         <input 
@@ -454,11 +459,11 @@
     let currentLoveCount = 0;
     let hasLiked = localStorage.getItem('hasLiked_' + VALID_BATCH_CODE) === 'true';
 
-    // CSV & GOOGLE FORM ENDPOINTS
+    // CSV & FORM ENDPOINTS
     const MASTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQa1DwC7x54wuxZJoYFBhCt8SzHBpkWuqyH7XQIcMzdjj6_VXBl1DOJne8oaX4jcujrrpTJlvj_E9qM/pub?gid=1114785347&single=true&output=csv";
     const PUBLIC_FEED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQa1DwC7x54wuxZJoYFBhCt8SzHBpkWuqyH7XQIcMzdjj6_VXBl1DOJne8oaX4jcujrrpTJlvj_E9qM/pub?gid=1149121719&single=true&output=csv";
 
-    // GOOGLE FORM SUBMISSION & ENTRY IDs
+    // GOOGLE FORM RESPONSE URL & ENTRY IDs
     const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScliz0hmsuSd30UhjTuowFlcUVXcKO7oDgsGRyKo7xzL-YYjw/formResponse";
     const NAME_ENTRY_ID = "entry.1284435015";       
     const EMAIL_ENTRY_ID = "entry.1988767158";      
@@ -475,7 +480,7 @@
       heartBtn.classList.add('active-heart');
     }
 
-    // Load Public Feed CSV (Learner Count & Love Count)
+    // Load Public Feed CSV (Learner & Love Counts)
     async function loadPublicFeed() {
       try {
         const res = await fetch(PUBLIC_FEED_CSV_URL);
@@ -491,7 +496,6 @@
           learnerCount = validLearners.length;
         }
 
-        // Reads Total Loves from Column C (cell C2)
         if (rows.length > 1 && rows[1][2] && !isNaN(parseInt(rows[1][2]))) {
           currentLoveCount = parseInt(rows[1][2]);
           loveCountText.textContent = currentLoveCount;
@@ -503,7 +507,7 @@
       }
     }
 
-    // Load Master Courses CSV Metadata
+    // Load Master Courses CSV
     async function loadMasterCourses() {
       try {
         const res = await fetch(MASTER_CSV_URL);
@@ -529,7 +533,7 @@
     loadMasterCourses();
     loadPublicFeed();
 
-    // Independent Heart Click Listener (Records LIKE_TL211126 hit even for non-registered users)
+    // Heart Click Listener (Posts background LIKE hit)
     heartBtn.addEventListener('click', () => {
       if (!hasLiked) {
         hasLiked = true;
@@ -538,7 +542,6 @@
         heartBtn.classList.add('active-heart');
         localStorage.setItem('hasLiked_' + VALID_BATCH_CODE, 'true');
 
-        // Silent background hit sent to Google Form
         const loveFormData = new FormData();
         loveFormData.append(NAME_ENTRY_ID, "Anonymous Supporter");
         loveFormData.append(EMAIL_ENTRY_ID, "like@thinklab.internal");
@@ -548,7 +551,7 @@
           method: 'POST',
           mode: 'no-cors',
           body: loveFormData
-        }).catch(err => console.warn('Heart hit submission error:', err));
+        }).catch(err => console.warn('Heart hit error:', err));
 
         showToast('Thanks for loving this event!');
       } else {
@@ -591,7 +594,7 @@
       if (e.target === modalOverlay) modalOverlay.classList.remove('open');
     });
 
-    // Form Submission for User Registration
+    // Booking Submission
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
 

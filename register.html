@@ -48,30 +48,32 @@
       overflow: hidden;
     }
 
+    /* Top Bar Header */
     .top-bar {
       height: 56px;
       padding: 0 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
+      background: linear-gradient(135deg, #d94b15 0%, #b83c0e 100%);
+      color: #ffffff;
       z-index: 10;
       flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(217, 75, 21, 0.25);
     }
 
     .back-btn {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: var(--text-muted);
+      color: #ffffff;
       font-weight: 600;
       font-size: 14px;
       text-decoration: none;
-      transition: color 0.2s;
+      transition: opacity 0.2s;
     }
 
-    .back-btn:hover { color: var(--text-main); }
+    .back-btn:hover { opacity: 0.85; }
 
     .action-icons { display: flex; align-items: center; gap: 16px; }
 
@@ -79,16 +81,16 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: var(--text-muted);
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
     }
 
-    .icon-btn:hover { color: var(--text-main); }
-    .icon-btn.active-heart { color: #f43f5e; fill: #f43f5e; }
-    .icon-btn.active-heart svg { fill: #f43f5e; stroke: #f43f5e; }
+    .icon-btn:hover { opacity: 0.85; }
+    .icon-btn.active-heart { color: #fecdd3; fill: #fecdd3; }
+    .icon-btn.active-heart svg { fill: #fecdd3; stroke: #fecdd3; }
 
     .content-scroll {
       flex: 1;
@@ -199,17 +201,18 @@
     .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
     .overview-text { color: #475569; font-size: 15px; line-height: 1.6; }
 
+    /* Bottom Reservation Bar */
     .bottom-bar {
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 84px;
-      background: #ffffff;
-      border-top: 1px solid #e2e8f0;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding: 12px 16px;
       display: flex;
       align-items: center;
       gap: 12px;
-      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 -6px 20px rgba(15, 23, 42, 0.25);
       z-index: 30;
       padding-bottom: max(12px, env(safe-area-inset-bottom));
     }
@@ -219,22 +222,25 @@
     .batch-input {
       width: 100%;
       padding: 10px 12px;
-      border: 1.5px solid var(--border);
+      border: 1.5px solid #334155;
+      background-color: #1e293b;
+      color: #ffffff;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 600;
       outline: none;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
     }
 
-    .batch-input:focus { border-color: var(--primary); }
+    .batch-input::placeholder { color: #94a3b8; }
+    .batch-input:focus { border-color: var(--primary); background-color: #0f172a; }
     .batch-input.is-invalid { border-color: #ef4444; }
     .batch-input.is-valid { border-color: #22c55e; }
 
     .btn-reserve {
-      background-color: var(--primary);
+      background: linear-gradient(135deg, #d94b15 0%, #b83c0e 100%);
       color: #ffffff;
       border: none;
       padding: 12px 18px;
@@ -244,11 +250,21 @@
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
-      box-shadow: 0 2px 4px rgba(217, 75, 21, 0.2);
+      box-shadow: 0 4px 12px rgba(217, 75, 21, 0.35);
     }
 
-    .btn-reserve:hover:not(:disabled) { background-color: var(--primary-hover); }
-    .btn-reserve:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; box-shadow: none; }
+    .btn-reserve:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 15px rgba(217, 75, 21, 0.45);
+    }
+
+    .btn-reserve:disabled {
+      background: #334155;
+      color: #64748b;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
 
     .modal-overlay {
       position: absolute;
@@ -375,7 +391,7 @@
       </main>
     </div>
 
-    <!-- Fixed Bottom Panel -->
+    <!-- Bottom Reservation Bar -->
     <footer class="bottom-bar">
       <div class="batch-input-wrapper">
         <input 
@@ -433,25 +449,37 @@
     const MASTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQa1DwC7x54wuxZJoYFBhCt8SzHBpkWuqyH7XQIcMzdjj6_VXBl1DOJne8oaX4jcujrrpTJlvj_E9qM/pub?gid=1114785347&single=true&output=csv";
     const PUBLIC_FEED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQa1DwC7x54wuxZJoYFBhCt8SzHBpkWuqyH7XQIcMzdjj6_VXBl1DOJne8oaX4jcujrrpTJlvj_E9qM/pub?gid=1149121719&single=true&output=csv";
 
-    // GOOGLE FORM RESPONSE URL & FIELD ENTRY IDs (Replace entry numbers with your Google Form IDs)
-    const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
-    const NAME_ENTRY_ID = "entry.123456789";       
-    const EMAIL_ENTRY_ID = "entry.987654321";      
-    const BATCH_CODE_ENTRY_ID = "entry.1122334455"; 
+    // UPDATED GOOGLE FORM URL & PRE-FILLED ENTRY IDs
+    const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScliz0hmsuSd30UhjTuowFlcUVXcKO7oDgsGRyKo7xzL-YYjw/formResponse";
+    const NAME_ENTRY_ID = "entry.1284435015";       
+    const EMAIL_ENTRY_ID = "entry.1988767158";      
+    const BATCH_CODE_ENTRY_ID = "entry.2046668482"; 
 
-    // Helper: Parse CSV Text to Array
     function parseCSV(text) {
-      return text.split('\n').filter(row => row.trim().length > 0).map(row => row.split(',').map(cell => cell.replace(/^"|"$/g, '').trim()));
+      return text.split('\n')
+        .map(row => row.trim())
+        .filter(row => row.length > 0)
+        .map(row => row.split(',').map(cell => cell.replace(/^"|"$/g, '').trim()));
     }
 
-    // Load Public Feed CSV (Learner Count)
+    // Load Public Feed CSV and compute actual learner count (ignoring hyphens/headers)
     async function loadPublicFeed() {
       try {
         const res = await fetch(PUBLIC_FEED_CSV_URL);
         const csvText = await res.text();
         const rows = parseCSV(csvText);
-        // Exclude header row if present
-        const learnerCount = Math.max(0, rows.length - 1);
+
+        let learnerCount = 0;
+
+        // If cell B2 contains a numeric count directly, use it
+        if (rows.length > 1 && !isNaN(parseInt(rows[1][1]))) {
+          learnerCount = parseInt(rows[1][1]);
+        } else {
+          // Otherwise count valid rows in column A (skipping header & invalid cells)
+          const validLearners = rows.slice(1).filter(r => r[0] && r[0] !== '-' && r[0] !== '');
+          learnerCount = validLearners.length;
+        }
+
         document.getElementById('learnersCount').textContent = `${learnerCount} learners joined`;
       } catch (e) {
         console.warn("Could not load Public Feed CSV:", e);
@@ -466,7 +494,7 @@
         const rows = parseCSV(csvText);
         
         if (rows.length > 1) {
-          const row = rows[1]; // First course row
+          const row = rows[1];
           VALID_BATCH_CODE = row[0] || VALID_BATCH_CODE;
           document.getElementById('courseTitle').textContent = row[1] || "Google Flow for Beginners";
           document.getElementById('eventDateTime').textContent = `${row[2]} • ${row[3]}`;
@@ -481,11 +509,10 @@
       }
     }
 
-    // Execute loaders
     loadMasterCourses();
     loadPublicFeed();
 
-    // Batch Code Validation
+    // Batch Code Input Listener
     batchCodeInput.addEventListener('input', () => {
       const enteredCode = batchCodeInput.value.trim().toUpperCase();
       if (enteredCode === VALID_BATCH_CODE) {
@@ -509,7 +536,6 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    // Modal Controls
     openModalBtn.addEventListener('click', () => {
       if (!openModalBtn.disabled) modalOverlay.classList.add('open');
     });
@@ -520,7 +546,6 @@
       if (e.target === modalOverlay) modalOverlay.classList.remove('open');
     });
 
-    // Form Submission
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -546,7 +571,7 @@
         alert('Registration successful! Check your email for event access instructions.');
         modalOverlay.classList.remove('open');
         bookingForm.reset();
-        setTimeout(loadPublicFeed, 2000);
+        setTimeout(loadPublicFeed, 2500);
       })
       .catch((error) => {
         console.error('Submission error:', error);

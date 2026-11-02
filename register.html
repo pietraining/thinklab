@@ -400,7 +400,6 @@
 
     <!-- Header -->
     <header class="top-bar">
-      <!-- 1. Updated link to https://thinklab.thinkingskill.in -->
       <a href="https://thinklab.thinkingskill.in" class="back-btn">
         <i data-lucide="arrow-left" size="18"></i>
         <span>Back to Think Lab</span>
@@ -433,14 +432,13 @@
         <h1 class="event-title">Google Flow for Beginners</h1>
 
         <div class="meta-list">
-          <!-- 3. Updated to include (Free) -->
           <div class="meta-item">
             <i data-lucide="map-pin" size="18"></i>
             <span>Online Event (Free)</span>
           </div>
           <div class="meta-item">
             <i data-lucide="calendar" size="18"></i>
-            <span>Saturday, November 21st • 11am IST</span>
+            <span>Sat, Nov 21st • 10-11am IST</span>
           </div>
         </div>
 
@@ -449,7 +447,7 @@
         <section>
           <h2 class="section-title">Overview</h2>
           <p class="overview-text">
-            Experience sharing on making image and short videos using Google Flow
+            Creating Images and Short Videos Using Google Flow: Ensuring Character and Voice Consistency
           </p>
         </section>
       </main>
@@ -457,7 +455,6 @@
 
     <!-- Fixed Bottom Panel -->
     <footer class="bottom-bar">
-      <!-- 4. Batch Code Input Box -->
       <div class="batch-input-wrapper">
         <input 
           type="text" 
@@ -468,7 +465,6 @@
           spellcheck="false"
         />
       </div>
-      <!-- 2. Renamed to Register now & disabled by default until valid code -->
       <button class="btn-reserve" id="openModalBtn" disabled>Register now</button>
     </footer>
 
@@ -512,7 +508,7 @@
 
     const VALID_BATCH_CODE = "TL211126";
 
-    // 4. Batch Code Input Validation Logic
+    // Batch Code Input Validation Logic
     batchCodeInput.addEventListener('input', () => {
       const enteredCode = batchCodeInput.value.trim().toUpperCase();
       
@@ -559,7 +555,7 @@
       bookingForm.reset();
     });
 
-    // Heart Icon Click (Fills with Rose Color)
+    // Heart Icon Click
     heartBtn.addEventListener('click', () => {
       heartBtn.classList.toggle('active-heart');
       lucide.createIcons();
@@ -567,13 +563,15 @@
 
     // Share Button Implementation
     shareBtn.addEventListener('click', async () => {
+      const shareData = {
+        title: 'Google Flow for Beginners',
+        text: 'Creating Images and Short Videos Using Google Flow: Ensuring Character and Voice Consistency',
+        url: window.location.href,
+      };
+
       if (navigator.share) {
         try {
-          await navigator.share({
-            title: 'Google Flow for Beginners',
-            text: 'Experience sharing on making image and short videos using Google Flow',
-            url: window.location.href,
-          });
+          await navigator.share(shareData);
         } catch (err) {
           // Share cancelled
         }

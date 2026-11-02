@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Google Flow for Beginners</title>
   <!-- Google Fonts & Lucide Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +20,6 @@
       --text-muted: #64748b;
       --border: #e2e8f0;
       --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
       --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     }
 
@@ -30,30 +29,35 @@
       padding: 0;
     }
 
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    html, body {
+      height: 100%;
       background-color: #f1f5f9;
       color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       line-height: 1.5;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
     }
 
-    /* Mobile / Container Frame */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Outer Wrapper / Frame for Mobile Preview */
     .app-container {
       width: 100%;
       max-width: 480px;
+      height: 100vh;
+      height: 100dvh;
       background: var(--bg);
       display: flex;
       flex-direction: column;
-      height: 100vh;
       position: relative;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
       overflow: hidden;
     }
 
-    /* Top Bar */
+    /* Fixed Top Bar */
     .top-bar {
       height: 56px;
       padding: 0 16px;
@@ -74,9 +78,6 @@
       font-weight: 600;
       font-size: 14px;
       text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
       transition: color 0.2s;
     }
 
@@ -98,38 +99,52 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: color 0.2s, transform 0.1s;
+      transition: all 0.2s;
     }
 
     .icon-btn:hover {
       color: var(--text-main);
     }
 
+    /* Heart Filled State */
     .icon-btn.active-heart {
-      color: #e11d48;
-      fill: #e11d48;
+      color: #f43f5e;
+      fill: #f43f5e;
+    }
+    
+    .icon-btn.active-heart svg {
+      fill: #f43f5e;
+      stroke: #f43f5e;
     }
 
     /* Middle Scroll Area */
     .content-scroll {
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 90px; /* Offset for fixed bottom bar */
       scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 100px; /* Ensures text isn't blocked by bottom bar */
     }
 
+    /* Image Container with Padding & Centering */
     .hero-image-container {
       width: 100%;
-      height: 230px;
-      background: #e2e8f0;
-      position: relative;
-      overflow: hidden;
+      height: 240px;
+      background: #f8fafc;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
     }
 
     .hero-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
     }
 
     .main-content {
@@ -149,7 +164,7 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .meta-item {
@@ -192,15 +207,16 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 76px;
-      background: var(--bg);
-      border-top: 1px solid var(--border);
+      height: 80px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
       padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-      z-index: 20;
+      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
+      z-index: 30;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
     }
 
     .bottom-info {
@@ -221,19 +237,20 @@
       color: var(--text-muted);
       font-weight: 500;
       line-height: 1.2;
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .btn-reserve {
       background-color: var(--primary);
       color: #ffffff;
       border: none;
-      padding: 12px 22px;
+      padding: 12px 24px;
       border-radius: 8px;
       font-weight: 700;
       font-size: 15px;
       cursor: pointer;
       transition: background-color 0.2s, transform 0.1s;
+      box-shadow: 0 2px 4px rgba(217, 75, 21, 0.2);
     }
 
     .btn-reserve:hover {
@@ -335,31 +352,60 @@
       cursor: pointer;
       margin-top: 10px;
     }
+
+    /* Toast Notification */
+    .toast {
+      position: absolute;
+      top: 66px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: #0f172a;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 60;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   </style>
 </head>
 <body>
 
   <div class="app-container">
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Link copied to clipboard!</div>
+
     <!-- Header -->
     <header class="top-bar">
-      <button class="back-btn" onclick="alert('Navigating back to Think Lab')">
+      <!-- 1. Pointing to https://pylab.thinkingskill.in -->
+      <a href="https://pylab.thinkingskill.in" class="back-btn">
         <i data-lucide="arrow-left" size="18"></i>
         <span>Back to Think Lab</span>
-      </button>
+      </a>
 
       <div class="action-icons">
-        <button class="icon-btn" id="shareBtn" title="Share">
+        <!-- 2. Share Button -->
+        <button class="icon-btn" id="shareBtn" title="Share Event">
           <i data-lucide="share-2" size="20"></i>
         </button>
+        <!-- 3. Heart Button -->
         <button class="icon-btn" id="heartBtn" title="Favorite">
           <i data-lucide="heart" size="20"></i>
         </button>
       </div>
     </header>
 
-    <!-- Scrollable Body -->
+    <!-- Scrollable Middle Content -->
     <div class="content-scroll">
-      <!-- Top Image -->
+      <!-- 4. Centered Image Container -->
       <div class="hero-image-container">
         <img 
           src="https://lh3.googleusercontent.com/d/18PQ4nYxcX4mM-_5QIPs_6gZFC5KFWieU" 
@@ -369,7 +415,7 @@
         />
       </div>
 
-      <!-- Main Content -->
+      <!-- Main Text Details -->
       <main class="main-content">
         <h1 class="event-title">Google Flow for Beginners</h1>
 
@@ -395,7 +441,7 @@
       </main>
     </div>
 
-    <!-- Fixed Bottom Panel -->
+    <!-- 5. Clear Fixed Bottom Panel -->
     <footer class="bottom-bar">
       <div class="bottom-info">
         <span class="price-text">Free</span>
@@ -404,7 +450,7 @@
       <button class="btn-reserve" id="openModalBtn">Reserve a spot</button>
     </footer>
 
-    <!-- Reservation Modal -->
+    <!-- Booking Modal -->
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal-card">
         <div class="modal-header">
@@ -432,39 +478,59 @@
     // Initialize icons
     lucide.createIcons();
 
-    // Elements
+    // DOM Elements
     const modalOverlay = document.getElementById('modalOverlay');
     const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const bookingForm = document.getElementById('bookingForm');
     const heartBtn = document.getElementById('heartBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const toast = document.getElementById('toast');
+
+    // Toast function
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
 
     // Modal Control
-    openModalBtn.addEventListener('click', () => {
-      modalOverlay.classList.add('open');
-    });
-
-    closeModalBtn.addEventListener('click', () => {
-      modalOverlay.classList.remove('open');
-    });
-
+    openModalBtn.addEventListener('click', () => modalOverlay.classList.add('open'));
+    closeModalBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
     modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) {
-        modalOverlay.classList.remove('open');
-      }
+      if (e.target === modalOverlay) modalOverlay.classList.remove('open');
     });
 
-    // Form Submission
+    // Form Submit
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert('Spot reserved successfully! Check your email for event access link.');
+      alert('Spot reserved successfully!');
       modalOverlay.classList.remove('open');
       bookingForm.reset();
     });
 
-    // Favorite Toggle
+    // 3. Heart Fill Toggle (Rose Color)
     heartBtn.addEventListener('click', () => {
       heartBtn.classList.toggle('active-heart');
+      lucide.createIcons();
+    });
+
+    // 2. Functional Share Button
+    shareBtn.addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Google Flow for Beginners',
+            text: 'Experience sharing on making image and short videos using Google Flow',
+            url: window.location.href,
+          });
+        } catch (err) {
+          // Share cancelled
+        }
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('Event link copied to clipboard!');
+      }
     });
   </script>
 </body>

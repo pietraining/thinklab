@@ -123,10 +123,10 @@
       overflow-y: auto;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding-bottom: 100px; /* Ensures text isn't blocked by bottom bar */
+      padding-bottom: 110px; /* Ensures text isn't blocked by bottom bar */
     }
 
-    /* Image Container with Padding & Centering */
+    /* Image Container */
     .hero-image-container {
       width: 100%;
       height: 240px;
@@ -207,58 +207,73 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 80px;
+      height: 84px;
       background: #ffffff;
       border-top: 1px solid #e2e8f0;
-      padding: 12px 20px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 12px;
       box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
       z-index: 30;
       padding-bottom: max(12px, env(safe-area-inset-bottom));
     }
 
-    .bottom-info {
+    .batch-input-wrapper {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      gap: 4px;
     }
 
-    .price-text {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.2;
-    }
-
-    .date-text {
+    .batch-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
       font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 500;
-      line-height: 1.2;
-      margin-top: 3px;
+      font-weight: 600;
+      outline: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: border-color 0.2s;
+    }
+
+    .batch-input:focus {
+      border-color: var(--primary);
+    }
+
+    .batch-input.is-invalid {
+      border-color: #ef4444;
+    }
+
+    .batch-input.is-valid {
+      border-color: #22c55e;
     }
 
     .btn-reserve {
       background-color: var(--primary);
       color: #ffffff;
       border: none;
-      padding: 12px 24px;
+      padding: 12px 18px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
+      white-space: nowrap;
+      transition: all 0.2s;
       box-shadow: 0 2px 4px rgba(217, 75, 21, 0.2);
     }
 
-    .btn-reserve:hover {
+    .btn-reserve:hover:not(:disabled) {
       background-color: var(--primary-hover);
     }
 
-    .btn-reserve:active {
-      transform: scale(0.98);
+    .btn-reserve:disabled {
+      background-color: #cbd5e1;
+      color: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
     }
 
     /* Modal Overlay */
@@ -385,18 +400,16 @@
 
     <!-- Header -->
     <header class="top-bar">
-      <!-- 1. Pointing to https://pylab.thinkingskill.in -->
-      <a href="https://pylab.thinkingskill.in" class="back-btn">
+      <!-- 1. Updated link to https://thinklab.thinkingskill.in -->
+      <a href="https://thinklab.thinkingskill.in" class="back-btn">
         <i data-lucide="arrow-left" size="18"></i>
         <span>Back to Think Lab</span>
       </a>
 
       <div class="action-icons">
-        <!-- 2. Share Button -->
         <button class="icon-btn" id="shareBtn" title="Share Event">
           <i data-lucide="share-2" size="20"></i>
         </button>
-        <!-- 3. Heart Button -->
         <button class="icon-btn" id="heartBtn" title="Favorite">
           <i data-lucide="heart" size="20"></i>
         </button>
@@ -405,7 +418,7 @@
 
     <!-- Scrollable Middle Content -->
     <div class="content-scroll">
-      <!-- 4. Centered Image Container -->
+      <!-- Centered Image Container -->
       <div class="hero-image-container">
         <img 
           src="https://lh3.googleusercontent.com/d/18PQ4nYxcX4mM-_5QIPs_6gZFC5KFWieU" 
@@ -420,9 +433,10 @@
         <h1 class="event-title">Google Flow for Beginners</h1>
 
         <div class="meta-list">
+          <!-- 3. Updated to include (Free) -->
           <div class="meta-item">
             <i data-lucide="map-pin" size="18"></i>
-            <span>Online Event</span>
+            <span>Online Event (Free)</span>
           </div>
           <div class="meta-item">
             <i data-lucide="calendar" size="18"></i>
@@ -441,20 +455,28 @@
       </main>
     </div>
 
-    <!-- 5. Clear Fixed Bottom Panel -->
+    <!-- Fixed Bottom Panel -->
     <footer class="bottom-bar">
-      <div class="bottom-info">
-        <span class="price-text">Free</span>
-        <span class="date-text">Sat, Nov 21 • 11:00 AM IST</span>
+      <!-- 4. Batch Code Input Box -->
+      <div class="batch-input-wrapper">
+        <input 
+          type="text" 
+          id="batchCodeInput" 
+          class="batch-input" 
+          placeholder="Enter Batch Code" 
+          autocomplete="off"
+          spellcheck="false"
+        />
       </div>
-      <button class="btn-reserve" id="openModalBtn">Reserve a spot</button>
+      <!-- 2. Renamed to Register now & disabled by default until valid code -->
+      <button class="btn-reserve" id="openModalBtn" disabled>Register now</button>
     </footer>
 
-    <!-- Booking Modal -->
+    <!-- Registration Modal -->
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal-card">
         <div class="modal-header">
-          <h3 class="modal-title">Reserve Spot</h3>
+          <h3 class="modal-title">Register Now</h3>
           <button class="close-btn" id="closeModalBtn">
             <i data-lucide="x" size="20"></i>
           </button>
@@ -475,7 +497,7 @@
   </div>
 
   <script>
-    // Initialize icons
+    // Initialize Lucide icons
     lucide.createIcons();
 
     // DOM Elements
@@ -486,36 +508,64 @@
     const heartBtn = document.getElementById('heartBtn');
     const shareBtn = document.getElementById('shareBtn');
     const toast = document.getElementById('toast');
+    const batchCodeInput = document.getElementById('batchCodeInput');
 
-    // Toast function
+    const VALID_BATCH_CODE = "TL211126";
+
+    // 4. Batch Code Input Validation Logic
+    batchCodeInput.addEventListener('input', () => {
+      const enteredCode = batchCodeInput.value.trim().toUpperCase();
+      
+      if (enteredCode === VALID_BATCH_CODE) {
+        openModalBtn.disabled = false;
+        batchCodeInput.classList.remove('is-invalid');
+        batchCodeInput.classList.add('is-valid');
+      } else {
+        openModalBtn.disabled = true;
+        batchCodeInput.classList.remove('is-valid');
+        if (enteredCode.length >= VALID_BATCH_CODE.length) {
+          batchCodeInput.classList.add('is-invalid');
+        } else {
+          batchCodeInput.classList.remove('is-invalid');
+        }
+      }
+    });
+
+    // Toast Notification helper
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    // Modal Control
-    openModalBtn.addEventListener('click', () => modalOverlay.classList.add('open'));
+    // Modal Controls
+    openModalBtn.addEventListener('click', () => {
+      if (!openModalBtn.disabled) {
+        modalOverlay.classList.add('open');
+      }
+    });
+    
     closeModalBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
+    
     modalOverlay.addEventListener('click', (e) => {
       if (e.target === modalOverlay) modalOverlay.classList.remove('open');
     });
 
-    // Form Submit
+    // Form Submission
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert('Spot reserved successfully!');
+      alert('Registration successful! Check your email for event access instructions.');
       modalOverlay.classList.remove('open');
       bookingForm.reset();
     });
 
-    // 3. Heart Fill Toggle (Rose Color)
+    // Heart Icon Click (Fills with Rose Color)
     heartBtn.addEventListener('click', () => {
       heartBtn.classList.toggle('active-heart');
       lucide.createIcons();
     });
 
-    // 2. Functional Share Button
+    // Share Button Implementation
     shareBtn.addEventListener('click', async () => {
       if (navigator.share) {
         try {

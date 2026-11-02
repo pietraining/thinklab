@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Flow for Beginners</title>
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #d94b15;
+      --primary-hover: #b83c0e;
+      --bg: #ffffff;
+      --surface: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f1f5f9;
+      color: var(--text-main);
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* Mobile / Container Frame */
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      height: 56px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      z-index: 10;
+      flex-shrink: 0;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover {
+      color: var(--text-main);
+    }
+
+    .action-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, transform 0.1s;
+    }
+
+    .icon-btn:hover {
+      color: var(--text-main);
+    }
+
+    .icon-btn.active-heart {
+      color: #e11d48;
+      fill: #e11d48;
+    }
+
+    /* Middle Scroll Area */
+    .content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 90px; /* Offset for fixed bottom bar */
+      scroll-behavior: smooth;
+    }
+
+    .hero-image-container {
+      width: 100%;
+      height: 230px;
+      background: #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .main-content {
+      padding: 24px 20px;
+    }
+
+    .event-title {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: #334155;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .meta-item i {
+      color: var(--text-muted);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: var(--border);
+      margin: 24px 0;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .overview-text {
+      color: #475569;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Fixed Bottom Panel */
+    .bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 76px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+      z-index: 20;
+    }
+
+    .bottom-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .price-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .date-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+
+    .btn-reserve {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .btn-reserve:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-reserve:active {
+      transform: scale(0.98);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      display: flex;
+      align-items: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: 100%;
+      background: #ffffff;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      padding: 24px;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="top-bar">
+      <button class="back-btn" onclick="alert('Navigating back to Think Lab')">
+        <i data-lucide="arrow-left" size="18"></i>
+        <span>Back to Think Lab</span>
+      </button>
+
+      <div class="action-icons">
+        <button class="icon-btn" id="shareBtn" title="Share">
+          <i data-lucide="share-2" size="20"></i>
+        </button>
+        <button class="icon-btn" id="heartBtn" title="Favorite">
+          <i data-lucide="heart" size="20"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Scrollable Body -->
+    <div class="content-scroll">
+      <!-- Top Image -->
+      <div class="hero-image-container">
+        <img 
+          src="https://lh3.googleusercontent.com/d/18PQ4nYxcX4mM-_5QIPs_6gZFC5KFWieU" 
+          alt="Google Flow Banner" 
+          class="hero-image"
+          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1000&q=80';"
+        />
+      </div>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <h1 class="event-title">Google Flow for Beginners</h1>
+
+        <div class="meta-list">
+          <div class="meta-item">
+            <i data-lucide="map-pin" size="18"></i>
+            <span>Online Event</span>
+          </div>
+          <div class="meta-item">
+            <i data-lucide="calendar" size="18"></i>
+            <span>Saturday, November 21st • 11am IST</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <section>
+          <h2 class="section-title">Overview</h2>
+          <p class="overview-text">
+            Experience sharing on making image and short videos using Google Flow
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <!-- Fixed Bottom Panel -->
+    <footer class="bottom-bar">
+      <div class="bottom-info">
+        <span class="price-text">Free</span>
+        <span class="date-text">Sat, Nov 21 • 11:00 AM IST</span>
+      </div>
+      <button class="btn-reserve" id="openModalBtn">Reserve a spot</button>
+    </footer>
+
+    <!-- Reservation Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">Reserve Spot</h3>
+          <button class="close-btn" id="closeModalBtn">
+            <i data-lucide="x" size="20"></i>
+          </button>
+        </div>
+        <form id="bookingForm">
+          <div class="form-group">
+            <label class="form-label" for="name">Full Name</label>
+            <input type="text" id="name" class="form-input" placeholder="John Doe" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" id="email" class="form-input" placeholder="john@example.com" required />
+          </div>
+          <button type="submit" class="submit-btn">Confirm Registration</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+
+    // Elements
+    const modalOverlay = document.getElementById('modalOverlay');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const bookingForm = document.getElementById('bookingForm');
+    const heartBtn = document.getElementById('heartBtn');
+
+    // Modal Control
+    openModalBtn.addEventListener('click', () => {
+      modalOverlay.classList.add('open');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      modalOverlay.classList.remove('open');
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('open');
+      }
+    });
+
+    // Form Submission
+    bookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Spot reserved successfully! Check your email for event access link.');
+      modalOverlay.classList.remove('open');
+      bookingForm.reset();
+    });
+
+    // Favorite Toggle
+    heartBtn.addEventListener('click', () => {
+      heartBtn.classList.toggle('active-heart');
+    });
+  </script>
+</body>
+</html>

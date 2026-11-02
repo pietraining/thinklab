@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Google Flow for Beginners</title>
+  <title>Event Registration | Thinkers Hub</title>
   <!-- Google Fonts & Lucide Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,11 +23,7 @@
       --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100%;
@@ -37,13 +33,8 @@
       line-height: 1.5;
     }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    body { display: flex; justify-content: center; align-items: center; }
 
-    /* Outer Wrapper / Frame for Mobile Preview */
     .app-container {
       width: 100%;
       max-width: 480px;
@@ -57,7 +48,6 @@
       overflow: hidden;
     }
 
-    /* Fixed Top Bar */
     .top-bar {
       height: 56px;
       padding: 0 16px;
@@ -81,15 +71,9 @@
       transition: color 0.2s;
     }
 
-    .back-btn:hover {
-      color: var(--text-main);
-    }
+    .back-btn:hover { color: var(--text-main); }
 
-    .action-icons {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    .action-icons { display: flex; align-items: center; gap: 16px; }
 
     .icon-btn {
       background: none;
@@ -102,31 +86,18 @@
       transition: all 0.2s;
     }
 
-    .icon-btn:hover {
-      color: var(--text-main);
-    }
+    .icon-btn:hover { color: var(--text-main); }
+    .icon-btn.active-heart { color: #f43f5e; fill: #f43f5e; }
+    .icon-btn.active-heart svg { fill: #f43f5e; stroke: #f43f5e; }
 
-    /* Heart Filled State */
-    .icon-btn.active-heart {
-      color: #f43f5e;
-      fill: #f43f5e;
-    }
-    
-    .icon-btn.active-heart svg {
-      fill: #f43f5e;
-      stroke: #f43f5e;
-    }
-
-    /* Middle Scroll Area */
     .content-scroll {
       flex: 1;
       overflow-y: auto;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding-bottom: 110px; /* Ensures text isn't blocked by bottom bar */
+      padding-bottom: 110px;
     }
 
-    /* Image Container */
     .hero-image-container {
       width: 100%;
       height: 240px;
@@ -147,9 +118,7 @@
       border-radius: 8px;
     }
 
-    .main-content {
-      padding: 24px 20px;
-    }
+    .main-content { padding: 24px 20px; }
 
     .event-title {
       font-size: 24px;
@@ -164,7 +133,7 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .meta-item {
@@ -176,37 +145,63 @@
       font-weight: 500;
     }
 
-    .meta-item i {
-      color: var(--text-muted);
-      margin-top: 2px;
+    .meta-item i { color: var(--text-muted); margin-top: 2px; flex-shrink: 0; }
+
+    /* Organizer Card */
+    .organizer-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+
+    .organizer-info { display: flex; align-items: center; gap: 12px; }
+
+    .organizer-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #e2e8f0;
+      border: 1px solid var(--border);
       flex-shrink: 0;
     }
 
-    .divider {
-      height: 1px;
-      background-color: var(--border);
-      margin: 24px 0;
-    }
+    .organizer-details { display: flex; flex-direction: column; }
+    .organizer-by { font-size: 14px; color: var(--text-muted); font-weight: 500; line-height: 1.2; }
+    .organizer-name { font-weight: 700; color: var(--text-main); }
+    .organizer-subtext { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 12px;
+    .visit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background-color: #ffffff;
       color: var(--text-main);
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: all 0.2s;
     }
 
-    .overview-text {
-      color: #475569;
-      font-size: 15px;
-      line-height: 1.6;
-    }
+    .visit-btn:hover { border-color: var(--primary); color: var(--primary); background-color: #fff7ed; }
 
-    /* Fixed Bottom Panel */
+    .divider { height: 1px; background-color: var(--border); margin: 24px 0; }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
+    .overview-text { color: #475569; font-size: 15px; line-height: 1.6; }
+
     .bottom-bar {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       height: 84px;
       background: #ffffff;
       border-top: 1px solid #e2e8f0;
@@ -219,12 +214,7 @@
       padding-bottom: max(12px, env(safe-area-inset-bottom));
     }
 
-    .batch-input-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    .batch-input-wrapper { flex: 1; display: flex; flex-direction: column; gap: 4px; }
 
     .batch-input {
       width: 100%;
@@ -239,17 +229,9 @@
       transition: border-color 0.2s;
     }
 
-    .batch-input:focus {
-      border-color: var(--primary);
-    }
-
-    .batch-input.is-invalid {
-      border-color: #ef4444;
-    }
-
-    .batch-input.is-valid {
-      border-color: #22c55e;
-    }
+    .batch-input:focus { border-color: var(--primary); }
+    .batch-input.is-invalid { border-color: #ef4444; }
+    .batch-input.is-valid { border-color: #22c55e; }
 
     .btn-reserve {
       background-color: var(--primary);
@@ -265,24 +247,12 @@
       box-shadow: 0 2px 4px rgba(217, 75, 21, 0.2);
     }
 
-    .btn-reserve:hover:not(:disabled) {
-      background-color: var(--primary-hover);
-    }
+    .btn-reserve:hover:not(:disabled) { background-color: var(--primary-hover); }
+    .btn-reserve:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; box-shadow: none; }
 
-    .btn-reserve:disabled {
-      background-color: #cbd5e1;
-      color: #94a3b8;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    /* Modal Overlay */
     .modal-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(15, 23, 42, 0.6);
       backdrop-filter: blur(4px);
       z-index: 50;
@@ -293,10 +263,7 @@
       transition: opacity 0.3s ease;
     }
 
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
 
     .modal-card {
       width: 100%;
@@ -308,101 +275,41 @@
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .modal-overlay.open .modal-card {
-      transform: translateY(0);
-    }
+    .modal-overlay.open .modal-card { transform: translateY(0); }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-title { font-size: 18px; font-weight: 700; }
+    .close-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
+    .form-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; outline: none; }
+    .form-input:focus { border-color: var(--primary); }
+    .submit-btn { width: 100%; background-color: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; }
 
-    .modal-title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-main);
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .form-input:focus {
-      border-color: var(--primary);
-    }
-
-    .submit-btn {
-      width: 100%;
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    /* Toast Notification */
     .toast {
       position: absolute;
-      top: 66px;
-      left: 50%;
+      top: 66px; left: 50%;
       transform: translateX(-50%) translateY(-20px);
-      background: #0f172a;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      z-index: 60;
+      background: #0f172a; color: #fff;
+      padding: 8px 16px; border-radius: 20px;
+      font-size: 13px; font-weight: 600;
+      opacity: 0; pointer-events: none;
+      transition: all 0.3s ease; z-index: 60;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-    <!-- Toast Notification -->
     <div class="toast" id="toast">Link copied to clipboard!</div>
 
     <!-- Header -->
     <header class="top-bar">
-      <a href="https://thinklab.thinkingskill.in" class="back-btn">
+      <a href="https://www.thinkingskill.in" class="back-btn">
         <i data-lucide="arrow-left" size="18"></i>
-        <span>Back to Think Lab</span>
+        <span>Back to Thinker Hub</span>
       </a>
 
       <div class="action-icons">
@@ -417,36 +324,51 @@
 
     <!-- Scrollable Middle Content -->
     <div class="content-scroll">
-      <!-- Centered Image Container -->
       <div class="hero-image-container">
         <img 
+          id="heroBanner"
           src="https://lh3.googleusercontent.com/d/18PQ4nYxcX4mM-_5QIPs_6gZFC5KFWieU" 
-          alt="Google Flow Banner" 
+          alt="Course Banner" 
           class="hero-image"
-          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1000&q=80';"
         />
       </div>
 
-      <!-- Main Text Details -->
       <main class="main-content">
-        <h1 class="event-title">Google Flow for Beginners</h1>
+        <h1 class="event-title" id="courseTitle">Google Flow for Beginners</h1>
 
         <div class="meta-list">
           <div class="meta-item">
             <i data-lucide="map-pin" size="18"></i>
-            <span>Online Event (Free)</span>
+            <span id="eventLink">Online Event (Free)</span>
           </div>
           <div class="meta-item">
             <i data-lucide="calendar" size="18"></i>
-            <span>Sat, Nov 21st • 10-11am IST</span>
+            <span id="eventDateTime">Sat, Nov 21st • 10-11am IST</span>
           </div>
+        </div>
+
+        <!-- Organizer Card -->
+        <div class="organizer-card">
+          <div class="organizer-info">
+            <img 
+              id="organizerLogo"
+              src="https://lh3.googleusercontent.com/d/1IBGBjphVdRvG1VkRRVxAXC4WrBj6egAg" 
+              alt="Thinkers Hub Logo" 
+              class="organizer-logo"
+            />
+            <div class="organizer-details">
+              <span class="organizer-by">by <span class="organizer-name">Thinkers Hub</span></span>
+              <span class="organizer-subtext" id="learnersCount">0 learners joined</span>
+            </div>
+          </div>
+          <a href="https://www.thinkingskill.in" target="_blank" class="visit-btn">Visit</a>
         </div>
 
         <div class="divider"></div>
 
         <section>
           <h2 class="section-title">Overview</h2>
-          <p class="overview-text">
+          <p class="overview-text" id="courseOverview">
             Creating Images and Short Videos Using Google Flow: Ensuring Character and Voice Consistency
           </p>
         </section>
@@ -493,7 +415,6 @@
   </div>
 
   <script>
-    // Initialize Lucide icons
     lucide.createIcons();
 
     // DOM Elements
@@ -506,12 +427,67 @@
     const toast = document.getElementById('toast');
     const batchCodeInput = document.getElementById('batchCodeInput');
 
-    const VALID_BATCH_CODE = "TL211126";
+    let VALID_BATCH_CODE = "TL211126";
 
-    // Batch Code Input Validation Logic
+    // PUBLISHED PUBLIC CSV ENDPOINTS
+    const MASTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQa1DwC7x54wuxZJoYFBhCt8SzHBpkWuqyH7XQIcMzdjj6_VXBl1DOJne8oaX4jcujrrpTJlvj_E9qM/pub?gid=1114785347&single=true&output=csv";
+    const PUBLIC_FEED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQa1DwC7x54wuxZJoYFBhCt8SzHBpkWuqyH7XQIcMzdjj6_VXBl1DOJne8oaX4jcujrrpTJlvj_E9qM/pub?gid=1149121719&single=true&output=csv";
+
+    // GOOGLE FORM RESPONSE URL & FIELD ENTRY IDs (Replace entry numbers with your Google Form IDs)
+    const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
+    const NAME_ENTRY_ID = "entry.123456789";       
+    const EMAIL_ENTRY_ID = "entry.987654321";      
+    const BATCH_CODE_ENTRY_ID = "entry.1122334455"; 
+
+    // Helper: Parse CSV Text to Array
+    function parseCSV(text) {
+      return text.split('\n').filter(row => row.trim().length > 0).map(row => row.split(',').map(cell => cell.replace(/^"|"$/g, '').trim()));
+    }
+
+    // Load Public Feed CSV (Learner Count)
+    async function loadPublicFeed() {
+      try {
+        const res = await fetch(PUBLIC_FEED_CSV_URL);
+        const csvText = await res.text();
+        const rows = parseCSV(csvText);
+        // Exclude header row if present
+        const learnerCount = Math.max(0, rows.length - 1);
+        document.getElementById('learnersCount').textContent = `${learnerCount} learners joined`;
+      } catch (e) {
+        console.warn("Could not load Public Feed CSV:", e);
+      }
+    }
+
+    // Load Master Courses CSV
+    async function loadMasterCourses() {
+      try {
+        const res = await fetch(MASTER_CSV_URL);
+        const csvText = await res.text();
+        const rows = parseCSV(csvText);
+        
+        if (rows.length > 1) {
+          const row = rows[1]; // First course row
+          VALID_BATCH_CODE = row[0] || VALID_BATCH_CODE;
+          document.getElementById('courseTitle').textContent = row[1] || "Google Flow for Beginners";
+          document.getElementById('eventDateTime').textContent = `${row[2]} • ${row[3]}`;
+          document.getElementById('eventLink').textContent = row[4] || "Online Event (Free)";
+          document.getElementById('courseOverview').textContent = row[7] || "";
+          
+          if (row[8]) document.getElementById('heroBanner').src = `https://lh3.googleusercontent.com/d/${row[8]}`;
+          if (row[9]) document.getElementById('organizerLogo').src = `https://lh3.googleusercontent.com/d/${row[9]}`;
+        }
+      } catch (e) {
+        console.warn("Could not load Master Courses CSV:", e);
+      }
+    }
+
+    // Execute loaders
+    loadMasterCourses();
+    loadPublicFeed();
+
+    // Batch Code Validation
     batchCodeInput.addEventListener('input', () => {
       const enteredCode = batchCodeInput.value.trim().toUpperCase();
-      
       if (enteredCode === VALID_BATCH_CODE) {
         openModalBtn.disabled = false;
         batchCodeInput.classList.remove('is-invalid');
@@ -527,7 +503,6 @@
       }
     });
 
-    // Toast Notification helper
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add('show');
@@ -536,9 +511,7 @@
 
     // Modal Controls
     openModalBtn.addEventListener('click', () => {
-      if (!openModalBtn.disabled) {
-        modalOverlay.classList.add('open');
-      }
+      if (!openModalBtn.disabled) modalOverlay.classList.add('open');
     });
     
     closeModalBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
@@ -550,31 +523,55 @@
     // Form Submission
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert('Registration successful! Check your email for event access instructions.');
-      modalOverlay.classList.remove('open');
-      bookingForm.reset();
+
+      const nameValue = document.getElementById('name').value.trim();
+      const emailValue = document.getElementById('email').value.trim();
+      const batchCodeValue = batchCodeInput.value.trim().toUpperCase();
+
+      const formData = new FormData();
+      formData.append(NAME_ENTRY_ID, nameValue);
+      formData.append(EMAIL_ENTRY_ID, emailValue);
+      formData.append(BATCH_CODE_ENTRY_ID, batchCodeValue);
+
+      const submitBtn = bookingForm.querySelector('.submit-btn');
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.disabled = true;
+
+      fetch(GOOGLE_FORM_ACTION_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      })
+      .then(() => {
+        alert('Registration successful! Check your email for event access instructions.');
+        modalOverlay.classList.remove('open');
+        bookingForm.reset();
+        setTimeout(loadPublicFeed, 2000);
+      })
+      .catch((error) => {
+        console.error('Submission error:', error);
+        alert('Registration failed. Please try again.');
+      })
+      .finally(() => {
+        submitBtn.textContent = 'Confirm Registration';
+        submitBtn.disabled = false;
+      });
     });
 
-    // Heart Icon Click
     heartBtn.addEventListener('click', () => {
       heartBtn.classList.toggle('active-heart');
       lucide.createIcons();
     });
 
-    // Share Button Implementation
     shareBtn.addEventListener('click', async () => {
       const shareData = {
-        title: 'Google Flow for Beginners',
-        text: 'Creating Images and Short Videos Using Google Flow: Ensuring Character and Voice Consistency',
+        title: document.getElementById('courseTitle').textContent,
+        text: document.getElementById('courseOverview').textContent,
         url: window.location.href,
       };
 
       if (navigator.share) {
-        try {
-          await navigator.share(shareData);
-        } catch (err) {
-          // Share cancelled
-        }
+        try { await navigator.share(shareData); } catch (err) {}
       } else {
         navigator.clipboard.writeText(window.location.href);
         showToast('Event link copied to clipboard!');

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower of Hanoi for Kids</title>
+    <style>
+        /* Sticky Button Menu Styling */
+        .sticky-menu {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            padding: 10px 15px;
+            z-index: 1000;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .menu-btn {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #4f46e5;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+            transition: background-color 0.2s, transform 0.1s;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-btn:hover {
+            background-color: #4338ca;
+        }
+        .menu-btn:active {
+            transform: scale(0.98);
+        }
+        .menu-content {
+            display: none;
+            margin-top: 12px;
+            padding: 15px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            color: #334155;
+            text-align: left;
+            line-height: 1.5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .menu-content.open {
+            display: block;
+        }
+        .menu-content ul {
+            margin: 8px 0 12px 20px;
+            padding: 0;
+        }
+        .menu-content li {
+            margin-bottom: 8px;
+        }
+        .project-teaser {
+            background-color: #eef2ff;
+            border-left: 4px solid #4f46e5;
+            padding: 10px 12px;
+            border-radius: 0 6px 6px 0;
+            font-weight: 600;
+            color: #312e81;
+            margin-top: 10px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hanoi Container & Board */
+        .hanoi-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: transparent;
+            padding: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .hanoi-controls {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .hanoi-controls select, .hanoi-controls button, .hanoi-controls label.toggle-label {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background-color: #ffffff;
+            cursor: pointer;
+        }
+        .hanoi-controls button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            font-weight: 500;
+        }
+        .hanoi-controls button:hover {
+            background-color: #4338ca;
+        }
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            color: #1e293b;
+        }
+        .board {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 220px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(203, 213, 225, 0.6);
+            border-bottom: 6px solid #334155;
+            border-radius: 8px;
+            padding-bottom: 0px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .peg-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+        }
+        .peg-pole {
+            width: 10px;
+            height: 180px;
+            background-color: #94a3b8;
+            position: absolute;
+            bottom: 0;
+            border-radius: 5px 5px 0 0;
+            z-index: 1;
+        }
+        .disk {
+            height: 24px;
+            border-radius: 12px;
+            margin-bottom: 3px;
+            z-index: 2;
+            cursor: grab;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .disk.selected {
+            transform: translateY(-15px);
+            box-shadow: 0 0 12px rgba(79, 70, 229, 0.9);
+        }
+        .stats-panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 16px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 15px;
+            color: #b45309;
+            font-weight: 500;
+            min-height: 22px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hanoi-container">
+
+    <!-- Sticky Button Menu with Triangle Indicator -->
+    <div class="sticky-menu">
+        <div class="menu-btn" onclick="toggleMenu()">
+            <span>💡 Tower of Hanoi Game Rules</span>
+            <span id="menuArrow">▼</span>
+        </div>
+        <div class="menu-content" id="menuContent">
+            <h3 style="color: #1e293b; margin: 0 0 8px 0;">🏰 Game Guide & Rules</h3>
+            <p style="margin: 0 0 12px 0; color: #475569;">Move all disks from Peg 1 to Peg 3. Remember the rules: move <strong>only one disk at a time</strong>, and never place a larger disk on top of a smaller one!</p>
+            
+            <strong>🌱 Life Skills & Skilling</strong>
+            <ul>
+                <li><strong>Strategic Patience:</strong> Taking time to look ahead, plan your moves, and avoid careless mistakes.</li>
+                <li><strong>Recursive Logic (Divide & Conquer):</strong> Mastering how to solve 3 disks becomes the exact blueprint for solving 4, 5, or 6 disks—because big challenges are just smaller patterns repeated!</li>
+                <li><strong>Mental Agility:</strong> Measuring how smoothly and efficiently your mind executes the solution once you have a clear plan.</li>
+            </ul>
+
+            <div class="project-teaser">
+                🚀 This could be your python project!
+            </div>
+        </div>
+    </div>
+    
+    <div class="hanoi-controls">
+        <select id="diskCount" onchange="resetGame()">
+            <option value="3">3 Disks</option>
+            <option value="4" selected>4 Disks</option>
+            <option value="5">5 Disks</option>
+            <option value="6">6 Disks</option>
+        </select>
+
+        <label class="toggle-label">
+            <input type="checkbox" id="timerToggle" onchange="toggleTimerMode()"> Timer
+        </label>
+
+        <button onclick="resetGame()">Reset</button>
+    </div>
+
+    <div class="board" id="board">
+        <div class="peg-container" onclick="handlePegClick(0)">
+            <div class="peg-pole"></div>
+        </div>
+        <div class="peg-container" onclick="handlePegClick(1)">
+            <div class="peg-pole"></div>
+        </div>
+        <div class="peg-container" onclick="handlePegClick(2)">
+            <div class="peg-pole"></div>
+        </div>
+    </div>
+
+    <div class="stats-panel">
+        <div>Moves: <span id="moveCount">0</span></div>
+        <div id="timerContainer" style="display: none;">Time: <span id="timerCount">0</span>s</div>
+    </div>
+    <div class="message" id="message">Click a peg to pick up a disk!</div>
+</div>
+
+<script>
+    function toggleMenu() {
+        const content = document.getElementById('menuContent');
+        const arrow = document.getElementById('menuArrow');
+        content.classList.toggle('open');
+        
+        if (content.classList.contains('open')) {
+            arrow.innerText = '▲';
+        } else {
+            arrow.innerText = '▼';
+        }
+    }
+
+    let pegs = [[], [], []];
+    let selectedPeg = null;
+    let moves = 0;
+    let numDisks = 4;
+    let timerEnabled = false;
+    let secondsElapsed = 0;
+    let timerInterval = null;
+    let gameStarted = false;
+    let gameWon = false;
+    const colors = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#8b5cf6"];
+
+    function toggleTimerMode() {
+        timerEnabled = document.getElementById('timerToggle').checked;
+        document.getElementById('timerContainer').style.display = timerEnabled ? 'block' : 'none';
+        resetGame();
+    }
+
+    function resetGame() {
+        numDisks = parseInt(document.getElementById('diskCount').value);
+        pegs = [[], [], []];
+        selectedPeg = null;
+        moves = 0;
+        secondsElapsed = 0;
+        gameStarted = false;
+        gameWon = false;
+        
+        clearInterval(timerInterval);
+        document.getElementById('moveCount').innerText = moves;
+        document.getElementById('timerCount').innerText = secondsElapsed;
+        document.getElementById('message').innerText = timerEnabled ? "Timer is ON. Make your first move to start!" : "Game reset. Good luck!";
+        
+        for (let i = numDisks; i >= 1; i--) {
+            pegs[0].push(i);
+        }
+        render();
+    }
+
+    function startTimerIfNeeded() {
+        if (timerEnabled && !gameStarted) {
+            gameStarted = true;
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                document.getElementById('timerCount').innerText = secondsElapsed;
+            }, 1000);
+        }
+    }
+
+    function render() {
+        const board = document.getElementById('board');
+        const pegContainers = board.getElementsByClassName('peg-container');
+
+        for (let i = 0; i < 3; i++) {
+            let poleHTML = '<div class="peg-pole"></div>';
+            
+            pegs[i].forEach((diskSize, index) => {
+                let width = 40 + diskSize * 22; 
+                let color = colors[(diskSize - 1) % colors.length];
+                let isSelected = (selectedPeg === i && index === pegs[i].length - 1) ? 'selected' : '';
+                poleHTML += `<div class="disk ${isSelected}" style="width: ${width}px; background-color: ${color};">${diskSize}</div>`;
+            });
+            
+            pegContainers[i].innerHTML = poleHTML;
+        }
+    }
+
+    function handlePegClick(pegIndex) {
+        if (gameWon) return;
+
+        if (selectedPeg === null) {
+            if (pegs[pegIndex].length > 0) {
+                selectedPeg = pegIndex;
+                document.getElementById('message').innerText = `Picked up 1 disk from Peg ${pegIndex + 1}. Choose destination!`;
+            } else {
+                document.getElementById('message').innerText = `Peg ${pegIndex + 1} is empty!`;
+            }
+        } else {
+            let sourceDisk = pegs[selectedPeg][pegs[selectedPeg].length - 1];
+            let targetTopDisk = pegs[pegIndex][pegs[pegIndex].length - 1];
+
+            if (selectedPeg === pegIndex) {
+                selectedPeg = null;
+                document.getElementById('message').innerText = "Move cancelled.";
+            } else if (pegs[pegIndex].length === 0 || sourceDisk < targetTopDisk) {
+                startTimerIfNeeded();
+                pegs[pegIndex].push(pegs[selectedPeg].pop());
+                moves++;
+                document.getElementById('moveCount').innerText = moves;
+                selectedPeg = null;
+                document.getElementById('message').innerText = "Great move! (1 disk moved)";
+                
+                checkWin();
+            } else {
+                document.getElementById('message').innerText = "❌ Invalid move! Can't place a larger disk on a smaller one.";
+                selectedPeg = null;
+            }
+        }
+        render();
+    }
+
+    function checkWin() {
+        if (pegs[2].length === numDisks) {
+            gameWon = true;
+            clearInterval(timerInterval);
+
+            const minMoves = Math.pow(2, numDisks) - 1;
+            const extraMoves = moves - minMoves;
+
+            let feedbackMessage = "";
+            if (extraMoves === 0) {
+                feedbackMessage = `🎉 Incredible! You solved it in ${moves} moves with absolute perfection!`;
+            } else {
+                feedbackMessage = `🎉 Amazing job! You solved it in ${moves} moves (${extraMoves} extra move${extraMoves > 1 ? 's' : ''}). With a little fine-tuning, you can trim those extra moves!`;
+            }
+
+            if (timerEnabled) {
+                feedbackMessage += ` Time: ${secondsElapsed}s.`;
+            }
+
+            document.getElementById('message').innerText = feedbackMessage;
+        }
+    }
+
+    resetGame();
+</script>
+
+</body>
+</html>

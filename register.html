@@ -589,6 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
             payload.append("gmail", gmail);
             payload.append("coupon", coupon);
             payload.append("amount", amount);
+            payload.append("currency", currencySelect ? currencySelect.value : "INR");
 
             fetch(APPS_SCRIPT_WEB_APP_URL, {
                 method: "POST",

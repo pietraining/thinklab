@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Think Lab – Member Registration</title>
+
+<style>
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: url('bg.webp') no-repeat center center fixed;
+    background-size: cover;
+    color: #1d2940;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 18px 40px;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    margin-bottom: 22px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(225, 228, 232, 0.6);
+    border-radius: 0 0 12px 12px;
+}
+
+.brand-logo {
+    height: 44px;
+    width: auto;
+    display: block;
+}
+
+.home-link-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1d2940;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.home-link-btn:hover {
+    background: #f0f2f5;
+    border-color: #1d2940;
+}
+
+.registration-card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 28px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 6px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.price-box {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.currency-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.currency-picker select {
+    padding: 8px 12px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 14px;
+    background: #ffffff;
+}
+
+.regular-price {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 21px;
+    margin-right: 8px;
+}
+
+.saving {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #218838;
+    font-weight: 600;
+}
+
+.available-offers-container {
+    margin-bottom: 20px;
+    padding: 14px;
+    background: linear-gradient(135deg, #f0f7ff 0%, #eef9f2 100%);
+    border: 1px solid #93c5fd;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.available-offers-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.offer-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.offer-chip {
+    background: #ffffff;
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: #1e40af;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.15);
+    transition: all 0.2s ease;
+}
+
+.offer-chip:hover {
+    background: #1e40af;
+    color: #ffffff;
+    border-color: #1e40af;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(30, 64, 175, 0.25);
+}
+
+.coupon-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0 25px;
+}
+
+.coupon-area input {
+    flex: 1;
+    padding: 11px 12px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+.coupon-area button {
+    padding: 11px 17px;
+    border: none;
+    border-radius: 7px;
+    background: #1d2940;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.coupon-area button:hover {
+    background: #2d3d5b;
+}
+
+.coupon-message {
+    text-align: center;
+    font-size: 14px;
+    min-height: 20px;
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 15px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #1d2940;
+}
+
+.form-group input:disabled,
+.form-group input[readonly] {
+    background: #f1f3f5;
+    color: #555;
+    cursor: not-allowed;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #1d2940;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s ease;
+}
+
+.submit-button:hover:not(:disabled) {
+    background: #2d3d5b;
+}
+
+.submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.success-message {
+    display: none;
+    text-align: center;
+    margin-top: 10px;
+    padding: 24px 20px;
+    border-radius: 10px;
+    background: #eef8f0;
+    border: 1px solid #b9dfc0;
+    color: #246b32;
+    line-height: 1.6;
+}
+
+.note {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-top: 18px;
+    line-height: 1.5;
+}
+
+@media (max-width: 650px) {
+    .header { padding: 8px 14px; }
+    .brand-logo { height: 36px; }
+    .registration-card { padding: 20px 16px; }
+    .page-title { font-size: 24px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <header class="header">
+        <a href="index.html" class="brand">
+            <img src="logo.webp" alt="Think Lab Logo" class="brand-logo">
+        </a>
+        <a href="index.html" class="home-link-btn">← Back to Home</a>
+    </header>
+
+    <div class="registration-card">
+        <div id="registrationContent">
+            <div class="page-title">Member Registration</div>
+            <div class="subtitle">Join Think Lab and begin your thinking journey with stories, puzzles and family thinking activities.</div>
+
+            <div class="price-box">
+                <div class="currency-picker">
+                    <label for="currencySelect">Currency</label>
+                    <select id="currencySelect">
+                        <option value="INR">INR</option>
+                        <option value="SGD">SGD</option>
+                    </select>
+                </div>
+
+                <div id="priceDisplay" class="regular-price">Loading...</div>
+                <div id="savingDisplay" class="saving"></div>
+            </div>
+
+            <div id="availableOffersContainer" class="available-offers-container" style="display: none;">
+                <div class="available-offers-title">Available Offers!</div>
+                <div id="offerChips" class="offer-chips"></div>
+            </div>
+
+            <div class="coupon-area">
+                <input type="text" id="couponInput" placeholder="Enter coupon code" autocomplete="off">
+                <button type="button" id="applyCouponBtn">APPLY</button>
+            </div>
+
+            <div id="couponMessage" class="coupon-message"></div>
+
+            <form id="membershipForm">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="gmail">Gmail ID *</label>
+                    <input type="email" id="gmail" name="gmail" required placeholder="yourname@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="coupon">Applied Coupon Code</label>
+                    <input type="text" id="coupon" name="coupon" readonly placeholder="None">
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentRef">Membership Plan / Amount</label>
+                    <input type="text" id="paymentRef" name="paymentRef" readonly value="₹730 for 1 Year">
+                </div>
+
+                <button type="submit" id="submitBtn" class="submit-button">Submit Registration</button>
+            </form>
+
+            <div class="note">
+                Questions or need help? <a href="https://wa.me/919791917408" target="_blank" rel="noopener noreferrer">Contact us on WhatsApp</a>.
+            </div>
+        </div>
+
+        <div id="successMessage" class="success-message">
+            <h3 style="margin-top: 0;">Registration Submitted!</h3>
+            <p>Thank you for registering with Think Lab. Your details have been recorded.</p>
+            <a href="index.html" class="home-link-btn">Return to Home</a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Replace this with your deployed ThinkLabMember Apps Script Web App URL (/exec)
+    const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwSrNMV-nmGiIkSW6Q-qLIO-o81iTvn2x_6B06ir1op2PSKbLe0xHYkmsp9Q5CiRosl/exec";
+
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTL9fwfSctKtjHsrh66_NQ2k7MvtwbCHuk5Do1LQyT0nbxkFsCZGCAWa3VWZcUkEjYFDivAzlDDY_51/pub?gid=1318535636&single=true&output=csv";
+
+    const currencySelect = document.getElementById('currencySelect');
+    const priceDisplay = document.getElementById('priceDisplay');
+    const savingDisplay = document.getElementById('savingDisplay');
+    const couponInput = document.getElementById('couponInput');
+    const applyCouponBtn = document.getElementById('applyCouponBtn');
+    const couponMessage = document.getElementById('couponMessage');
+    const couponField = document.getElementById('coupon');
+    const paymentRefField = document.getElementById('paymentRef');
+    const availableOffersContainer = document.getElementById('availableOffersContainer');
+    const offerChips = document.getElementById('offerChips');
+    const membershipForm = document.getElementById('membershipForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const currencySymbols = { INR: '₹', SGD: 'S$', USD: 'US$' };
+    let pricingData = [];
+    let activeCoupon = "";
+
+    function parseCSV(text) {
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        if (lines.length === 0) return [];
+        const headers = lines[0].split(',').map(h => h.trim());
+        const results = [];
+        for (let i = 1; i < lines.length; i++) {
+            const currentLine = lines[i].split(',').map(val => val.trim());
+            const obj = {};
+            for (let j = 0; j < headers.length; j++) {
+                obj[headers[j]] = currentLine[j] !== undefined ? currentLine[j] : "";
+            }
+            results.push(obj);
+        }
+        return results;
+    }
+
+    function normalizeCouponCode(code) {
+        return (code || "").trim().toUpperCase();
+    }
+
+    function fetchPricingData() {
+        fetch(csvUrl)
+            .then(response => response.text())
+            .then(data => {
+                pricingData = parseCSV(data);
+                renderAvailableOffers();
+                updatePriceDisplay();
+            })
+            .catch(err => {
+                console.error("Error fetching pricing sheet:", err);
+                priceDisplay.textContent = "₹730 for 1 Year";
+                if (paymentRefField) paymentRefField.value = "₹730 for 1 Year";
+            });
+    }
+
+    function renderAvailableOffers() {
+        if (!offerChips || !availableOffersContainer) return;
+        offerChips.innerHTML = "";
+
+        const currentCurrency = currencySelect.value;
+        const publicOffers = pricingData.filter(row =>
+            row.Currency === currentCurrency &&
+            row.Visibility === "PUBLIC" &&
+            row.Status === "Active"
+        );
+
+        if (publicOffers.length > 0) {
+            availableOffersContainer.style.display = "block";
+            publicOffers.forEach(offer => {
+                const chip = document.createElement('button');
+                chip.type = "button";
+                chip.className = "offer-chip";
+                chip.textContent = `🏷️ ${offer['Coupon Code']} (${offer['Discount %']}% Off - ${offer.Period})`;
+                chip.addEventListener('click', function() {
+                    couponInput.value = offer['Coupon Code'];
+                    applyCouponBtn.click();
+                });
+                offerChips.appendChild(chip);
+            });
+        } else {
+            availableOffersContainer.style.display = "none";
+        }
+    }
+
+    function updatePriceDisplay() {
+        const currency = currencySelect.value;
+        const symbol = currencySymbols[currency] || '₹';
+        const code = normalizeCouponCode(activeCoupon);
+
+        renderAvailableOffers();
+
+        let matchedRow = null;
+        if (code !== "") {
+            matchedRow = pricingData.find(row =>
+                row.Currency === currency &&
+                normalizeCouponCode(row['Coupon Code']) === code &&
+                row.Status === "Active"
+            );
+        } else {
+            matchedRow = pricingData.find(row =>
+                row.Currency === currency &&
+                (!row['Coupon Code'] || row['Coupon Code'] === "") &&
+                row.Status === "Active"
+            );
+        }
+
+        if (!matchedRow) {
+            matchedRow = pricingData.find(row => row.Currency === currency && row.Status === "Active") || {
+                Price: "730",
+                Period: "1 Year",
+                "Discount %": "0"
+            };
+        }
+
+        const regularPriceNum = parseFloat(matchedRow.Price) || 730;
+        const discountPct = parseFloat(matchedRow['Discount %']) || 0;
+        const period = matchedRow.Period || "1 Year";
+
+        if (discountPct > 0) {
+            const discountedPriceNum = Math.round(regularPriceNum * (1 - (discountPct / 100)));
+            priceDisplay.innerHTML = `<span class="old-price">${symbol}${regularPriceNum}</span> ${symbol}${discountedPriceNum} <span style="font-size:16px; font-weight:normal;">for ${period}</span>`;
+            savingDisplay.textContent = code ? `Coupon ${code} applied! (${discountPct}% Off - ${period})` : `${discountPct}% Off - ${period}`;
+            if (paymentRefField) paymentRefField.value = `${symbol}${discountedPriceNum} for ${period}`;
+        } else {
+            priceDisplay.textContent = `${symbol}${regularPriceNum} for ${period}`;
+            savingDisplay.textContent = "";
+            if (paymentRefField) paymentRefField.value = `${symbol}${regularPriceNum} for ${period}`;
+        }
+    }
+
+    if (currencySelect) {
+        currencySelect.addEventListener('change', updatePriceDisplay);
+    }
+
+    if (applyCouponBtn) {
+        applyCouponBtn.addEventListener('click', function() {
+            const entered = couponInput.value.trim();
+            const normalized = normalizeCouponCode(entered);
+
+            if (normalized === "") {
+                activeCoupon = "";
+                if (couponField) couponField.value = "";
+                couponMessage.style.color = "#666";
+                couponMessage.textContent = "";
+                updatePriceDisplay();
+                return;
+            }
+
+            const currentCurrency = currencySelect.value;
+            const found = pricingData.find(row =>
+                row.Currency === currentCurrency &&
+                normalizeCouponCode(row['Coupon Code']) === normalized &&
+                row.Status === "Active"
+            );
+
+            if (found) {
+                activeCoupon = found['Coupon Code'];
+                if (couponField) couponField.value = activeCoupon;
+                couponMessage.style.color = "#218838";
+                couponMessage.textContent = "Coupon code applied successfully!";
+            } else {
+                activeCoupon = "";
+                if (couponField) couponField.value = "";
+                couponMessage.style.color = "#dc3545";
+                couponMessage.textContent = "Invalid coupon code for this currency.";
+            }
+
+            updatePriceDisplay();
+        });
+    }
+
+    fetchPricingData();
+
+    if (membershipForm) {
+        membershipForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+            const gmail = document.getElementById("gmail").value.trim();
+            const coupon = couponField ? couponField.value.trim() : "";
+            const amount = paymentRefField ? paymentRefField.value.trim() : "";
+
+            if (!name) {
+                alert("Please enter your name.");
+                return;
+            }
+            if (!gmail.toLowerCase().endsWith("@gmail.com")) {
+                alert("Please enter a valid Gmail ID.");
+                return;
+            }
+            if (!amount) {
+                alert("Please select a valid amount/plan.");
+                return;
+            }
+            if (!APPS_SCRIPT_WEB_APP_URL || APPS_SCRIPT_WEB_APP_URL.indexOf("PASTE_") === 0) {
+                alert("Please set your deployed Apps Script Web App URL first.");
+                return;
+            }
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Submitting...";
+            }
+
+            const payload = new URLSearchParams();
+            payload.append("name", name);
+            payload.append("gmail", gmail);
+            payload.append("coupon", coupon);
+            payload.append("amount", amount);
+
+            fetch(APPS_SCRIPT_WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: payload.toString()
+            })
+            .then(() => {
+                document.getElementById("registrationContent").style.display = "none";
+                document.getElementById("successMessage").style.display = "block";
+            })
+            .catch((err) => {
+                console.error("Submission error:", err);
+                alert("Could not submit registration. Please try again.");
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Submit Registration";
+                }
+            });
+        });
+    }
+});
+</script>
+</body>
+</html>

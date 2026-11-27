@@ -565,8 +565,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert("Please enter your name.");
                 return;
             }
-            if (!gmail.toLowerCase().endsWith("@gmail.com")) {
-                alert("Please enter a valid Gmail ID.");
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(gmail)) {
+                alert("Please enter a valid email address.");
                 return;
             }
             if (!amount) {
